@@ -5,8 +5,8 @@
     "gulp": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "ntl build",
-    "build-deploy": "ntl build && ntl deploy",
-    "build-deploy-redev": "ntl build && ntl deploy && gulp watch"
+    "build-deploy": "ntl build && ntl deploy --prod",
+    "build-deploy-redev": "ntl build && ntl deploy --prod && gulp watch"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.3",
