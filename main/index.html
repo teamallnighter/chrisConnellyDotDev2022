@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="assets/css/ccdd.css">
   <!--FONTS-->
   <script src="https://kit.fontawesome.com/05a8f14e1c.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <!--FAVICON-->
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/img/logo/favicon/apple-touch-icon.png?v=22">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/media/img/logo/favicon/favicon-32x32.png?v=22">
@@ -28,21 +29,29 @@
   <main>
     <section class="bg-cover bg-center bg-no-repeat padding-y-xxl"
       style="background-image: url('https://images.unsplash.com/photo-1496065187959-7f07b8353c55?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'); height:100vh;">
-      <div class="container max-width-adaptive-sm">
-        <div class="bg bg-opacity-90% padding-md padding-lg@md rounded">
+      <div class="container max-width-adaptive-lg">
+        <div class="bg bg-opacity-75% padding-md padding-lg@md rounded">
           <div class="text-sm opacity-60% margin-bottom-xxs">Welcome</div>
 
           <div class="text-component margin-bottom-sm">
-            <h1>STOP OVER PAYING FOR YOUR IT SOLUTIONS</h1>
-            <p>Start utilizing the tools developer use every day to make our jobs easier and make your website work for
-              you</p>
+            <h1 class="text-xxxl text-anim text-anim--rotate js-text-anim">
+              I want to help your business <span class="text-anim__wrapper js-text-anim__wrapper"><i
+                  class="text-anim__word text-anim__word--in js-text-anim__word">grow</i><i
+                  class="text-anim__word js-text-anim__word">earn</i><i
+                  class="text-anim__word js-text-anim__word">create</i></span> more
+            </h1>
           </div>
 
           <div class="flex flex-wrap items-center gap-sm">
-            <a href="#0" class="btn btn--primary">Get A Quote</a>
+            <a href="#contact" class="btn btn--primary">Get A Quote</a>
             <a href="#testimonials" class="color-inherit">Learn more</a>
           </div>
         </div>
+      </div>
+      <div class="margin-top-xxl margin-bottom-0 padding-bottom-0" id="scrollDownDiv">
+        <a href="#testimonial-1"><i
+            class="fal fa-chevron-double-down fa-2x text-shadow-1 animate__animated margin-bottom-0 scrollDown"
+            id="scrollDown1"></i></a>
       </div>
     </section>
     <!--TESTIOMONIAL 1-->
@@ -58,18 +67,23 @@
               <figure
                 class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
                 aria-hidden="true">
-                <img src="../../../app/assets/img/testimonials-img-1.svg" alt="Emily Ewing">
+                <img src="https://pbs.twimg.com/profile_images/1066511248160739328/8Rfem8-S_400x400.jpg"
+                  alt="Dustin Poole">
               </figure>
 
               <blockquote class="text-lg@md line-height-md">
-                <p>&#34;Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam quo dolores dolor
-                  reprehenderit iure laborum atque.&#34;</p>
+                <p>&#34;Chris is super awesome to work with, very personable, he gets things done with no hassle and
+                  really knows what he's doing. He has a really diverse skill set as well, from creating API's, building
+                  apps and integrated functions to websites, complete website development, programing, automation, and
+                  even business management. His work has been really valuable for us and would fully recommend him to
+                  anybody.&#34;</p>
               </blockquote>
 
               <footer class="margin-top-md">
                 <cite class="text-sm">
-                  <strong>Emily Ewing</strong>
-                  <span class="block color-contrast-medium margin-top-xxxxs">Designer at CompanyX</span>
+                  <strong>Dustin Poole</strong>
+                  <span class="block color-contrast-medium margin-top-xxxxs">Go Tech Fund, Eclipse Solar, Meta Space,
+                    Studio Phi Tattoos</span>
                 </cite>
               </footer>
             </div>
@@ -82,18 +96,20 @@
               <figure
                 class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
                 aria-hidden="true">
-                <img src="../../../app/assets/img/testimonials-img-2.svg" alt="James Powell">
+                <img src="assets/media/img/geoff.webp" alt="Geoff Wright">
               </figure>
 
               <blockquote class="text-lg@md line-height-md">
-                <p>&#34;Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, ducimus velit culpa ex
-                  blanditiis maxime minus quas.&#34;</p>
+                <p>&#34;Chris has redeveloped our website with fresh new ideas and provided us with several options to
+                  expand or create a more interactive website for our clients. The cost in doing so was very reasonable
+                  and the process was very smooth. Were happy with the end result and look forward to continually
+                  redeveloping our website with new innovative ideas.&#34;</p>
               </blockquote>
 
               <footer class="margin-top-md">
                 <cite class="text-sm">
-                  <strong>James Powell</strong>
-                  <span class="block color-contrast-medium margin-top-xxxxs">Developer at CompanyY</span>
+                  <strong>Geoff Wright</strong>
+                  <span class="block color-contrast-medium margin-top-xxxxs">Guardian Condominium Care</span>
                 </cite>
               </footer>
             </div>
@@ -149,7 +165,24 @@
         </li>
       </ul>
     </div>
+    <div class="bg-light radius-lg inner-glow shadow-sm padding-md padding-lg@md" style="margin: 25vh;">
+      <div class="grid gap-md items-center">
+        <div class="col-6@md">
+          <div class="text-component">
+            <h1 class="text-xl">Banner Title</h1>
+            <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit ipsum quo
+              nihil ipsam sapiente. Suscipit, rerum!</p>
+          </div>
+        </div>
 
+        <div class="col-6@md">
+          <div class="flex gap-xs flex-column flex-row@xs justify-end@md">
+            <a href="#contact" class="btn btn--subtle">Get A Quote</a>
+            <a href="#0" class="btn btn--primary">Try for Free</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--PORTFOLIO-->
     <section class="position-relative z-index-1 padding-y-xl" id="portfolio">
       <div class="container max-width-adaptive-lg">
@@ -474,6 +507,97 @@
         </div>
       </div>
     </section>
+
+    <div class="bg-light radius-lg inner-glow shadow-sm overflow-hidden padding-component" style="margin: 25vh;">
+      <div class="grid gap-md items-center">
+        <div class="col-6@md">
+          <div class="padding-left-md@lg">
+            <div class="text-component">
+              <h1 class="text-xl">Banner Title</h1>
+              <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+
+            <div class="margin-top-sm">
+              <div class="flex flex-wrap gap-sm items-center">
+                <a href="#contact" class="btn btn--primary">Get A Quote</a>
+                <a href="#0" class="color-inherit">Learn more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6@md">
+          <figure class="width-100%">
+            <img class="block width-100%" src="../../../app/assets/img/cta-banner-img-1.svg" alt="Placeholder">
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <section class="bg-cover bg-no-repeat bg-center padding-y-xxl" id="contact"
+      style="background-image: url('https://images.unsplash.com/photo-1600935583305-444649cda349?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80');">
+      <div class="container max-width-adaptive-lg">
+        <div class="bg bg-opacity-90% backdrop-blur-10 max-width-xs padding-md">
+          <form>
+            <fieldset class="margin-bottom-md">
+              <legend class="form-legend">Form Legend</legend>
+
+              <div class="margin-bottom-xs">
+                <div class="grid gap-xs">
+                  <div class="col-6@md form-control-wrapper--icon-left">
+                    <label class="form-label margin-bottom-xxs" for="userName">Name</label>
+                    <input class="form-control width-100%" type="text" name="userName" id="userName" required>
+                  </div>
+
+                  <div class="col-6@md form-control-wrapper--icon-left">
+                    <label class="form-label margin-bottom-xxs" for="userEmail">Email</label>
+                    <input class="form-control width-100%" type="email" name="userEmail" id="userEmail">
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-wrapper--icon-left">
+                <label class="form-label margin-bottom-xxs" for="textarea">Textarea</label>
+                <textarea class="form-control width-100%" name="textarea" id="textarea"></textarea>
+                <p class="text-xs color-contrast-medium margin-top-xxs">Use helper text to provide additional
+                  information.</p>
+              </div>
+
+              <div>
+
+                <label class="form-label margin-bottom-xxxs" for="select-this">Select:</label>
+
+                <div class="select">
+                  <select class="select__input btn btn--subtle" name="select-this" id="select-this">
+                    <optgroup label="Group 1">
+                      <option value="0">Select option</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                    </optgroup>
+
+                    <optgroup label="Group 2">
+                      <option value="3">Option 3</option>
+                      <option value="4">Option 4</option>
+                      <option value="5">Option 5</option>
+                    </optgroup>
+                  </select>
+
+                  <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16">
+                    <polyline points="1 5 8 12 15 5" fill="none" stroke="currentColor" stroke-linecap="round"
+                      stroke-linejoin="round" stroke-width="2" />
+                  </svg>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="text-right padding-top-sm border-top">
+              <button class="btn btn--primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
     <!--NAVIGATION-->
     <!--NAV BAR-->
     <header class="header-v2 js-header-v2" data-animation="on" data-animation-offset="400" id="nav-scroll">
@@ -524,7 +648,7 @@
                 <div class="header-v2__nav-dropdown header-v2__nav-dropdown--md">
                   <ul class="header-v2__nav-list header-v2__nav-list--title-desc">
                     <li class="header-v2__nav-item">
-                      <a href="#0" class="header-v2__nav-link">
+                      <a href="development.html" class="header-v2__nav-link">
                         <svg class="header-v2__nav-icon logoSvg" aria-hidden="true" width="30px" height="31px"
                           viewBox="0 0 402 409" xmlns="http://www.w3.org/2000/svg"
                           xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -659,7 +783,8 @@
 
                 <div class="header-v2__nav-dropdown">
                   <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item"><a href="#portfolio" class="header-v2__nav-link">Portfolio</a></li>
+                    <li class="header-v2__nav-item"><a href="#portfolio" class="header-v2__nav-link">Portfolio</a>
+                    </li>
                     <li class="header-v2__nav-item">
                       <a href="https://blog.chrisconnelly.dev" class="header-v2__nav-link justify-between">
                         <span>Blog<i class="sr-only">(opens in new window)</i></span>
@@ -705,7 +830,9 @@
               <li class="header-v2__nav-item header-v2__nav-item--main"><a href="https://portal.chrisconnelly.ca"
                   target="_blank" class="header-v2__nav-link">Customer Log
                   in</a></li>
-              <li class="header-v2__nav-item header-v2__nav-item--main"><a href="#0" class="btn btn--primary">Get A Free
+              <li class="header-v2__nav-item header-v2__nav-item--main"><a href="#contact" class="btn btn--primary">Get
+                  A
+                  Free
                   Quote</a></li>
               <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--search-btn">
                 <button class="reset js-tab-focus" aria-label="Toggle search" aria-controls="modal-search">
@@ -824,6 +951,12 @@
         </div>
       </div>
     </footer>
+    <a class="back-to-top js-back-to-top" href="#" data-offset="100" data-duration="300">
+      <svg class="icon" viewBox="0 0 20 20">
+        <polyline points="2 13 10 5 18 13" fill="none" stroke="currentColor" stroke-linecap="round"
+          stroke-linejoin="round" stroke-width="2" />
+      </svg>
+    </a>
   </main>
 
   <script>
@@ -841,6 +974,12 @@
   </script>
 
   <script src="assets/js/scripts.js"></script>
+  <script>
+    setTimeout(function () {
+      var element = document.getElementById("scrollDown1");
+      element.classList.add("animate__wobble");
+    }, (5 * 1000));
+  </script>
 </body>
 
 </html>
