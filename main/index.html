@@ -8,7 +8,7 @@
   <!--STYLE-->
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/ccdd.css">
-  <!--FONTS-->
+  <!--IMPORTS-->
   <script src="https://kit.fontawesome.com/05a8f14e1c.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <!--FAVICON-->
@@ -23,6 +23,87 @@
   <meta name="msapplication-config" content="/assets/media/img/logo/favicon/browserconfig.xml?v=22">
   <meta name="theme-color" content="#ffffff">
   <title>Web Design Calgary</title>
+  <meta name="description"
+    content="Calgary Website Design and Development Freelancer - eCommerce Website Design and Development - Local Web Design Professional.">
+  <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
+  <link rel="canonical" href="https://chrisconnelly.dev">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Calgary Website Designer - Local YYC Web Design Freelancer">
+  <meta property="og:description"
+    content="Calgary Website Design and Development Freelancer - eCommerce Website Design and Development - Local Web Design Professional.">
+  <meta property="og:url" content="https://chrisconnelly.dev">
+  <meta property="og:site_name" content="chrisConnellyDotDev">
+  <meta property="og:updated_time" content="2021-10-11T08:12:26+00:00">
+  <meta property="og:image" content="https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg">
+  <meta property="og:image:secure_url" content="https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Calgary Website Designer - Local YYC Web Design Freelancer">
+  <meta name="twitter:description"
+    content="Calgary Website Design and Development Freelancer - eCommerce Website Design and Development - Local Web Design Professionals">
+  <meta name="twitter:image" content="https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168676797-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-168676797-1');
+  </script>
+  <!--Microsoft Clarity-->
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "9582z2ns1n");
+  </script>
+  <!--Structured Data-->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "chrisConnellyDotDev",
+      "image": "https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg",
+      "@id": "",
+      "url": "https://chrisconnelly.dev",
+      "telephone": "4038310028",
+      "priceRange": "$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "15 Falworth Place NE",
+        "addressLocality": "Calgary",
+        "addressRegion": "AB",
+        "postalCode": "T3J1G1",
+        "addressCountry": "CA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 51.10019519999999,
+        "longitude": -113.9504791
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "sameAs": [
+        "https://facebook.com/chrisconnellydotdev",
+        "https://www.instagram.com/chrisconnellydotdev/",
+        "https://www.linkedin.com/in/chrisconnellydotdev/",
+        "https://github.com/teamallnighter"
+      ] 
+    }
+    </script>
 </head>
 
 <body>
@@ -164,19 +245,18 @@
               <div class="header-v2__nav-dropdown header-v2__nav-dropdown--md">
                 <ul class="header-v2__nav-list header-v2__nav-list--title-desc">
                   <li class="header-v2__nav-item">
+                    <a href="#difference" class="header-v2__nav-link">
+                      <div>
+                        <strong>The Difference</strong>
+                        <small>What makes me different</small>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="header-v2__nav-item">
                     <a href="#testimonials" class="header-v2__nav-link">
                       <div>
                         <strong>Testimonials</strong>
                         <small>See what my customers think</small>
-                      </div>
-                    </a>
-                  </li>
-
-                  <li class="header-v2__nav-item">
-                    <a href="#portfolio" class="header-v2__nav-link">
-                      <div>
-                        <strong>Portfolio</strong>
-                        <small>see my work</small>
                       </div>
                     </a>
                   </li>
@@ -208,10 +288,23 @@
 
               <div class="header-v2__nav-dropdown">
                 <ul class="header-v2__nav-list">
-                  <li class="header-v2__nav-item"><a href="#portfolio" class="header-v2__nav-link">Portfolio</a>
+                  <li class="header-v2__nav-item">
+                    <a href="https://portfolio.chrisconnelly.dev" target="_blank"
+                      class="header-v2__nav-link justify-between">
+                      <span>Portfolio<i class="sr-only">(opens in new window)</i></span>
+                      <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
+                        <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          fill="none">
+                          <path d="M11.5,8.5v2a1,1,0,0,1-1,1h-9a1,1,0,0,1-1-1v-9a1,1,0,0,1,1-1h2"></path>
+                          <polyline points="6.5 0.5 11.5 0.5 11.5 5.5"></polyline>
+                          <line x1="11.5" y1="0.5" x2="5.5" y2="6.5"></line>
+                        </g>
+                      </svg>
+                    </a>
                   </li>
                   <li class="header-v2__nav-item">
-                    <a href="https://blog.chrisconnelly.dev" class="header-v2__nav-link justify-between">
+                    <a href="https://blog.chrisconnelly.dev" target="_blank"
+                      class="header-v2__nav-link justify-between">
                       <span>Blog<i class="sr-only">(opens in new window)</i></span>
                       <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
                         <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -276,7 +369,7 @@
     </div>
   </header>
   <main>
-
+    <!--HERO-->
     <section class="bg-cover bg-center bg-no-repeat padding-y-xxl"
       style="background-image: url('https://images.unsplash.com/photo-1496065187959-7f07b8353c55?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'); height:100vh;">
       <div class="container max-width-adaptive-lg">
@@ -288,7 +381,8 @@
               I want to help your business <span class="text-anim__wrapper js-text-anim__wrapper"><i
                   class="text-anim__word text-anim__word--in js-text-anim__word">grow</i><i
                   class="text-anim__word js-text-anim__word">earn</i><i
-                  class="text-anim__word js-text-anim__word">create</i></span> more
+                  class="text-anim__word js-text-anim__word">create</i><i
+                  class="text-anim__word js-text-anim__word">save</i></span> more
             </h1>
           </div>
 
@@ -304,11 +398,12 @@
             id="scrollDown1"></i></a>
       </div>
     </section>
-
+    <!--THE DIFFERENCE-->
     <section class="position-relative z-index-1 padding-y-lg" id="difference">
       <h2>The Difference</h2>
-      <div class="container max-width-adaptive-xl">
-        <div class="grid gap-md">
+      <p class="difference-text">What sets me apart from the rest</p>
+      <div class="container">
+        <div class="grid gap-xl">
           <div class="col-6@md">
             <div class="flex gap-sm">
               <figure class="flex-shrink-0">
@@ -319,7 +414,7 @@
               <div class="text-component">
                 <h4>No Technical Talk</h4>
                 <p>During <strong>ANY</strong> any conversations with my clients I strive to avoid using technical
-                  jargain. This includes on my quotes and invoicing!</p>
+                  jargain. This includes details on my quotes and all invoicing!</p>
               </div>
             </div>
           </div>
@@ -372,7 +467,22 @@
           </div>
         </div>
       </div>
-      <div class="margin-top-xxl margin-bottom-0 padding-bottom-0" id="scrollDownDiv">
+      <div class="margin-top-lg margin-bottom-0 padding-bottom-0" id="morePopUp1">
+        <a class="btn-fx-4 padding-y-xs padding-x-md radius-md"
+          href="/faq.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
+      `toolbar=no,
+       location=no,
+       status=no,
+       menubar=no,
+       scrollbars=yes,
+       resizable=yes,
+       width=900,
+       height=600`);
+      return false;">
+          <span>MORE</span>
+        </a>
+      </div>
+      <div class="margin-top-sm margin-bottom-0 padding-bottom-0" id="scrollDownDiv">
         <a href="#socialproof"><i
             class="fal fa-chevron-double-down fa-2x text-shadow-1 animate__animated margin-bottom-0 scrollDown"
             id="scrollDown1"></i></a>
@@ -380,7 +490,7 @@
     </section>
     <!--PORTFOLIO-->
     <section class="bg-cover bg-center bg-no-repeat padding-y-xxl"
-      style="background-image: url('https://images.unsplash.com/photo-1461694901205-be808d220b0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'); height:100vh;"
+      style="background-image: url('https://images.unsplash.com/photo-1503252947848-7338d3f92f31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80'); height:100vh;"
       id="socialproof">
       <div
         class="customer-logos position-relative z-index-1 social-inner bg bg-opacity-75% padding-md padding-lg@md rounded"">
@@ -463,264 +573,279 @@
       </div>
       </div>
       <div class="margin-top-xxl margin-bottom-0 padding-bottom-0" id="scrollDownDiv">
-        <a href="#services"><i
+        <a href="#moreabout"><i
             class="fal fa-chevron-double-down fa-2x text-shadow-1 animate__animated margin-bottom-0 scrollDown"
             id="scrollDown1"></i></a>
       </div>
     </section>
     </section>
-    <!--SERVICES-->
-    <div class="position-relative z-index-1 min-height-100vh padding-y-xxl flex flex-center noise"
-      id="services-wrapper">
-      <div class="position-relative z-index-1 container max-width-sm">
 
-        <section class="position-relative z-index-1 padding-y-xl" id="services">
-          <div class="container max-width-adaptive-xl">
-            <h2 class="sr-only">Join us</h2>
 
-            <div class="text-xl text-xxxl@xs font-bold">
-              <p>No job too big,</p>
-              <p class="margin-bottom-xxs">Or too small.</p>
+    <section class="position-relative z-index-1 padding-y-xl" id="moreabout">
+      <div class="container max-width-adaptive-lg">
+        <div class="margin-bottom-xl">
+          <h1 class="text-center">More About Me</h1>
+        </div>
 
-              <a href="/services.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
-                                          `toolbar=no,
-                                           location=no,
-                                           status=no,
-                                           menubar=no,
-                                           scrollbars=yes,
-                                           resizable=yes,
-                                           width=1500,
-                                           height=850`);
-        return false;" class="td-text-block" aria-label="my services">
-                <span class="td-text-block__wrapper">
-                  <em class="td-text-block__front-text">Something for everyone &rarr;</em>
-                  <em class="td-text-block__final-text">My Services &rarr;</em>
-                </span>
-              </a>
+        <div class="grid gap-xl">
+          <div class="card-v13 col-4@md">
+            <a class="card-v13__figure-wrapper" href="#0">
+              <figure class="card-v13__figure">
+                <img
+                  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
+                  alt="Image description" loading="lazy">
+              </figure>
+            </a>
+
+            <div class="text-center margin-top-sm">
+              <h3 class="text-md">
+                <a class="color-contrast-higher" href="#0">My Services</a>
+              </h3>
+
+              <div class="card-v13__separator margin-x-auto margin-y-sm" role="presentation"></div>
+
+              <p class="color-contrast-medium text-sm line-height-lg">A detailed list of my services</p>
+
+              <div class="margin-top-sm">
+                <a href="/services.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
+                                                `toolbar=no,
+                                                 location=no,
+                                                 status=no,
+                                                 menubar=no,
+                                                 scrollbars=yes,
+                                                 resizable=yes,
+                                                 width=400,
+                                                 height=700`);
+              return false;">
+                  <button class="reset btn-fx-3 radius-md text-sm">
+                    <div class="btn-fx-3__inner padding-y-xs padding-x-md">
+                      <span>SERVICES</span>
+
+                      <figure class="btn-fx-3__icon-wrapper" aria-hidden="true">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="concierge-bell"
+                          class="svg-inline--fa fa-concierge-bell fa-w-16 icon icon--xs" role="img"
+                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                          <path fill="currentColor"
+                            d="M504 416h-24v-64c0-118.31-91.79-214.96-208-223.19V96h40c4.42 0 8-3.58 8-8V72c0-4.42-3.58-8-8-8H200c-4.42 0-8 3.58-8 8v16c0 4.42 3.58 8 8 8h40v32.81C123.79 137.04 32 233.69 32 352v64H8c-4.42 0-8 3.58-8 8v16c0 4.42 3.58 8 8 8h496c4.42 0 8-3.58 8-8v-16c0-4.42-3.58-8-8-8zm-56 0H64v-64c0-100.17 78.3-184.19 178.26-191.27 16.87-1.19 10.33-1.21 27.48 0C369.7 167.81 448 251.83 448 352v64z">
+                          </path>
+                        </svg>
+                      </figure>
+                    </div>
+                  </button>
+                </a>
+              </div>
             </div>
           </div>
-        </section>
-      </div>
 
+          <div class="card-v13 col-4@md">
+            <a class="card-v13__figure-wrapper" href="#0">
+              <figure class="card-v13__figure">
+                <img
+                  src="https://images.unsplash.com/photo-1485856407642-7f9ba0268b51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                  alt="Image description" loading="lazy">
+              </figure>
+            </a>
 
-      <div class="noise-bg position-absolute inset-0" aria-hidden="true">
-        <svg>
-          <filter id="noise-bg-fx">
-            <feTurbulence baseFrequency="0.8" />
-          </filter>
-        </svg>
+            <div class="text-center margin-top-sm">
+              <h3 class="text-md">
+                <a class="color-contrast-higher" href="https://portfolio.chrisconnelly.dev" target="_blank">My
+                  Portfolio</a>
+              </h3>
+
+              <div class="card-v13__separator margin-x-auto margin-y-sm" role="presentation"></div>
+
+              <p class="color-contrast-medium text-sm line-height-lg">See my work</p>
+
+              <div class="margin-top-sm">
+                <a href="https://portfolio.chrisconnelly.dev" target="_blank">
+                  <button class="reset btn-fx-3 radius-md text-sm">
+                    <div class="btn-fx-3__inner padding-y-xs padding-x-md">
+                      <span>PORTFOLIO</span>
+                      <figure class="btn-fx-3__icon-wrapper" aria-hidden="true">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="briefcase"
+                          class="svg-inline--fa fa-briefcase fa-w-16 icon icon--xs" role="img"
+                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                          <path fill="currentColor"
+                            d="M464 128H352V56c0-13.26-10.74-24-24-24H184c-13.26 0-24 10.74-24 24v72H48c-26.51 0-48 21.49-48 48v256c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zM192 64h128v64H192V64zm288 368c0 8.82-7.18 16-16 16H48c-8.82 0-16-7.18-16-16V288h160v40c0 13.25 10.75 24 24 24h80c13.25 0 24-10.75 24-24v-40h160v144zM224 320v-32h64v32h-64zm256-64H32v-80c0-8.82 7.18-16 16-16h416c8.82 0 16 7.18 16 16v80z">
+                          </path>
+                        </svg>
+                      </figure>
+                    </div>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-v13 col-4@md">
+            <a class="card-v13__figure-wrapper" href="#0">
+              <figure class="card-v13__figure">
+                <img
+                  src="https://images.unsplash.com/photo-1485856407642-7f9ba0268b51?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                  alt="Image description" loading="lazy">
+              </figure>
+            </a>
+
+            <div class="text-center margin-top-sm">
+              <h3 class="text-md">
+                <a class="color-contrast-higher" href="https://portfolio.chrisconnelly.dev" target="_blank">FAQ</a>
+              </h3>
+
+              <div class="card-v13__separator margin-x-auto margin-y-sm" role="presentation"></div>
+
+              <p class="color-contrast-medium text-sm line-height-lg">Frequently Asked Questions</p>
+
+              <div class="margin-top-sm">
+                <a href="/faq.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
+                                                `toolbar=no,
+                                                 location=no,
+                                                 status=no,
+                                                 menubar=no,
+                                                 scrollbars=yes,
+                                                 resizable=yes,
+                                                 width=1500,
+                                                 height=1000`);
+              return false;">
+                  <button class="reset btn-fx-3 radius-md text-sm">
+                    <div class="btn-fx-3__inner padding-y-xs padding-x-md">
+                      <span>FAQ</span>
+                      <figure class="btn-fx-3__icon-wrapper" aria-hidden="true">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="question-square"
+                          class="svg-inline--fa fa-question-square fa-w-14 icon icon--xs" role="img"
+                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                          <path fill="currentColor"
+                            d="M400 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zm16 400c0 8.822-7.178 16-16 16H48c-8.822 0-16-7.178-16-16V80c0-8.822 7.178-16 16-16h352c8.822 0 16 7.178 16 16v352zm-192-92c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28zm7.67-24h-16c-6.627 0-12-5.373-12-12v-.381c0-70.343 77.44-63.619 77.44-107.408 0-20.016-17.761-40.211-57.44-40.211-29.144 0-44.265 9.649-59.211 28.692-3.908 4.98-11.054 5.995-16.248 2.376l-13.134-9.15c-5.625-3.919-6.86-11.771-2.645-17.177C153.658 133.514 178.842 116 223.67 116c52.32 0 97.44 29.751 97.44 80.211 0 67.414-77.44 63.849-77.44 107.408V304c0 6.627-5.373 12-12 12z">
+                          </path>
+                        </svg>
+                      </figure>
+                    </div>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
       <div class="margin-top-xxl margin-bottom-0 padding-bottom-0" id="scrollDownDiv">
-        <a href="#socialproof"><i
+        <a href="#testimonials"><i
             class="fal fa-chevron-double-down fa-2x text-shadow-1 animate__animated margin-bottom-0 scrollDown"
             id="scrollDown1"></i></a>
       </div>
-    </div>
-
-    <section class="position-relative z-index-1 padding-y-xl" id="portfolio">
-      <div class="container max-width-adaptive-lg">
-        <div class="grid gap-lg items-center">
-          <div class="col-5@md">
-            <div class="text-component">
-              <p class="text-sm color-contrast-medium">Portfolio</p>
-              <h1>My Work</h1>
-              <p>
-              </p>
-            </div>
-
-            <div class="margin-top-sm">
-              <div class="flex flex-wrap gap-sm items-center">
-                <a href="https://portfolio.chrisconnelly.dev" class="btn btn--primary">See More</a>
-                <a href="#services" class="color-inherit js-smooth-scroll" data-duration="300">Services</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-7@md">
-
-            <div
-              class="tilted-slideshow position-relative padding-top-md width-80% margin-x-auto width-70%@sm padding-top-0@md js-tilted-slideshow">
-              <p class="sr-only">Tilted Image Slideshow</p>
-
-              <ul class="tilted-slideshow__list position-relative perspective-xs js-tilted-slideshow__list">
-                <li class="tilted-slideshow__item tilted-slideshow__item--top js-tilted-slideshow__item">
-                  <img
-                    src="https://portfolio.chrisconnelly.dev/static/fd966cb7b80eeef4c6b68b71dfb03e96/2bef9/chrisconnellydotdevv-studiophi-homepage.png"
-                    alt="Image Description">
-                </li>
-
-                <li class="tilted-slideshow__item tilted-slideshow__item--middle js-tilted-slideshow__item">
-                  <img
-                    src="https://portfolio.chrisconnelly.dev/static/b7cfe45664ba3e49e0e4a4c902aef814/2bef9/chrisconnellydotdev-guardiancondocare.png"
-                    alt="Image Description">
-                </li>
-
-                <li class="tilted-slideshow__item tilted-slideshow__item--bottom js-tilted-slideshow__item">
-                  <img
-                    src="https://portfolio.chrisconnelly.dev/static/22169168c1a79ce274b1b5635d70b584/45437/panels-chrisconnelly-calgary%20web%20designer.png"
-                    alt="Image Description">
-                </li>
-
-                <li class="tilted-slideshow__item tilted-slideshow__item--bottom js-tilted-slideshow__item">
-                  <img
-                    src="https://portfolio.chrisconnelly.dev/static/d8bec709eef2eabb15ca01331c398118/45437/eclipse.png"
-                    alt="Image Description">
-                </li>
-
-                <li class="tilted-slideshow__item tilted-slideshow__item--bottom js-tilted-slideshow__item">
-                  <img
-                    src="https://portfolio.chrisconnelly.dev/static/42c682d4f7b0282b3fc75d0ba2ad0fed/45437/dark-light.png"
-                    alt="Image Description">
-                </li>
-              </ul>
-
-              <span class="tilted-slideshow__touch-hint" aria-hidden="true">Tap to change image</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-
-      <!--TESTIOMONIAL 1-->
     </section>
-    <div class="slideshow js-slideshow slideshow--transition-slide testimonial-slideshow" data-swipe="on"
-      id="testimonials">
-      <p class="sr-only">Slideshow Items</p>
+    <div class="testi-show">
+      <div class="slideshow js-slideshow slideshow--transition-slide testimonial-slideshow slide_show" data-swipe="on"
+        id="testimonials">
+        <p class="sr-only">Slideshow Items</p>
 
-      <ul class="slideshow__content">
-        <li class="slideshow__item bg-dark text-center js-slideshow__item">
-          <div class="flex flex-center height-100%">
-            <div class="max-width-sm">
-              <figure
-                class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
-                aria-hidden="true">
-                <img src="https://pbs.twimg.com/profile_images/1066511248160739328/8Rfem8-S_400x400.jpg"
-                  alt="Dustin Poole">
-              </figure>
+        <ul class="slideshow__content">
+          <li class="slideshow__item bg-dark text-center js-slideshow__item">
+            <div class="flex flex-center max-height-50">
+              <div class="max-width-sm">
+                <figure
+                  class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
+                  aria-hidden="true">
+                  <img src="https://pbs.twimg.com/profile_images/1066511248160739328/8Rfem8-S_400x400.jpg"
+                    alt="Dustin Poole">
+                </figure>
 
-              <blockquote class="text-lg@md line-height-md">
-                <p>&#34;Chris is super awesome to work with, very personable, he gets things done with no hassle and
-                  really knows what he's doing. He has a really diverse skill set as well, from creating API's,
-                  building
-                  apps and integrated functions to websites, complete website development, programing, automation, and
-                  even business management. His work has been really valuable for us and would fully recommend him to
-                  anybody.&#34;</p>
-              </blockquote>
+                <blockquote class="text-lg@md line-height-md">
+                  <p>&#34;Chris is super awesome to work with, very personable, he gets things done with no hassle and
+                    really knows what he's doing. He has a really diverse skill set as well, from creating API's,
+                    building
+                    apps and integrated functions to websites, complete website development, programing, automation, and
+                    even business management. His work has been really valuable for us and would fully recommend him to
+                    anybody.&#34;</p>
+                </blockquote>
 
-              <footer class="margin-top-md">
-                <cite class="text-sm">
-                  <strong>Dustin Poole</strong>
-                  <span class="block color-contrast-medium margin-top-xxxxs">Go Tech Fund, Eclipse Solar, Meta Space,
-                    Studio Phi Tattoos</span>
-                </cite>
-              </footer>
-            </div>
-          </div>
-        </li>
-
-        <li class="slideshow__item bg-dark text-center js-slideshow__item">
-          <div class="flex flex-center height-100%">
-            <div class="max-width-sm">
-              <figure
-                class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
-                aria-hidden="true">
-                <img src="assets/media/img/geoff.webp" alt="Geoff Wright">
-              </figure>
-
-              <blockquote class="text-lg@md line-height-md">
-                <p>&#34;Chris has redeveloped our website with fresh new ideas and provided us with several options to
-                  expand or create a more interactive website for our clients. The cost in doing so was very
-                  reasonable
-                  and the process was very smooth. Were happy with the end result and look forward to continually
-                  redeveloping our website with new innovative ideas.&#34;</p>
-              </blockquote>
-
-              <footer class="margin-top-md">
-                <cite class="text-sm">
-                  <strong>Geoff Wright</strong>
-                  <span class="block color-contrast-medium margin-top-xxxxs">Guardian Condominium Care</span>
-                </cite>
-              </footer>
-            </div>
-          </div>
-        </li>
-
-        <li class="slideshow__item bg-dark text-center js-slideshow__item">
-          <div class="flex flex-center height-100%">
-            <div class="max-width-sm">
-              <figure
-                class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
-                aria-hidden="true">
-                <img src="../../../app/assets/img/testimonials-img-3.svg" alt="Olivia Gribben">
-              </figure>
-
-              <blockquote class="text-lg@md line-height-md">
-                <p>&#34;Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi veniam maiores eum!&#34;
-                </p>
-              </blockquote>
-
-              <footer class="margin-top-md">
-                <cite class="text-sm">
-                  <strong>Olivia Gribben</strong>
-                  <span class="block color-contrast-medium margin-top-xxxxs">CEO at CompanyZ</span>
-                </cite>
-              </footer>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-      <ul>
-        <li class="slideshow__control js-slideshow__control">
-          <button class="reset slideshow__btn js-tab-focus">
-            <svg class="icon" viewBox="0 0 32 32">
-              <title>Show previous slide</title>
-              <path
-                d="M20.768,31.395L10.186,16.581c-0.248-0.348-0.248-0.814,0-1.162L20.768,0.605l1.627,1.162L12.229,16 l10.166,14.232L20.768,31.395z">
-              </path>
-            </svg>
-          </button>
-        </li>
-
-        <li class="slideshow__control js-slideshow__control">
-          <button class="reset slideshow__btn js-tab-focus">
-            <svg class="icon" viewBox="0 0 32 32">
-              <title>Show next slide</title>
-              <path
-                d="M11.232,31.395l-1.627-1.162L19.771,16L9.605,1.768l1.627-1.162l10.582,14.813 c0.248,0.348,0.248,0.814,0,1.162L11.232,31.395z">
-              </path>
-            </svg>
-          </button>
-        </li>
-      </ul>
-    </div>
-    <!--<div class="bg-light radius-lg inner-glow shadow-sm overflow-hidden padding-component" style="margin: 25vh;">
-      <div class="grid gap-md items-center">
-        <div class="col-6@md">
-          <div class="padding-left-md@lg">
-            <div class="text-component">
-              <h1 class="text-xl">Banner Title</h1>
-              <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-
-            <div class="margin-top-sm">
-              <div class="flex flex-wrap gap-sm items-center">
-                <a href="#contact" class="btn btn--primary">Get A Quote</a>
-                <a href="#0" class="color-inherit">Learn more</a>
+                <footer class="margin-top-md">
+                  <cite class="text-sm">
+                    <strong>Dustin Poole</strong>
+                    <span class="block color-contrast-medium margin-top-xxxxs">Go Tech Fund, Eclipse Solar, Meta Space,
+                      Studio Phi Tattoos</span>
+                  </cite>
+                </footer>
               </div>
             </div>
-          </div>
-        </div>
+          </li>
 
-        <div class="col-6@md">
-          <figure class="width-100%">
-            <img class="block width-100%" src="../../../app/assets/img/cta-banner-img-1.svg" alt="Placeholder">
-          </figure>
-        </div>
+          <li class="slideshow__item bg-dark text-center js-slideshow__item">
+            <div class="flex flex-center height-100%">
+              <div class="max-width-sm">
+                <figure
+                  class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
+                  aria-hidden="true">
+                  <img src="assets/media/img/geoff.webp" alt="Geoff Wright">
+                </figure>
+
+                <blockquote class="text-lg@md line-height-md">
+                  <p>&#34;Chris has redeveloped our website with fresh new ideas and provided us with several options to
+                    expand or create a more interactive website for our clients. The cost in doing so was very
+                    reasonable
+                    and the process was very smooth. Were happy with the end result and look forward to continually
+                    redeveloping our website with new innovative ideas.&#34;</p>
+                </blockquote>
+
+                <footer class="margin-top-md">
+                  <cite class="text-sm">
+                    <strong>Geoff Wright</strong>
+                    <span class="block color-contrast-medium margin-top-xxxxs">Guardian Condominium Care</span>
+                  </cite>
+                </footer>
+              </div>
+            </div>
+          </li>
+
+          <li class="slideshow__item bg-dark text-center js-slideshow__item">
+            <div class="flex flex-center height-100%">
+              <div class="max-width-sm">
+                <figure
+                  class="testimonial-slideshow__profile-img radius-50% border border-2 border-bg margin-x-auto margin-bottom-sm"
+                  aria-hidden="true">
+                  <img src="../../../app/assets/img/testimonials-img-3.svg" alt="Olivia Gribben">
+                </figure>
+
+                <blockquote class="text-lg@md line-height-md">
+                  <p>&#34;Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi veniam maiores eum!&#34;
+                  </p>
+                </blockquote>
+
+                <footer class="margin-top-md">
+                  <cite class="text-sm">
+                    <strong>Olivia Gribben</strong>
+                    <span class="block color-contrast-medium margin-top-xxxxs">CEO at CompanyZ</span>
+                  </cite>
+                </footer>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <ul>
+          <li class="slideshow__control js-slideshow__control">
+            <button class="reset slideshow__btn js-tab-focus">
+              <svg class="icon" viewBox="0 0 32 32">
+                <title>Show previous slide</title>
+                <path
+                  d="M20.768,31.395L10.186,16.581c-0.248-0.348-0.248-0.814,0-1.162L20.768,0.605l1.627,1.162L12.229,16 l10.166,14.232L20.768,31.395z">
+                </path>
+              </svg>
+            </button>
+          </li>
+
+          <li class="slideshow__control js-slideshow__control">
+            <button class="reset slideshow__btn js-tab-focus">
+              <svg class="icon" viewBox="0 0 32 32">
+                <title>Show next slide</title>
+                <path
+                  d="M11.232,31.395l-1.627-1.162L19.771,16L9.605,1.768l1.627-1.162l10.582,14.813 c0.248,0.348,0.248,0.814,0,1.162L11.232,31.395z">
+                </path>
+              </svg>
+            </button>
+          </li>
+        </ul>
       </div>
-    </div>-->
+    </div>
+
 
     <section class="bg-cover bg-no-repeat bg-center padding-y-xxl" id="contact"
       style="background-image: url('https://images.unsplash.com/photo-1600935583305-444649cda349?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80');">
@@ -728,7 +853,7 @@
         <div class="bg bg-opacity-90% backdrop-blur-10 max-width-xs padding-md">
           <form>
             <fieldset class="margin-bottom-md">
-              <legend class="form-legend">Form Legend</legend>
+              <legend class="form-legend">Get In Touch</legend>
 
               <div class="margin-bottom-xs">
                 <div class="grid gap-xs">
@@ -888,6 +1013,7 @@
         </div>
       </div>
     </footer>
+    <!--BACK TO TOP-->
     <a class="back-to-top js-back-to-top" href="#" data-offset="100" data-duration="300">
       <svg class="icon" viewBox="0 0 20 20">
         <polyline points="2 13 10 5 18 13" fill="none" stroke="currentColor" stroke-linecap="round"
@@ -895,14 +1021,13 @@
       </svg>
     </a>
   </main>
-
+  <!--CODYHOUSE-->
+  <script src="assets/js/scripts.js"></script>
+  <!--LOAD NAV BAR ON SCROLL-->
   <script>
     window.onscroll = function () {
       var currentScrollPos = window.pageYOffset;
-
-      // 20 is an arbitrary number here, just to make you think if you need the prevScrollpos variable:
-      if (currentScrollPos > 5) {
-        // I am using 'display' instead of 'top':
+      if (currentScrollPos > 10) {
         document.getElementById("nav-scroll").style.display = "initial";
       } else {
         document.getElementById("nav-scroll").style.display = "none";
@@ -910,7 +1035,7 @@
     }
   </script>
 
-  <script src="assets/js/scripts.js"></script>
+  <!--AWAITY WIGGLE-->
   <script>
     setTimeout(function () {
       var element = document.getElementById("scrollDown1");

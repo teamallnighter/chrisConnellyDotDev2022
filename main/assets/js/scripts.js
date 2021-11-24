@@ -728,166 +728,6 @@ function resetFocusTabsStyle() {
 		}
   }
 }());
-// File#: _1_chameleonic-header
-// Usage: codyhouse.co/license
-(function() {
-  var ChaHeader = function(element) {
-    this.element = element;
-    this.sections = document.getElementsByClassName('js-cha-section');
-    this.header = this.element.getElementsByClassName('js-cha-header')[0];
-    // handle mobile behaviour
-    this.headerTrigger = this.element.getElementsByClassName('js-cha-header__trigger');
-    this.modal = document.getElementsByClassName('js-cha-modal');
-    this.focusMenu = false;
-    this.firstFocusable = null;
-		this.lastFocusable = null;
-    initChaHeader(this);
-  };
-
-  function initChaHeader(element) {
-    // set initial status
-    for(var j = 0; j < element.sections.length; j++) {
-      initSection(element, j);
-    }
-
-    // handle mobile behaviour
-    if(element.headerTrigger.length > 0) {
-      initMobileVersion(element);
-    }
-
-    // make sure header element is visible when in focus
-    element.header.addEventListener('focusin', function(event){
-      checkHeaderVisible(element);
-    });
-  };
-
-  function initSection(element, index) {
-    // clone header element inside each section
-    var cloneItem = (index == 0) ? element.element : element.element.cloneNode(true);
-    Util.removeClass(cloneItem, 'js-cha-header-clip');
-    var customClasses = element.sections[index].getAttribute('data-header-class');
-    // hide clones to SR
-    cloneItem.setAttribute('aria-hidden', 'true');
-    if( customClasses ) Util.addClass(cloneItem.getElementsByClassName('js-cha-header')[0], customClasses);
-    // keyborad users - make sure cloned items are not tabbable
-    if(index != 0) {
-      // reset tab index
-      resetTabIndex(cloneItem);
-      element.sections[index].insertBefore(cloneItem, element.sections[index].firstChild);
-    }
-  }
-
-  function resetTabIndex(clone) {
-    var focusable = clone.querySelectorAll('[href], button, input');
-    for(var i = 0; i < focusable.length; i++) {
-      focusable[i].setAttribute('tabindex', '-1');
-    }
-  };
-
-  function initMobileVersion(element) {
-    //detect click on nav trigger
-    var triggers = document.getElementsByClassName('js-cha-header__trigger');
-    for(var i = 0; i < triggers.length; i++) {
-      triggers[i].addEventListener("click", function(event) {
-        event.preventDefault();
-        var ariaExpanded = !Util.hasClass(element.modal[0], 'is-visible');
-        //show nav and update button aria value
-        Util.toggleClass(element.modal[0], 'is-visible', ariaExpanded);
-        element.headerTrigger[0].setAttribute('aria-expanded', ariaExpanded);
-        if(ariaExpanded) { //opening menu -> move focus to first element inside nav
-          getFocusableElements(element);
-          element.firstFocusable.focus();
-        } else if(element.focusMenu) {
-          if(window.scrollY < element.focusMenu.offsetTop) element.focusMenu.focus();
-          element.focusMenu = false;
-        }
-      });
-    }
-
-    // close modal on click
-    element.modal[0].addEventListener("click", function(event) {
-      if(!event.target.closest('.js-cha-modal__close')) return;
-      closeModal(element);
-    });
-    
-    // listen for key events
-		window.addEventListener('keydown', function(event){
-			// listen for esc key
-			if( (event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape' )) {
-				// close navigation on mobile if open
-				if(element.headerTrigger[0].getAttribute('aria-expanded') == 'true' && isVisible(element.headerTrigger[0])) {
-          closeModal(element);
-				}
-			}
-			// listen for tab key
-			if( (event.keyCode && event.keyCode == 9) || (event.key && event.key.toLowerCase() == 'tab' )) {
-				trapFocus(element, event);
-			}
-		});
-  };
-
-  function closeModal(element) {
-    element.focusMenu = element.headerTrigger[0]; // move focus to menu trigger when menu is close
-		element.headerTrigger[0].click();
-  };
-
-  function trapFocus(element, event) {
-    if( element.firstFocusable == document.activeElement && event.shiftKey) {
-			//on Shift+Tab -> focus last focusable element when focus moves out of modal
-			event.preventDefault();
-			element.lastFocusable.focus();
-		}
-		if( element.lastFocusable == document.activeElement && !event.shiftKey) {
-			//on Tab -> focus first focusable element when focus moves out of modal
-			event.preventDefault();
-			element.firstFocusable.focus();
-		}
-  };
-
-  function getFocusableElements(element) {
-		//get all focusable elements inside the modal
-		var allFocusable = element.modal[0].querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary');
-		getFirstVisible(element, allFocusable);
-		getLastVisible(element, allFocusable);
-	};
-
-	function getFirstVisible(element, elements) {
-		//get first visible focusable element inside the modal
-		for(var i = 0; i < elements.length; i++) {
-			if( elements[i].offsetWidth || elements[i].offsetHeight || elements[i].getClientRects().length ) {
-				element.firstFocusable = elements[i];
-				return true;
-			}
-		}
-	};
-
-	function getLastVisible(element, elements) {
-		//get last visible focusable element inside the modal
-		for(var i = elements.length - 1; i >= 0; i--) {
-			if( elements[i].offsetWidth || elements[i].offsetHeight || elements[i].getClientRects().length ) {
-				element.lastFocusable = elements[i];
-				return true;
-			}
-		}
-  };
-  
-  function checkHeaderVisible(element) {
-    if(window.scrollY > element.sections[0].offsetHeight - element.header.offsetHeight) window.scrollTo(0, 0);
-  };
-
-  function isVisible(element) {
-		return (element.offsetWidth || element.offsetHeight || element.getClientRects().length);
-	};
-
-  // init the ChaHeader Object
-  var chaHader = document.getElementsByClassName('js-cha-header-clip'),
-    clipPathSupported = Util.cssSupports('clip-path', 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)') || Util.cssSupports('-webkit-clip-path', 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)');
-  if(chaHader.length > 0 && clipPathSupported) {
-    for(var i = 0; i < chaHader.length; i++) {
-      new ChaHeader(chaHader[i]);
-    }
-  }
-}());
 // File#: _1_custom-select
 // Usage: codyhouse.co/license
 (function() {
@@ -2277,7 +2117,7 @@ function resetFocusTabsStyle() {
       gapY = getComputedStyle(filter.element).getPropertyValue('--gap-y'),
       gap = getComputedStyle(filter.element).getPropertyValue('--gap'),
       gridGap = [0, 0];
-    // tif the gap property is used to create the grid (not margin left/right) -> get gap values rather than margins
+    // if the gap property is used to create the grid (not margin left/right) -> get gap values rather than margins
     // check if the --gap/--gap-x/--gap-y
     var newDiv = document.createElement('div'),
       cssText = 'position: absolute; opacity: 0; width: 0px; height: 0px';
@@ -2292,7 +2132,8 @@ function resetFocusTabsStyle() {
     }
     newDiv.style.cssText = cssText;
     filter.element.appendChild(newDiv);
-    gridGap = [newDiv.offsetWidth, newDiv.offsetHeight];
+    var boundingRect = newDiv.getBoundingClientRect();
+    gridGap = [boundingRect.width, boundingRect.height];
     filter.element.removeChild(newDiv);
     return gridGap;
   };
@@ -2392,235 +2233,6 @@ function resetFocusTabsStyle() {
 				element.checkFlashMessage(event.detail);
 			});
 		});
-	}
-}());
-// File#: _1_floating-action-button
-// Usage: codyhouse.co/license
-(function() {
-  var Fab = function(element) {
-		this.element = element;
-		this.fabButton = this.element.getElementsByClassName('js-fab__btn');
-    this.fabPopover = this.element.getElementsByClassName('js-fab__popover');
-    this.fabPopoverInner = this.element.getElementsByClassName('js-fab__popover-inner');
-    this.visibleClass = 'fab--active';
-    this.animating = false;
-    // focusable elements
-    this.firstFocusable = false;
-		this.lastFocusable = false;
-    // offset variables
-    this.offsetIn = 0;
-    this.offsetOut = 0;
-    this.targetIn = this.element.getAttribute('data-target-in') ? document.querySelector(this.element.getAttribute('data-target-in')) : false;
-    this.targetOut = this.element.getAttribute('data-target-out') ? document.querySelector(this.element.getAttribute('data-target-out')) : false;
-    if(this.fabButton.length < 1 || this.fabPopover.length < 1) return;
-		initFab(this);
-	};
-
-  // public methods
-  Fab.prototype.setVariables = function() {
-		setFabVariables(this);
-	};
-
-  Fab.prototype.resetVisibility = function() {
-		resetFabVisibility(this);
-	};
-
-  // private methods
-  function initFab(element) {
-    resetFabVisibility(element);
-    setFabVariables(element);
-    initFabEvents(element);
-  };
-
-  function setFabVariables(element) {
-    // set CSS variables
-    element.fabPopoverInner[0].style.height = '';
-    var height = element.fabPopover[0].offsetHeight+'px';
-
-    element.element.style.setProperty('--fab-popover-height', height);
-    element.fabPopoverInner[0].style.height = height;
-  };
-
-  function initFabEvents(element) {
-    if(document.fonts) {
-      // wait for fonts to be loaded and set popover height
-      document.fonts.ready.then(function() {
-        setFabVariables(element);
-      });
-    }
-
-    // toggle popover when clicking on fab button
-    element.fabButton[0].addEventListener('click', function() {
-      if(element.animating) return;
-      element.animating = true;
-      toggleFab(element);
-    });
-
-    // close popover when clicking on fab background
-    element.element.addEventListener('click', function(event){
-      if(!event.target.closest('.js-fab__btn') && !event.target.closest('.js-fab__popover-inner')) toggleFab(element);
-    });
-
-    // trap focus
-    element.element.addEventListener('keydown', function(event){
-      if( event.keyCode && event.keyCode == 9 || event.key && event.key == 'Tab' ) {
-        //trap focus inside popover
-        trapFocus(element, event);
-      } else if(event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
-        if(Util.hasClass(element.element, element.visibleClass)) toggleFab(element);
-      }
-    });
-  };
-
-  function toggleFab(element) {
-    var isOpen = Util.hasClass(element.element, element.visibleClass);
-
-    if(isOpen) {
-      Util.removeClass(element.element, element.visibleClass);
-      element.fabButton[0].removeAttribute('aria-expanded');
-      element.fabButton[0].focus();
-    } else {
-      Util.addClass(element.element, element.visibleClass);
-      element.fabButton[0].setAttribute('aria-expanded', 'true');
-    }
-
-    // wait for the end of the transition
-    element.fabPopover[0].addEventListener('transitionend', function cb(){
-      element.animating = false;
-      element.fabPopover[0].removeEventListener('transitionend', cb);
-      if(!isOpen) focusPopover(element);
-    });
-  };
-
-  function focusPopover(element) {
-    getFocusableElements(element);
-    if(element.firstFocusable) {
-			element.firstFocusable.focus();
-		}
-  };
-
-  // trapping focus
-  function getFocusableElements(element) {
-    // get all focusable elements inside the popover
-		var allFocusable = element.fabPopover[0].querySelectorAll(focusableElString);
-		getFirstVisible(element, allFocusable);
-		getLastVisible(element, allFocusable);
-  };
-
-  function getFirstVisible(element, focusableElments) {
-		// get first visible focusable element inside the popover
-		for(var i = 0; i < focusableElments.length; i++) {
-			if( isVisible(focusableElments[i]) ) {
-				element.firstFocusable = focusableElments[i];
-				break;
-			}
-		}
-	};
-
-  function getLastVisible(element, focusableElments) {
-		// get last visible focusable element inside the popover
-		for(var i = focusableElments.length - 1; i >= 0; i--) {
-			if( isVisible(focusableElments[i]) ) {
-				element.lastFocusable = focusableElments[i];
-				break;
-			}
-		}
-  };
-
-  function trapFocus(element, event) {
-    if( element.firstFocusable == document.activeElement && event.shiftKey) {
-			//on Shift+Tab -> focus last focusable element when focus moves out of popover
-			event.preventDefault();
-			element.lastFocusable.focus();
-		}
-		if( element.lastFocusable == document.activeElement && !event.shiftKey) {
-			//on Tab -> focus first focusable element when focus moves out of popover
-			event.preventDefault();
-			element.firstFocusable.focus();
-		}
-  };
-
-  function isVisible(element) {
-		// check if element is visible
-		return element.offsetWidth || element.offsetHeight || element.getClientRects().length;
-	};
-
-  // offset functions 
-  function resetFabVisibility(element) {
-    getFabBtnOffsets(element); // get offset values - show/hide fab button 
-    var scrollTop = document.documentElement.scrollTop,
-      topTarget = false,
-      bottomTarget = false;
-    if(element.offsetIn <= scrollTop || element.offsetIn == 0) {
-      topTarget = true;
-    }
-    if(element.offsetOut == 0 || scrollTop < element.offsetOut) {
-      bottomTarget = true;
-    }
-    Util.toggleClass(element.element, 'fab--in', bottomTarget && topTarget);
-
-    // if popover is visible -> close it
-    if( (!bottomTarget || !topTarget) && Util.hasClass(element.element, element.visibleClass)) toggleFab(element);
-  };
-
-  function getFabBtnOffsets(element) { // get offset in and offset out values
-    // update offsetIn
-    element.offsetIn = 0;
-    if(element.targetIn) {
-      var boundingClientRect = element.targetIn.getBoundingClientRect();
-      element.offsetIn = boundingClientRect.top + document.documentElement.scrollTop + boundingClientRect.height;
-    }
-    var dataOffsetIn = element.element.getAttribute('data-offset-in');
-    if(dataOffsetIn) {
-      element.offsetIn = element.offsetIn + parseInt(dataOffsetIn);
-    }
-    // update offsetOut
-    element.offsetOut = 0;
-    if(element.targetOut) {
-      var boundingClientRect = element.targetOut.getBoundingClientRect();
-      element.offsetOut = boundingClientRect.top + document.documentElement.scrollTop - window.innerHeight;
-    }
-    var dataOffsetOut = element.element.getAttribute('data-offset-out');
-    if(dataOffsetOut) {
-      element.offsetOut = element.offsetOut + parseInt(dataOffsetOut);
-    }
-  };
-
-  //initialize the Fab objects
-	var fabs = document.getElementsByClassName('js-fab');
-  // generic focusable elements string selector
-	var focusableElString = '[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary';
-	if( fabs.length > 0 ) {
-		var fabsArray = [];
-		for( var i = 0; i < fabs.length; i++) {
-			(function(i){fabsArray.push(new Fab(fabs[i]));})(i);
-		}
-
-    // reset fab height on resize
-    var resizingId = false;
-
-    window.addEventListener('resize', function() {
-      clearTimeout(resizingId);
-      resizingId = setTimeout(doneResizing);
-    });
-
-    window.addEventListener('scroll', function() {
-      clearTimeout(resizingId);
-      resizingId = setTimeout(doneScrolling);
-    });
-
-    function doneResizing() {
-      fabsArray.forEach(function(element){
-				element.setVariables();
-        element.resetVisibility();
-			});
-    };
-
-    function doneScrolling() {
-      fabsArray.forEach(function(element){
-				element.resetVisibility();
-			});
-    };
 	}
 }());
 // File#: _1_immersive-section-transition
@@ -2808,6 +2420,204 @@ function resetFocusTabsStyle() {
   } else { // effect deactivated
     for( var i = 0; i < immerseSections.length; i++) Util.addClass(immerseSections[i], 'immerse-section-tr--disabled');
   }
+}());
+// File#: _1_looping_tabs
+// Usage: codyhouse.co/license
+(function() { 
+  var LoopTab = function(opts) {
+    this.options = Util.extend(LoopTab.defaults , opts);
+		this.element = this.options.element;
+		this.tabList = this.element.getElementsByClassName('js-loop-tabs__controls')[0];
+		this.listItems = this.tabList.getElementsByTagName('li');
+		this.triggers = this.tabList.getElementsByTagName('a');
+		this.panelsList = this.element.getElementsByClassName('js-loop-tabs__panels')[0];
+    this.panels = Util.getChildrenByClassName(this.panelsList, 'js-loop-tabs__panel');
+    this.assetsList = this.element.getElementsByClassName('js-loop-tabs__assets')[0];
+		this.assets = this.assetsList.getElementsByTagName('li');
+		this.videos = getVideoElements(this);
+    this.panelShowClass = 'loop-tabs__panel--selected';
+		this.assetShowClass = 'loop-tabs__asset--selected';
+		this.assetExitClass = 'loop-tabs__asset--exit';
+    this.controlActiveClass = 'loop-tabs__control--selected';
+    // autoplay
+    this.autoplayPaused = false;
+		this.loopTabAutoId = false;
+		this.loopFillAutoId = false;
+		this.loopFill = 0;
+		initLoopTab(this);
+	};
+	
+	function getVideoElements(tab) {
+		var videos = [];
+		for(var i = 0; i < tab.assets.length; i++) {
+			var video = tab.assets[i].getElementsByTagName('video');
+			videos[i] = video.length > 0 ? video[0] : false;
+		}
+		return videos;
+	};
+  
+  function initLoopTab(tab) {
+    //set initial aria attributes
+		tab.tabList.setAttribute('role', 'tablist');
+		for( var i = 0; i < tab.triggers.length; i++) {
+			var bool = Util.hasClass(tab.triggers[i], tab.controlActiveClass),
+        panelId = tab.panels[i].getAttribute('id');
+			tab.listItems[i].setAttribute('role', 'presentation');
+			Util.setAttributes(tab.triggers[i], {'role': 'tab', 'aria-selected': bool, 'aria-controls': panelId, 'id': 'tab-'+panelId});
+			Util.addClass(tab.triggers[i], 'js-loop-tabs__trigger'); 
+      Util.setAttributes(tab.panels[i], {'role': 'tabpanel', 'aria-labelledby': 'tab-'+panelId});
+      Util.toggleClass(tab.panels[i], tab.panelShowClass, bool);
+			Util.toggleClass(tab.assets[i], tab.assetShowClass, bool);
+			
+			resetVideo(tab, i, bool); // play/pause video if available
+
+			if(!bool) tab.triggers[i].setAttribute('tabindex', '-1'); 
+		}
+		// add autoplay-off class if needed
+		!tab.options.autoplay && Util.addClass(tab.element, 'loop-tabs--autoplay-off');
+		//listen for Tab events
+		initLoopTabEvents(tab);
+  };
+
+  function initLoopTabEvents(tab) {
+		if(tab.options.autoplay) { 
+			initLoopTabAutoplay(tab); // init autoplay
+			// pause autoplay if user is interacting with the tabs
+			tab.element.addEventListener('focusin', function(event){
+				pauseLoopTabAutoplay(tab);
+				tab.autoplayPaused = true;
+			});
+			tab.element.addEventListener('focusout', function(event){
+				tab.autoplayPaused = false;
+				initLoopTabAutoplay(tab);
+			});
+		}
+
+    //click on a new tab -> select content
+		tab.tabList.addEventListener('click', function(event) {
+			if( event.target.closest('.js-loop-tabs__trigger') ) triggerLoopTab(tab, event.target.closest('.js-loop-tabs__trigger'), event);
+		});
+		
+    //arrow keys to navigate through tabs 
+		tab.tabList.addEventListener('keydown', function(event) {
+			if( !event.target.closest('.js-loop-tabs__trigger') ) return;
+			if( event.keyCode && event.keyCode == 39 || event.key && event.key.toLowerCase() == 'arrowright' ) {
+				pauseLoopTabAutoplay(tab);
+				selectNewLoopTab(tab, 'next', true);
+			} else if( event.keyCode && event.keyCode == 37 || event.key && event.key.toLowerCase() == 'arrowleft' ) {
+				pauseLoopTabAutoplay(tab);
+				selectNewLoopTab(tab, 'prev', true);
+			}
+		});
+  };
+
+  function initLoopTabAutoplay(tab) {
+		if(!tab.options.autoplay || tab.autoplayPaused) return;
+		tab.loopFill = 0;
+		var selectedTab = tab.tabList.getElementsByClassName(tab.controlActiveClass)[0];
+		// reset css variables
+		for(var i = 0; i < tab.triggers.length; i++) {
+			if(cssVariableSupport) tab.triggers[i].style.setProperty('--loop-tabs-filling', 0);
+		}
+		
+		tab.loopTabAutoId = setTimeout(function(){
+      selectNewLoopTab(tab, 'next', false);
+		}, tab.options.autoplayInterval);
+		
+		if(cssVariableSupport) { // tab fill effect
+			tab.loopFillAutoId = setInterval(function(){
+				tab.loopFill = tab.loopFill + 0.005;
+				selectedTab.style.setProperty('--loop-tabs-filling', tab.loopFill);
+			}, tab.options.autoplayInterval/200);
+		}
+  };
+
+  function pauseLoopTabAutoplay(tab) { // pause autoplay
+    if(tab.loopTabAutoId) {
+			clearTimeout(tab.loopTabAutoId);
+			tab.loopTabAutoId = false;
+			clearInterval(tab.loopFillAutoId);
+			tab.loopFillAutoId = false;
+			// make sure the filling line is scaled up
+			var selectedTab = tab.tabList.getElementsByClassName(tab.controlActiveClass);
+			if(selectedTab.length > 0) selectedTab[0].style.setProperty('--loop-tabs-filling', 1);
+		}
+  };
+
+  function selectNewLoopTab(tab, direction, bool) {
+    var selectedTab = tab.tabList.getElementsByClassName(tab.controlActiveClass)[0],
+			index = Util.getIndexInArray(tab.triggers, selectedTab);
+		index = (direction == 'next') ? index + 1 : index - 1;
+		//make sure index is in the correct interval 
+		//-> from last element go to first using the right arrow, from first element go to last using the left arrow
+		if(index < 0) index = tab.listItems.length - 1;
+		if(index >= tab.listItems.length) index = 0;	
+		triggerLoopTab(tab, tab.triggers[index]);
+		bool && tab.triggers[index].focus();
+  };
+
+  function triggerLoopTab(tab, tabTrigger, event) {
+		pauseLoopTabAutoplay(tab);
+		event && event.preventDefault();	
+		var index = Util.getIndexInArray(tab.triggers, tabTrigger);
+		//no need to do anything if tab was already selected
+		if(Util.hasClass(tab.triggers[index], tab.controlActiveClass)) return;
+		
+		for( var i = 0; i < tab.triggers.length; i++) {
+			var bool = (i == index),
+				exit = Util.hasClass(tab.triggers[i], tab.controlActiveClass);
+			Util.toggleClass(tab.triggers[i], tab.controlActiveClass, bool);
+      Util.toggleClass(tab.panels[i], tab.panelShowClass, bool);
+			Util.toggleClass(tab.assets[i], tab.assetShowClass, bool);
+			Util.toggleClass(tab.assets[i], tab.assetExitClass, exit);
+			tab.triggers[i].setAttribute('aria-selected', bool);
+			bool ? tab.triggers[i].setAttribute('tabindex', '0') : tab.triggers[i].setAttribute('tabindex', '-1');
+
+			resetVideo(tab, i, bool); // play/pause video if available
+
+			// listen for the end of animation on asset element and remove exit class
+			if(exit) {(function(i){
+				tab.assets[i].addEventListener('transitionend', function cb(event){
+					tab.assets[i].removeEventListener('transitionend', cb);
+					Util.removeClass(tab.assets[i], tab.assetExitClass);
+				});
+			})(i);}
+		}
+    
+    // restart tab autoplay
+    initLoopTabAutoplay(tab);
+	};
+
+	function resetVideo(tab, i, bool) {
+		if(tab.videos[i]) {
+			if(bool) {
+				tab.videos[i].play();
+			} else {
+				tab.videos[i].pause();
+				tab.videos[i].currentTime = 0;
+			} 
+		}
+	};
+
+  LoopTab.defaults = {
+    element : '',
+    autoplay : true,
+    autoplayInterval: 5000
+  };
+
+  //initialize the Tab objects
+	var loopTabs = document.getElementsByClassName('js-loop-tabs');
+	if( loopTabs.length > 0 ) {
+		var reducedMotion = Util.osHasReducedMotion(),
+			cssVariableSupport = ('CSS' in window) && Util.cssSupports('color', 'var(--var)');
+		for( var i = 0; i < loopTabs.length; i++) {
+			(function(i){
+        var autoplay = (loopTabs[i].getAttribute('data-autoplay') && loopTabs[i].getAttribute('data-autoplay') == 'off' || reducedMotion) ? false : true,
+        autoplayInterval = (loopTabs[i].getAttribute('data-autoplay-interval')) ? loopTabs[i].getAttribute('data-autoplay-interval') : 5000;
+        new LoopTab({element: loopTabs[i], autoplay : autoplay, autoplayInterval : autoplayInterval});
+      })(i);
+		}
+	}
 }());
 // File#: _1_main-header
 // Usage: codyhouse.co/license
@@ -3224,103 +3034,6 @@ function resetFocusTabsStyle() {
       };
     };
 	}
-}());
-// File#: _1_parallax-image
-// Usage: codyhouse.co/license
-(function() {
-  var ParallaxImg = function(element, rotationLevel) {
-    this.element = element;
-    this.figure = this.element.getElementsByClassName('js-parallax-img__assets')[0];
-    this.imgs = this.element.getElementsByTagName('img');
-    this.maxRotation = rotationLevel || 2; // rotate level
-    if(this.maxRotation > 5) this.maxRotation = 5;
-    this.scale = 1;
-    this.animating = false;
-    initParallax(this);
-    initParallaxEvents(this);
-  };
-
-  function initParallax(element) {
-    element.count = 0;
-    window.requestAnimationFrame(checkImageLoaded.bind(element));
-    for(var i = 0; i < element.imgs.length; i++) {(function(i){
-      var loaded = false;
-      element.imgs[i].addEventListener('load', function(){
-        if(loaded) return;
-        element.count = element.count + 1;
-      });
-      if(element.imgs[i].complete && !loaded) {
-        loaded = true;
-        element.count = element.count + 1;
-      }
-    })(i);}
-  };
-
-  function checkImageLoaded() {
-    if(this.count >= this.imgs.length) {
-      initScale(this);
-      if(this.loaded) {
-        window.cancelAnimationFrame(this.loaded);
-        this.loaded = false;
-      }
-    } else {
-      this.loaded = window.requestAnimationFrame(checkImageLoaded.bind(this));
-    }
-  };
-
-  function initScale(element) {
-    var maxImgResize = getMaxScale(element);
-    element.scale = maxImgResize/(Math.sin(Math.PI / 2 - element.maxRotation*Math.PI/180));
-    element.figure.style.transform = 'scale('+element.scale+')';  
-    Util.addClass(element.element, 'parallax-img--loaded');  
-  };
-
-  function getMaxScale(element) {
-    var minWidth = 0;
-    var maxWidth = 0;
-    for(var i = 0; i < element.imgs.length; i++) {
-      var width = element.imgs[i].getBoundingClientRect().width;
-      if(width < minWidth || i == 0 ) minWidth = width;
-      if(width > maxWidth || i == 0 ) maxWidth = width;
-    }
-    var scale = Math.ceil(10*maxWidth/minWidth)/10;
-    if(scale < 1.1) scale = 1.1;
-    return scale;
-  }
-
-  function initParallaxEvents(element) {
-    element.element.addEventListener('mousemove', function(event){
-      if(element.animating) return;
-      element.animating = true;
-      window.requestAnimationFrame(moveImage.bind(element, event));
-    });
-  };
-
-  function moveImage(event, timestamp) {
-    var wrapperPosition = this.element.getBoundingClientRect();
-    var rotateY = 2*(this.maxRotation/wrapperPosition.width)*(wrapperPosition.left - event.clientX + wrapperPosition.width/2);
-    var rotateX = 2*(this.maxRotation/wrapperPosition.height)*(event.clientY - wrapperPosition.top - wrapperPosition.height/2);
-
-    if(rotateY > this.maxRotation) rotateY = this.maxRotation;
-		if(rotateY < -1*this.maxRotation) rotateY = -this.maxRotation;
-		if(rotateX > this.maxRotation) rotateX = this.maxRotation;
-    if(rotateX < -1*this.maxRotation) rotateX = -this.maxRotation;
-    this.figure.style.transform = 'scale('+this.scale+') rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)';
-    this.animating = false;
-  };
-
-  window.ParallaxImg = ParallaxImg;
-
-  //initialize the ParallaxImg objects
-	var parallaxImgs = document.getElementsByClassName('js-parallax-img');
-	if( parallaxImgs.length > 0 && Util.cssSupports('transform', 'translateZ(0px)')) {
-		for( var i = 0; i < parallaxImgs.length; i++) {
-			(function(i){
-        var rotationLevel = parallaxImgs[i].getAttribute('data-perspective');
-        new ParallaxImg(parallaxImgs[i], rotationLevel);
-      })(i);
-		}
-	};
 }());
 // File#: _1_pre-header
 // Usage: codyhouse.co/license
@@ -4106,450 +3819,6 @@ function resetFocusTabsStyle() {
     };
 	}
 }());
-// File#: _1_scrolling-animations
-// Usage: codyhouse.co/license
-(function() {
-  var ScrollFx = function(element, scrollableSelector) {
-    this.element = element;
-    this.options = [];
-    this.boundingRect = this.element.getBoundingClientRect();
-    this.windowHeight = window.innerHeight;
-    this.scrollingFx = [];
-    this.animating = [];
-    this.deltaScrolling = [];
-    this.observer = [];
-    this.scrollableSelector = scrollableSelector; // if the scrollable element is not the window 
-    this.scrollableElement = false;
-    initScrollFx(this);
-    // ToDo - option to pass two selectors to target the element start and stop animation scrolling values -> to be used for sticky/fixed elements
-  };
-
-  function initScrollFx(element) {
-    // do not animate if reduced motion is on
-    if(Util.osHasReducedMotion()) return;
-    // get scrollable element
-    setScrollableElement(element);
-    // get animation params
-    var animation = element.element.getAttribute('data-scroll-fx');
-    if(animation) {
-      element.options.push(extractAnimation(animation));
-    } else {
-      getAnimations(element, 1);
-    }
-    // set Intersection Observer
-    initObserver(element);
-    // update params on resize
-    initResize(element);
-  };
-
-  function setScrollableElement(element) {
-    if(element.scrollableSelector) element.scrollableElement = document.querySelector(element.scrollableSelector);
-  };
-
-  function initObserver(element) {
-    for(var i = 0; i < element.options.length; i++) {
-      (function(i){
-        element.scrollingFx[i] = false;
-        element.deltaScrolling[i] = getDeltaScrolling(element, i);
-        element.animating[i] = false;
-
-        element.observer[i] = new IntersectionObserver(
-          function(entries, observer) { 
-            scrollFxCallback(element, i, entries, observer);
-          },
-          {
-            rootMargin: (element.options[i][5] -100)+"% 0px "+(0 - element.options[i][4])+"% 0px"
-          }
-        );
-    
-        element.observer[i].observe(element.element);
-
-        // set initial value
-        setTimeout(function(){
-          animateScrollFx.bind(element, i)();
-        })
-      })(i);
-    }
-  };
-
-  function scrollFxCallback(element, index, entries, observer) {
-		if(entries[0].isIntersecting) {
-      if(element.scrollingFx[index]) return; // listener for scroll event already added
-      // reset delta
-      resetDeltaBeforeAnim(element, index);
-      triggerAnimateScrollFx(element, index);
-    } else {
-      if(!element.scrollingFx[index]) return; // listener for scroll event already removed
-      window.removeEventListener('scroll', element.scrollingFx[index]);
-      element.scrollingFx[index] = false;
-    }
-  };
-
-  function triggerAnimateScrollFx(element, index) {
-    element.scrollingFx[index] = animateScrollFx.bind(element, index);
-    (element.scrollableElement)
-      ? element.scrollableElement.addEventListener('scroll', element.scrollingFx[index])
-      : window.addEventListener('scroll', element.scrollingFx[index]);
-  };
-
-  function animateScrollFx(index) {
-    // if window scroll is outside the proper range -> return
-    if(getScrollY(this) < this.deltaScrolling[index][0]) {
-      setCSSProperty(this, index, this.options[index][1]);
-      return;
-    }
-    if(getScrollY(this) > this.deltaScrolling[index][1]) {
-      setCSSProperty(this, index, this.options[index][2]);
-      return;
-    }
-    if(this.animating[index]) return;
-    this.animating[index] = true;
-    window.requestAnimationFrame(updatePropertyScroll.bind(this, index));
-  };
-
-  function updatePropertyScroll(index) { // get value
-    // check if this is a theme value or a css property
-    if(isNaN(this.options[index][1])) {
-      // this is a theme value to update
-      (getScrollY(this) >= this.deltaScrolling[index][1]) 
-        ? setCSSProperty(this, index, this.options[index][2])
-        : setCSSProperty(this, index, this.options[index][1]);
-    } else {
-      // this is a CSS property
-      var value = this.options[index][1] + (this.options[index][2] - this.options[index][1])*(getScrollY(this) - this.deltaScrolling[index][0])/(this.deltaScrolling[index][1] - this.deltaScrolling[index][0]);
-      // update css property
-      setCSSProperty(this, index, value);
-    }
-    
-    this.animating[index] = false;
-  };
-
-  function setCSSProperty(element, index, value) {
-    if(isNaN(value)) {
-      // this is a theme value that needs to be updated
-      setThemeValue(element, value);
-      return;
-    }
-    if(element.options[index][0] == '--scroll-fx-skew' || element.options[index][0] == '--scroll-fx-scale') {
-      // set 2 different CSS properties for the transformation on both x and y axis
-      element.element.style.setProperty(element.options[index][0]+'-x', value+element.options[index][3]);
-      element.element.style.setProperty(element.options[index][0]+'-y', value+element.options[index][3]);
-    } else {
-      // set single CSS property
-      element.element.style.setProperty(element.options[index][0], value+element.options[index][3]);
-    }
-  };
-
-  function setThemeValue(element, value) {
-    // if value is different from the theme in use -> update it
-    if(element.element.getAttribute('data-theme') != value) {
-      Util.addClass(element.element, 'scroll-fx--theme-transition');
-      element.element.offsetWidth;
-      element.element.setAttribute('data-theme', value);
-      element.element.addEventListener('transitionend', function cb(){
-        element.element.removeEventListener('transitionend', cb);
-        Util.removeClass(element.element, 'scroll-fx--theme-transition');
-      });
-    }
-  };
-
-  function getAnimations(element, index) {
-    var option = element.element.getAttribute('data-scroll-fx-'+index);
-    if(option) {
-      // multiple animations for the same element - iterate through them
-      element.options.push(extractAnimation(option));
-      getAnimations(element, index+1);
-    } 
-    return;
-  };
-
-  function extractAnimation(option) {
-    var array = option.split(',').map(function(item) {
-      return item.trim();
-    });
-    var propertyOptions = getPropertyValues(array[1], array[2]);
-    var animation = [getPropertyLabel(array[0]), propertyOptions[0], propertyOptions[1], propertyOptions[2], parseInt(array[3]), parseInt(array[4])];
-    return animation;
-  };
-
-  function getPropertyLabel(property) {
-    var propertyCss = '--scroll-fx-';
-    for(var i = 0; i < property.length; i++) {
-      propertyCss = (property[i] == property[i].toUpperCase())
-        ? propertyCss + '-'+property[i].toLowerCase()
-        : propertyCss +property[i];
-    }
-    if(propertyCss == '--scroll-fx-rotate') {
-      propertyCss = '--scroll-fx-rotate-z';
-    } else if(propertyCss == '--scroll-fx-translate') {
-      propertyCss = '--scroll-fx-translate-x';
-    }
-    return propertyCss;
-  };
-
-  function getPropertyValues(val1, val2) {
-    var nbVal1 = parseFloat(val1), 
-      nbVal2 = parseFloat(val2),
-      unit = val1.replace(nbVal1, '');
-    if(isNaN(nbVal1)) {
-      // property is a theme value
-      nbVal1 = val1;
-      nbVal2 = val2;
-      unit = '';
-    }
-    return [nbVal1, nbVal2, unit];
-  };
-
-  function getDeltaScrolling(element, index) {
-    // this retrieve the max and min scroll value that should trigger the animation
-    var topDelta = getScrollY(element) - (element.windowHeight - (element.windowHeight + element.boundingRect.height)*element.options[index][4]/100) + element.boundingRect.top,
-      bottomDelta = getScrollY(element) - (element.windowHeight - (element.windowHeight + element.boundingRect.height)*element.options[index][5]/100) + element.boundingRect.top;
-    return [topDelta, bottomDelta];
-  };
-
-  function initResize(element) {
-    var resizingId = false;
-    window.addEventListener('resize', function() {
-      clearTimeout(resizingId);
-      resizingId = setTimeout(resetResize.bind(element), 500);
-    });
-    // emit custom event -> elements have been initialized
-    var event = new CustomEvent('scrollFxReady');
-		element.element.dispatchEvent(event);
-  };
-
-  function resetResize() {
-    // on resize -> make sure to update all scrolling delta values
-    this.boundingRect = this.element.getBoundingClientRect();
-    this.windowHeight = window.innerHeight;
-    for(var i = 0; i < this.deltaScrolling.length; i++) {
-      this.deltaScrolling[i] = getDeltaScrolling(this, i);
-      animateScrollFx.bind(this, i)();
-    }
-    // emit custom event -> elements have been resized
-    var event = new CustomEvent('scrollFxResized');
-		this.element.dispatchEvent(event);
-  };
-
-  function resetDeltaBeforeAnim(element, index) {
-    element.boundingRect = element.element.getBoundingClientRect();
-    element.windowHeight = window.innerHeight;
-    element.deltaScrolling[index] = getDeltaScrolling(element, index);
-  };
-
-  function getScrollY(element) {
-    if(!element.scrollableElement) return window.scrollY;
-    return element.scrollableElement.scrollTop;
-  }
-
-  window.ScrollFx = ScrollFx;
-
-  var scrollFx = document.getElementsByClassName('js-scroll-fx');
-  for(var i = 0; i < scrollFx.length; i++) {
-    (function(i){
-      var scrollableElement = scrollFx[i].getAttribute('data-scrollable-element');
-      new ScrollFx(scrollFx[i], scrollableElement);
-    })(i);
-  }
-}());
-// File#: _1_sliding-panels
-// Usage: codyhouse.co/license
-(function() {
-  var SlidingPanels = function(element) {
-    this.element = element;
-    this.itemsList = this.element.getElementsByClassName('js-s-panels__projects-list');
-    this.items = this.itemsList[0].getElementsByClassName('js-s-panels__project-preview');
-    this.navigationToggle = this.element.getElementsByClassName('js-s-panels__nav-control');
-    this.navigation = this.element.getElementsByClassName('js-s-panels__nav-wrapper');
-    this.transitionLayer = this.element.getElementsByClassName('js-s-panels__overlay-layer');
-    this.selectedSection = false; // will be used to store the visible project content section
-    this.animating = false;
-    // aria labels for the navigationToggle button
-    this.toggleAriaLabels = ['Toggle navigation', 'Close Project'];
-    initSlidingPanels(this);
-  };
-
-  function initSlidingPanels(element) {
-    // detect click on toggle menu
-    if(element.navigationToggle.length > 0 && element.navigation.length > 0) {
-      element.navigationToggle[0].addEventListener('click', function(event) {
-        if(element.animating) return;
-        
-        // if project is open -> close project
-        if(closeProjectIfVisible(element)) return;
-        
-        // toggle navigation
-        var openNav = Util.hasClass(element.navigation[0], 'is-hidden');
-        toggleNavigation(element, openNav);
-      });
-    }
-
-    // open project
-    element.element.addEventListener('click', function(event) {
-      if(element.animating) return;
-
-      var link = event.target.closest('.js-s-panels__project-control');
-      if(!link) return;
-      event.preventDefault();
-      openProject(element, event.target.closest('.js-s-panels__project-preview'), link.getAttribute('href').replace('#', ''));
-    });
-  };
-
-  // check if there's a visible project to close and close it
-  function closeProjectIfVisible(element) {
-    var visibleProject = element.element.getElementsByClassName('s-panels__project-preview--selected');
-    if(visibleProject.length > 0) {
-      element.animating = true;
-      closeProject(element);
-      return true;
-    }
-
-    return false;
-  };
-
-  function toggleNavigation(element, openNavigation) {
-    element.animating = true;
-    if(openNavigation) Util.removeClass(element.navigation[0], 'is-hidden');
-    slideProjects(element, openNavigation, false, function(){
-      element.animating = false;
-      if(!openNavigation) Util.addClass(element.navigation[0], 'is-hidden');
-    });
-    Util.toggleClass(element.navigationToggle[0], 's-panels__nav-control--arrow-down', openNavigation);
-  };
-
-  function openProject(element, project, id) {
-    element.animating = true;
-    var projectIndex = Util.getIndexInArray(element.items, project);
-    // hide navigation
-    Util.removeClass(element.itemsList[0], 'bg-opacity-0');
-    // expand selected projects
-    Util.addClass(project, 's-panels__project-preview--selected');
-    // hide remaining projects
-    slideProjects(element, true, projectIndex, function() {
-      // reveal section content
-      element.selectedSection = document.getElementById(id);
-      if(element.selectedSection) Util.removeClass(element.selectedSection, 'is-hidden');
-      element.animating = false;
-      // trigger a custom event - this can be used to init the project content (if required)
-		  element.element.dispatchEvent(new CustomEvent('slidingPanelOpen', {detail: projectIndex}));
-    });
-    // modify toggle button appearance
-    Util.addClass(element.navigationToggle[0], 's-panels__nav-control--close');
-    // modify toggle button aria-label
-    element.navigationToggle[0].setAttribute('aria-label', element.toggleAriaLabels[1]);
-  };
-
-  function closeProject(element) {
-    // remove transitions from projects
-    toggleTransitionProjects(element, true);
-    // hide navigation
-    Util.removeClass(element.itemsList[0], 'bg-opacity-0');
-    // reveal transition layer
-    Util.addClass(element.transitionLayer[0], 's-panels__overlay-layer--visible');
-    // wait for end of transition layer effect
-    element.transitionLayer[0].addEventListener('transitionend', function cb(event) {
-      if(event.propertyName != 'opacity') return;
-      element.transitionLayer[0].removeEventListener('transitionend', cb);
-      // update projects classes
-      resetProjects(element);
-
-      setTimeout(function(){
-        // hide transition layer
-        Util.removeClass(element.transitionLayer[0], 's-panels__overlay-layer--visible');
-        // reveal projects
-        slideProjects(element, false, false, function() {
-          Util.addClass(element.itemsList[0], 'bg-opacity-0');
-          element.animating = false;
-        });
-      }, 200);
-    });
-
-    // modify toggle button appearance
-    Util.removeClass(element.navigationToggle[0], 's-panels__nav-control--close');
-    // modify toggle button aria-label
-    element.navigationToggle[0].setAttribute('aria-label', element.toggleAriaLabels[0]);
-  };
-
-  function slideProjects(element, openNav, exclude, cb) {
-    // projects will slide out in a random order
-    var randomList = getRandomList(element.items.length, exclude);
-    for(var i = 0; i < randomList.length; i++) {(function(i){
-      setTimeout(function(){
-        Util.toggleClass(element.items[randomList[i]], 's-panels__project-preview--hide', openNav);
-        toggleProjectAccessibility(element.items[randomList[i]], openNav);
-        if(cb && i == randomList.length - 1) {
-          // last item to be animated -> execute callback function at the end of the animation
-          element.items[randomList[i]].addEventListener('transitionend', function cbt() {
-            if(event.propertyName != 'transform') return;
-            if(cb) cb();
-            element.items[randomList[i]].removeEventListener('transitionend', cbt);
-          });
-        }
-      }, i*100);
-    })(i);}
-  };
-
-  function toggleTransitionProjects(element, bool) {
-    // remove transitions from project elements
-    for(var i = 0; i < element.items.length; i++) {
-      Util.toggleClass(element.items[i], 's-panels__project-preview--no-transition', bool);
-    }
-  };
-
-  function resetProjects(element) {
-    // reset projects classes -> remove selected/no-transition class + add hide class
-    for(var i = 0; i < element.items.length; i++) {
-      Util.removeClass(element.items[i], 's-panels__project-preview--selected s-panels__project-preview--no-transition');
-      Util.addClass(element.items[i], 's-panels__project-preview--hide');
-    }
-
-    // hide project content
-    if(element.selectedSection) Util.addClass(element.selectedSection, 'is-hidden');
-    element.selectedSection = false;
-  };
-
-  function getRandomList(maxVal, exclude) {
-    // get list of random integer from 0 to (maxVal - 1) excluding (exclude) if defined
-    var uniqueRandoms = [];
-    var randomArray = [];
-    
-    function makeUniqueRandom() {
-      // refill the array if needed
-      if (!uniqueRandoms.length) {
-        for (var i = 0; i < maxVal; i++) {
-          if(exclude === false || i != exclude) uniqueRandoms.push(i);
-        }
-      }
-      var index = Math.floor(Math.random() * uniqueRandoms.length);
-      var val = uniqueRandoms[index];
-      // now remove that value from the array
-      uniqueRandoms.splice(index, 1);
-      return val;
-    }
-
-    for(var j = 0; j < maxVal; j++) {
-      randomArray.push(makeUniqueRandom());
-    }
-
-    return randomArray;
-  };
-
-  function toggleProjectAccessibility(project, bool) {
-    bool ? project.setAttribute('aria-hidden', 'true') : project.removeAttribute('aria-hidden');
-    var link = project.getElementsByClassName('js-s-panels__project-control');
-    if(link.length > 0) {
-      bool ? link[0].setAttribute('tabindex', '-1') : link[0].removeAttribute('tabindex');
-    }
-  };
-
-  //initialize the SlidingPanels objects
-	var slidingPanels = document.getElementsByClassName('js-s-panels');
-	if( slidingPanels.length > 0 ) {
-		for( var i = 0; i < slidingPanels.length; i++) {
-			(function(i){new SlidingPanels(slidingPanels[i]);})(i);
-		}
-	}
-}());
 // File#: _1_smooth-scrolling
 // Usage: codyhouse.co/license
 (function() {
@@ -4705,6 +3974,144 @@ function resetFocusTabsStyle() {
       (function(i){initSocialShare(socialShare[i])})(i);
     }
   }
+}());
+// File#: _1_sticky-banner
+// Usage: codyhouse.co/license
+(function() {
+  var StickyBanner = function(element) {
+    this.element = element;
+    this.offsetIn = 0;
+    this.offsetOut = 0;
+    this.targetIn = this.element.getAttribute('data-target-in') ? document.querySelector(this.element.getAttribute('data-target-in')) : false;
+    this.targetOut = this.element.getAttribute('data-target-out') ? document.querySelector(this.element.getAttribute('data-target-out')) : false;
+    this.reset = 0;
+    // check if the window is the scrollable element
+    this.dataElement = this.element.getAttribute('data-element');
+    this.scrollElement = this.dataElement ? document.querySelector(this.dataElement) : window;
+    this.scrollingId = false;
+    getBannerOffsets(this);
+    initBanner(this);
+  };
+
+  function getBannerOffsets(element) { // get offset in and offset out values
+    // update offsetIn
+    element.offsetIn = 0;
+    var windowTop = getScrollTop(element);
+
+    if(element.targetIn) {
+      var boundingClientRect = element.targetIn.getBoundingClientRect();
+      element.offsetIn = boundingClientRect.top + windowTop + boundingClientRect.height;
+    }
+    var dataOffsetIn = element.element.getAttribute('data-offset-in');
+    if(dataOffsetIn) {
+      element.offsetIn = element.offsetIn + parseInt(dataOffsetIn);
+    }
+    // update offsetOut
+    element.offsetOut = 0;
+    if(element.targetOut) {
+      var boundingClientRect = element.targetOut.getBoundingClientRect();
+      element.offsetOut = boundingClientRect.top + windowTop - window.innerHeight;
+    }
+    var dataOffsetOut = element.element.getAttribute('data-offset-out');
+    if(dataOffsetOut) {
+      element.offsetOut = element.offsetOut + parseInt(dataOffsetOut);
+    }
+  };
+
+  function initBanner(element) {
+    resetBannerVisibility(element);
+
+    element.element.addEventListener('resize-banner', function(){
+      getBannerOffsets(element);
+      resetBannerVisibility(element);
+    });
+
+    element.element.addEventListener('scroll-banner', function(){
+      if(element.reset < 10) {
+        getBannerOffsets(element);
+        element.reset = element.reset + 1;
+      }
+      resetBannerVisibility(element);
+    });
+
+    if(element.dataElement && element.scrollElement) {
+      // the scrollable element is different from the window - detect the scrolling
+      element.scrollElement.addEventListener('scroll', function(event){
+        if(element.scrollingId) return;
+        element.scrollingId = true;
+        window.requestAnimationFrame(function(){
+          element.element.dispatchEvent(new CustomEvent('scroll-banner'));
+          element.scrollingId = false;
+        })
+      });
+    }
+  };
+
+  function resetBannerVisibility(element) {
+    var scrollTop = getScrollTop(element),
+      topTarget = false,
+      bottomTarget = false;
+    if(element.offsetIn < scrollTop) {
+      topTarget = true;
+    }
+    if(element.offsetOut == 0 || scrollTop < element.offsetOut) {
+      bottomTarget = true;
+    }
+
+    Util.toggleClass(element.element, 'sticky-banner--visible', bottomTarget && topTarget);
+  };
+
+  function getScrollTop(element) {
+    // the scrollable element could be different from the window element
+    var windowTop = element.scrollElement.scrollTop || document.documentElement.scrollTop;
+    if(!element.dataElement) windowTop = window.scrollY || document.documentElement.scrollTop;
+    return windowTop;
+  };
+
+  //initialize the Sticky Banner objects
+	var stckyBanner = document.getElementsByClassName('js-sticky-banner');
+	if( stckyBanner.length > 0 ) {
+		for( var i = 0; i < stckyBanner.length; i++) {
+			(function(i){new StickyBanner(stckyBanner[i]);})(i);
+    }
+    
+    // init scroll/resize
+    var resizingId = false,
+      scrollingId = false,
+      resizeEvent = new CustomEvent('resize-banner'),
+      scrollEvent = new CustomEvent('scroll-banner');
+    
+    window.addEventListener('resize', function(event){
+      clearTimeout(resizingId);
+      resizingId = setTimeout(function(){
+        doneResizing(resizeEvent);
+      }, 300);
+    });
+
+    window.addEventListener('scroll', function(event){
+      if(scrollingId) return;
+      scrollingId = true;
+      window.requestAnimationFrame 
+        ? window.requestAnimationFrame(function(){
+          doneResizing(scrollEvent);
+          scrollingId = false;
+        })
+        : setTimeout(function(){
+          doneResizing(scrollEvent);
+          scrollingId = false;
+        }, 200);
+
+      resizingId = setTimeout(function(){
+        doneResizing(resizeEvent);
+      }, 300);
+    });
+
+    function doneResizing(event) {
+      for( var i = 0; i < stckyBanner.length; i++) {
+        (function(i){stckyBanner[i].dispatchEvent(event)})(i);
+      };
+    };
+	}
 }());
 // File#: _1_sticky-hero
 // Usage: codyhouse.co/license
@@ -4902,277 +4309,6 @@ function resetFocusTabsStyle() {
 			});
 		};
 	}
-}());
-// File#: _1_ticker
-// Usage: codyhouse.co/license
-(function() {
-  var Ticker = function(element) {
-    this.element = element;
-    this.list = this.element.getElementsByTagName('ul')[0];
-    this.items = this.list.children;
-    this.paused = false;
-    // clones info
-    this.clones = this.list.innerHTML;
-    this.clonesNumber = 1;
-    this.itemsLength = this.items.length;
-    // animation duration
-    this.animationDuration = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--ticker-animation-duration'));
-    initTicker(this);
-  };
-
-  function initTicker(ticker) {
-    // clone ticker children
-    setTickerWidth(ticker);
-    cloneItems(ticker);
-    initAnimation(ticker);
-
-    // resize/font loaded event
-    ticker.element.addEventListener('update-ticker', function(event){
-      setTickerWidth(ticker);
-      cloneItems(ticker);
-    });
-
-    // click on control button events
-    ticker.element.addEventListener('anim-ticker', function(event){
-      ticker.paused = false;
-      Util.removeClass(ticker.element, 'ticker--paused');
-    });
-
-    ticker.element.addEventListener('pause-ticker', function(event){
-      ticker.paused = true;
-      Util.addClass(ticker.element, 'ticker--paused');
-    });
-
-    // all set
-    Util.addClass(ticker.element, 'ticker--loaded');
-  };
-
-  function setTickerWidth(ticker) {
-    var width = 0;
-    for(var i = 0; i < ticker.itemsLength; i++) {
-      width = width + getItemWidth(ticker.items[i]);
-    }
-    // check if we need to update the number of clones
-    if(width < window.innerWidth) {
-      ticker.clonesNumber = Math.ceil(window.innerWidth/width) * 2 - 1;
-    } else {
-      ticker.clonesNumber = 1;
-    }
-
-    // update list width
-    ticker.list.style.width = ((ticker.clonesNumber + 1)*width)+'px';
-  };
-
-  function getItemWidth(item) {
-    var style = window.getComputedStyle(item);
-    return parseFloat(style.marginRight) + parseFloat(style.marginLeft) + item.offsetWidth;
-  };
-
-  function cloneItems(ticker) {
-    ticker.list.innerHTML = ticker.clones;
-    for(var i = 0; i < ticker.clonesNumber; i++) {
-      ticker.list.insertAdjacentHTML('beforeend', ticker.clones);
-    }
-    // update animation duration
-    ticker.element.style.setProperty('--ticker-animation-duration', ticker.animationDuration*(ticker.clonesNumber+1)+'s');
-  };
-
-  function initAnimation(ticker) {
-    // init observer - animate ticker only when in viewport
-    var observer = new IntersectionObserver(tickerObserve.bind(ticker));
-    observer.observe(ticker.element);
-    
-  };
-
-  function tickerObserve(entries) {
-    if(entries[0].isIntersecting) {
-      if(!this.paused) Util.addClass(this.element, 'ticker--animate');
-    } else {
-      Util.removeClass(this.element, 'ticker--animate');
-    }
-  };
-
-  function initTickerController(controller) {
-    // play/pause btn controller
-    var tickerContainer = document.getElementById(controller.getAttribute('aria-controls'));
-    if(!tickerContainer) return;
-    var tickerList = tickerContainer.getElementsByClassName('js-ticker');
-    if(tickerList.length < 1) tickerList = [tickerContainer];
-    // detect click
-    controller.addEventListener('click', function(event){
-      var playAnimation = controller.getAttribute('aria-pressed') == 'true';
-      var animEvent = playAnimation ? 'anim-ticker' : 'pause-ticker';
-      playAnimation ? controller.setAttribute('aria-pressed', 'false') : controller.setAttribute('aria-pressed', 'true');
-      for(var i = 0; i < tickerList.length; i++) {
-        tickerList[i].dispatchEvent(new CustomEvent(animEvent));
-      }
-    });
-  };
-
-  //initialize the Ticker objects
-  var tickers = document.getElementsByClassName('js-ticker'),
-    requestAnimationFrameSupported = window.requestAnimationFrame,
-    reducedMotion = Util.osHasReducedMotion(),
-    intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
-
-	if( tickers.length > 0 ) {
-    var tickersArray = [];
-		for( var i = 0; i < tickers.length; i++) {
-      if(!requestAnimationFrameSupported || reducedMotion || !intersectionObserverSupported) {
-        // animation is off if requestAnimationFrame/IntersectionObserver is not supported or reduced motion is on
-        Util.addClass(tickers[i], 'ticker--anim-off');
-      } else {(function(i){tickersArray.push(new Ticker(tickers[i]));})(i);}
-    }
-
-    if(tickersArray.length > 0) {
-      var resizingId = false,
-        customEvent = new CustomEvent('update-ticker');
-      
-      // on resize -> update ticker width 
-      window.addEventListener('resize', function() {
-        clearTimeout(resizingId);
-        resizingId = setTimeout(doneResizing, 500);
-      });
-
-      // wait for font to be loaded -> update ticker width
-      if(document.fonts) {
-        document.fonts.onloadingdone = function (fontFaceSetEvent) {
-          doneResizing();
-        };
-      }
-
-      function doneResizing() {
-        for( var i = 0; i < tickersArray.length; i++) {
-          (function(i){tickersArray[i].element.dispatchEvent(customEvent)})(i);
-        };
-      };
-
-      // ticker play/pause buttons
-      var tickerControl = document.getElementsByClassName('js-ticker-control');
-      if(tickerControl.length > 0) {
-        for( var i = 0; i < tickerControl.length; i++) {
-          if(!requestAnimationFrameSupported || reducedMotion || !intersectionObserverSupported) {
-            Util.addClass(tickerControl[i], 'is-hidden');
-          } else {
-            (function(i){initTickerController(tickerControl[i]);})(i);
-          } 
-        }
-      }
-    };
-  }
-}());
-// File#: _1_tilted-img-slideshow
-// Usage: codyhouse.co/license
-(function() {
-  var TiltedSlideshow = function(element) {
-    this.element = element;
-    this.list = this.element.getElementsByClassName('js-tilted-slideshow__list')[0];
-    this.images = this.list.getElementsByClassName('js-tilted-slideshow__item');
-    this.selectedIndex = 0;
-    this.animating = false;
-    // classes
-    this.orderClasses = ['tilted-slideshow__item--top', 'tilted-slideshow__item--middle', 'tilted-slideshow__item--bottom'];
-    this.moveClasses = ['tilted-slideshow__item--move-out', 'tilted-slideshow__item--move-in'];
-    this.interactedClass = 'tilted-slideshow--interacted';
-    initTiltedSlideshow(this);
-  };
-
-  function initTiltedSlideshow(slideshow) {
-    if(!animateImgs) removeTransitions(slideshow);
-    
-    slideshow.list.addEventListener('click', function(event) {
-      Util.addClass(slideshow.element, slideshow.interactedClass);
-      animateImgs ? animateImages(slideshow) : switchImages(slideshow);
-    });
-  };
-
-  function removeTransitions(slideshow) {
-    // if reduced motion is on or css variables are not supported -> do not animate images
-    for(var i = 0; i < slideshow.images.length; i++) {
-      slideshow.images[i].style.transition = 'none';
-    }
-  };
-
-  function switchImages(slideshow) {
-    // if reduced motion is on or css variables are not supported -> switch images without animation
-    resetOrderClasses(slideshow);
-    resetSelectedIndex(slideshow);
-  };
-
-  function resetSelectedIndex(slideshow) {
-    // update the index of the top image
-    slideshow.selectedIndex = resetIndex(slideshow, slideshow.selectedIndex + 1);
-  };
-
-  function resetIndex(slideshow, index) {
-    // make sure index is < 3
-    if(index >= slideshow.images.length) index = index - slideshow.images.length;
-    return index;
-  };
-
-  function resetOrderClasses(slideshow) {
-    // update the orderClasses for each images
-    if(!animateImgs) {
-      // top image -> remove top class and add bottom class
-      Util.addClass(slideshow.images[slideshow.selectedIndex], slideshow.orderClasses[2]);
-      Util.removeClass(slideshow.images[slideshow.selectedIndex], slideshow.orderClasses[0]);
-    }
-
-    // middle image -> remove middle class and add top class
-    var middleImage = slideshow.images[resetIndex(slideshow, slideshow.selectedIndex + 1)];
-    Util.addClass(middleImage, slideshow.orderClasses[0]);
-    Util.removeClass(middleImage, slideshow.orderClasses[1]);
-
-    // bottom image -> remove bottom class and add middle class
-    var bottomImage = slideshow.images[resetIndex(slideshow, slideshow.selectedIndex + 2)];
-    Util.addClass(bottomImage, slideshow.orderClasses[1]);
-    Util.removeClass(bottomImage, slideshow.orderClasses[2]);
-  };
-
-  function animateImages(slideshow) {
-    if(slideshow.animating) return;
-    slideshow.animating = true;
-
-    // reset order classes for middle/bottom images
-    resetOrderClasses(slideshow);
-    
-    // animate top image
-    var topImage = slideshow.images[slideshow.selectedIndex];
-    // remove top class and add move out class
-    Util.removeClass(topImage, slideshow.orderClasses[0]);
-    Util.addClass(topImage, slideshow.moveClasses[0]);
-    
-    topImage.addEventListener('transitionend', function cb(event) {
-      // remove transition
-			topImage.style.transition = 'none';
-			topImage.removeEventListener("transitionend", cb);
-      
-      setTimeout(function(){
-        // add bottom + move-in class, remove move-out class
-        Util.removeClass(topImage, slideshow.moveClasses[0]);
-        Util.addClass(topImage, slideshow.moveClasses[1]+' '+ slideshow.orderClasses[2]);
-        setTimeout(function(){
-          topImage.style.transition = '';
-          // remove move-in class
-          Util.removeClass(topImage, slideshow.moveClasses[1]);
-          topImage.addEventListener('transitionend', function cbn(event) {
-            // reset animating property and selectedIndex index
-            resetSelectedIndex(slideshow);
-            slideshow.animating = false;
-            topImage.removeEventListener("transitionend", cbn);
-          });
-        }, 10);
-      }, 10);
-		});
-  };
-
-  var tiltedSlideshow = document.getElementsByClassName('js-tilted-slideshow'),
-    animateImgs = !Util.osHasReducedMotion() && ('CSS' in window) && CSS.supports('color', 'var(--color-var)');
-  if(tiltedSlideshow.length > 0) {
-    for(var i = 0; i < tiltedSlideshow.length; i++) {
-      new TiltedSlideshow(tiltedSlideshow[i]);
-    }
-  }
 }());
 // File#: _1_toast
 // Usage: codyhouse.co/license
@@ -6157,6 +5293,190 @@ function resetFocusTabsStyle() {
 			(function(i){ new StickyShareBar(stickyShareBar[i]); })(i);
     }
 	}
+}());
+// File#: _2_table-of-contents
+// Usage: codyhouse.co/license
+(function() {
+  var Toc = function(element) {
+		this.element = element;
+    this.list = this.element.getElementsByClassName('js-toc__list')[0];
+    this.anchors = this.list.querySelectorAll('a[href^="#"]');
+    this.sections = getSections(this);
+    this.controller = this.element.getElementsByClassName('js-toc__control');
+    this.controllerLabel = this.element.getElementsByClassName('js-toc__control-label');
+    this.content = getTocContent(this);
+    this.clickScrolling = false;
+    this.intervalID = false;
+    this.staticLayoutClass = 'toc--static';
+    this.contentStaticLayoutClass = 'toc-content--toc-static';
+    this.expandedClass = 'toc--expanded';
+    this.isStatic = Util.hasClass(this.element, this.staticLayoutClass);
+    this.layout = 'static';
+    initToc(this);
+  };
+
+  function getSections(toc) {
+    var sections = [];
+    // get all content sections
+    for(var i = 0; i < toc.anchors.length; i++) {
+      var section = document.getElementById(toc.anchors[i].getAttribute('href').replace('#', ''));
+      if(section) sections.push(section);
+    }
+    return sections;
+  };
+
+  function getTocContent(toc) {
+    if(toc.sections.length < 1) return false;
+    var content = toc.sections[0].closest('.js-toc-content');
+    return content;
+  };
+
+  function initToc(toc) {
+    checkTocLayour(toc); // switch between mobile and desktop layout
+    if(toc.sections.length > 0) {
+      // listen for click on anchors
+      toc.list.addEventListener('click', function(event){
+        var anchor = event.target.closest('a[href^="#"]');
+        if(!anchor) return;
+        // reset link apperance 
+        toc.clickScrolling = true;
+        resetAnchors(toc, anchor);
+        // close toc if expanded on mobile
+        toggleToc(toc, true);
+      });
+
+      // check when a new section enters the viewport
+      var intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
+      if(intersectionObserverSupported) {
+        var observer = new IntersectionObserver(
+          function(entries, observer) { 
+            entries.forEach(function(entry){
+              if(!toc.clickScrolling) { // do not update classes if user clicked on a link
+                getVisibleSection(toc);
+              }
+            });
+          }, 
+          {
+            threshold: [0, 0.1],
+            rootMargin: "0px 0px -70% 0px"
+          }
+        );
+
+        for(var i = 0; i < toc.sections.length; i++) {
+          observer.observe(toc.sections[i]);
+        }
+      }
+
+      // detect the end of scrolling -> reactivate IntersectionObserver on scroll
+      toc.element.addEventListener('toc-scroll', function(event){
+        toc.clickScrolling = false;
+      });
+    }
+
+    // custom event emitted when window is resized
+    toc.element.addEventListener('toc-resize', function(event){
+      checkTocLayour(toc);
+    });
+
+    // collapsed version only (mobile)
+    initCollapsedVersion(toc);
+  };
+
+  function resetAnchors(toc, anchor) {
+    if(!anchor) return;
+    for(var i = 0; i < toc.anchors.length; i++) Util.removeClass(toc.anchors[i], 'toc__link--selected');
+    Util.addClass(anchor, 'toc__link--selected');
+  };
+
+  function getVisibleSection(toc) {
+    if(toc.intervalID) {
+      clearInterval(toc.intervalID);
+    }
+    toc.intervalID = setTimeout(function(){
+      var halfWindowHeight = window.innerHeight/2,
+      index = -1;
+      for(var i = 0; i < toc.sections.length; i++) {
+        var top = toc.sections[i].getBoundingClientRect().top;
+        if(top < halfWindowHeight) index = i;
+      }
+      if(index > -1) {
+        resetAnchors(toc, toc.anchors[index]);
+      }
+      toc.intervalID = false;
+    }, 100);
+  };
+
+  function checkTocLayour(toc) {
+    if(toc.isStatic) return;
+    toc.layout = getComputedStyle(toc.element, ':before').getPropertyValue('content').replace(/\'|"/g, '');
+    Util.toggleClass(toc.element, toc.staticLayoutClass, toc.layout == 'static');
+    if(toc.content) Util.toggleClass(toc.content, toc.contentStaticLayoutClass, toc.layout == 'static');
+  };
+
+  function initCollapsedVersion(toc) { // collapsed version only (mobile)
+    if(toc.controller.length < 1) return;
+    
+    // toggle nav visibility
+    toc.controller[0].addEventListener('click', function(event){
+      var isOpen = Util.hasClass(toc.element, toc.expandedClass);
+      toggleToc(toc, isOpen);
+    });
+
+    // close expanded version on esc
+    toc.element.addEventListener('keydown', function(event){
+      if(toc.layout == 'static') return;
+      if( (event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape') ) {
+        toggleToc(toc, true);
+        toc.controller[0].focus();
+      }
+    });
+  };
+
+  function toggleToc(toc, bool) { // collapsed version only (mobile)
+    // toggle mobile version
+    Util.toggleClass(toc.element, toc.expandedClass, !bool);
+    bool ? toc.controller[0].removeAttribute('aria-expanded') : toc.controller[0].setAttribute('aria-expanded', 'true');
+    if(!bool && toc.anchors.length > 0) {
+      toc.anchors[0].focus();
+    }
+  };
+  
+  var tocs = document.getElementsByClassName('js-toc');
+
+  var tocsArray = [];
+	if( tocs.length > 0) {
+		for( var i = 0; i < tocs.length; i++) {
+			(function(i){ tocsArray.push(new Toc(tocs[i])); })(i);
+    }
+
+    // listen to window scroll -> reset clickScrolling property
+    var scrollId = false,
+      resizeId = false,
+      scrollEvent = new CustomEvent('toc-scroll'),
+      resizeEvent = new CustomEvent('toc-resize');
+      
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollId);
+      scrollId = setTimeout(doneScrolling, 100);
+    });
+
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeId);
+      scrollId = setTimeout(doneResizing, 100);
+    });
+
+    function doneScrolling() {
+      for( var i = 0; i < tocsArray.length; i++) {
+        (function(i){tocsArray[i].element.dispatchEvent(scrollEvent)})(i);
+      };
+    };
+
+    function doneResizing() {
+      for( var i = 0; i < tocsArray.length; i++) {
+        (function(i){tocsArray[i].element.dispatchEvent(resizeEvent)})(i);
+      };
+    };
+  }
 }());
 // File#: _3_main-header-v2
 // Usage: codyhouse.co/license

@@ -1,69 +1,92 @@
 ::-moz-selection { /* Code for Firefox */
-    color: rgb(241, 9, 203);
-    background: rgb(17, 17, 17);
-  }
-  
-  ::selection {
-    color: rgb(255, 1, 192);
-    background: rgb(0, 0, 0);
-  }
+  color: rgb(241, 9, 203);
+  background: rgb(17, 17, 17);
+}
+
+::selection {
+  color: rgb(255, 1, 192);
+  background: rgb(0, 0, 0);
+}
 
 section{
-    min-height: 100vh;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  min-height: 100vh;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
 }
 
 .rounded{
-    border-radius: 20px;
+  border-radius: 20px;
 }
 
 .js-slideshow, .slideshow__content, .slideshow__item{
-  height: 100vh;
+height: 100vh;
 }
 
 .customer-logos__logo {
-  display: block;
-  fill: currentColor;
+display: block;
+fill: currentColor;
 }
 
 #portfolio, #difference, #services-wrapper{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-evenly;
 }
 
 .company-list{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 
-  max-width: 10vw;
-  max-height: 15vh;
+max-width: 10vw;
+max-height: 15vh;
 }
 
 .logo-exp{
-  font-size: small;
+font-size: small;
 }
 
 .company-info{
-  margin-top: 10px;
-  font-size: x-large;
+margin-top: 10px;
+font-size: x-large;
 }
 
 #socialproof{
-  margin-top:5vh;
+margin-top:5vh;
 
 
 }
 
 
 .noise{
-  margin-top: 10vh;
+margin-top: 10vh;
+}
+
+.difference-text{
+margin-top: none;
+color: darkgray;
+}
+
+.faq-logo-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.faq-logo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.faq-logo-p{
+  font-size: x-small;
 }
 
