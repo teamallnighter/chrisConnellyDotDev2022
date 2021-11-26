@@ -8,8 +8,6 @@
   <!--STYLE-->
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/ccdd.css">
-  <link rel="stylesheet" href="assets/css/1_chameleonic-header.css">
-
   <!--IMPORTS-->
   <script src="https://kit.fontawesome.com/05a8f14e1c.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -106,10 +104,37 @@
       ] 
     }
     </script>
+
 </head>
 
 <body>
+  <!-- Messenger Chat Plugin Code -->
+  <div id="fb-root"></div>
 
+  <!-- Your Chat Plugin code -->
+  <div id="fb-customer-chat" class="fb-customerchat">
+  </div>
+
+  <script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "110850913902045");
+    chatbox.setAttribute("attribution", "biz_inbox");
+
+    window.fbAsyncInit = function () {
+      FB.init({
+        xfbml: true,
+        version: 'v12.0'
+      });
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
   <!--NAVIGATION-->
   <!--NAV BAR-->
   <header class="header-v2 js-header-v2" data-animation="on" data-animation-offset="400" id="nav-scroll">
@@ -128,7 +153,7 @@
                 d="M140 369.709 C109.422 369.866 98.347 369.601 94.792 368.624 92.203 367.913 88.226 366.042 85.953 364.468 83.681 362.893 80 359.556 77.773 357.052 75.547 354.549 72.681 350.168 71.405 347.318 70.129 344.467 68.381 337.942 67.521 332.818 66.66 327.693 65.234 321.836 64.35 319.803 63.27 317.317 61.558 315.557 59.122 314.429 57.13 313.507 54.48 311.822 53.233 310.686 51.986 309.549 50.48 306.996 49.885 305.012 49.033 302.167 49.125 300.638 50.319 297.78 51.152 295.786 52.938 293.431 54.289 292.546 55.64 291.661 59.297 290.521 62.415 290.014 67.3 289.219 68.935 288.321 74.231 283.529 77.783 280.314 82.091 277.447 84.438 276.734 87.404 275.833 100.782 275.5 134 275.5 179.019 275.5 179.548 275.523 184 277.725 186.475 278.949 190.75 281.921 193.5 284.331 198.5 288.711 198.5 288.711 213.494 289.218 228.489 289.725 228.489 289.725 234.381 284.393 237.622 281.46 242.349 278.26 244.887 277.281 249.063 275.669 253.727 275.5 294.109 275.5 334.281 275.5 339.078 275.672 342.34 277.225 344.333 278.174 348.667 281.436 351.973 284.475 356.898 289.003 358.621 290 361.523 290 363.471 290 366.595 290.64 368.466 291.421 370.357 292.211 372.563 294.187 373.434 295.872 374.295 297.538 374.998 300.386 374.995 302.2 374.992 304.015 374.204 306.639 373.245 308.031 372.285 309.423 368.985 313.023 365.911 316.031 360.323 321.5 360.323 321.5 358.154 332.5 356.961 338.55 354.808 345.908 353.369 348.851 351.931 351.795 348.393 356.564 345.508 359.449 342.622 362.334 338.065 365.776 335.381 367.097 330.5 369.5 330.5 369.5 290 369.5 258.99 369.5 248.464 369.186 245.078 368.158 242.064 367.244 238.842 365.002 234.953 361.113 231.816 357.976 228.282 353.512 227.099 351.194 225.916 348.875 224.512 343.495 223.98 339.239 223.448 334.982 222.873 327.053 222.704 321.619 222.412 312.253 222.253 311.614 219.642 309.369 218.128 308.066 215.745 307 214.349 307 212.952 307 210.501 307.772 208.903 308.716 207.305 309.66 205.723 311.297 205.388 312.354 205.052 313.411 204.438 321.191 204.024 329.642 203.313 344.13 203.088 345.378 200.093 351.463 198.225 355.258 195.183 359.411 192.708 361.545 190.394 363.541 186.7 366.148 184.5 367.337 180.607 369.442 179.413 369.506 140 369.709 Z M142.5 351.632 C169.547 351.504 173.896 351.27 176.602 349.794 178.307 348.863 181.074 346.541 182.75 344.632 185.599 341.388 185.844 340.469 186.524 330.49 186.924 324.62 187.038 316.499 186.778 312.443 186.417 306.824 185.733 304.233 183.902 301.559 182.581 299.628 180.019 297.25 178.209 296.274 175.203 294.654 171.197 294.5 132.04 294.5 89.162 294.5 89.162 294.5 86.564 296.94 85.135 298.282 83.48 301.004 82.885 302.99 82.105 305.594 82.117 309.23 82.928 316.05 83.547 321.247 84.52 328.2 85.092 331.5 85.664 334.8 87.231 339.184 88.574 341.241 89.918 343.299 92.891 346.224 95.182 347.741 98.049 349.64 101.241 350.699 105.424 351.139 108.766 351.491 125.45 351.713 142.5 351.632 Z M297.5 351.317 C310.7 351.097 322.862 350.71 324.526 350.456 326.191 350.201 329.241 348.601 331.305 346.9 333.369 345.199 335.94 342.077 337.019 339.963 338.097 337.849 339.66 332.155 340.491 327.31 341.323 322.464 342.102 314.9 342.222 310.5 342.391 304.318 342.048 301.913 340.714 299.915 339.764 298.494 337.795 296.694 336.339 295.915 334.178 294.761 326.098 294.5 292.438 294.5 251.185 294.5 251.185 294.5 247.342 297.604 245.229 299.311 243.063 301.933 242.53 303.431 241.996 304.929 241.546 313.959 241.53 323.499 241.502 339.482 241.662 341.061 243.562 343.61 244.696 345.132 246.863 347.304 248.379 348.438 250.626 350.12 253.197 350.612 262.317 351.108 268.468 351.442 284.3 351.536 297.5 351.317 Z"
                 fill="#000000" fill-opacity="1" stroke="none" />
             </svg>
-
+            <p class="hidden">Go To Home Page</p>
           </a>
         </div>
 
@@ -215,7 +240,7 @@
                   </li>
 
                   <li class="header-v2__nav-item">
-                    <a href="#0" class="header-v2__nav-link">
+                    <a href="packages.html" class="header-v2__nav-link">
                       <svg class="header-v2__nav-icon" aria-hidden="true" width="30px" height="31px"
                         viewBox="0 0 402 409" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -360,7 +385,17 @@
             <li class="header-v2__nav-item header-v2__nav-item--main"><a href="https://portal.chrisconnelly.ca"
                 target="_blank" rel="noreferrer" class="header-v2__nav-link">Customer Log
                 in</a></li>
-            <li class="header-v2__nav-item header-v2__nav-item--main"><a href="/#contact" class="btn btn--primary">Get
+            <li class="header-v2__nav-item header-v2__nav-item--main"><a
+                href="/rfp.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
+                                              `toolbar=no,
+                                               location=no,
+                                               status=no,
+                                               menubar=no,
+                                               scrollbars=yes,
+                                               resizable=yes,
+                                               width=900,
+                                               height=800`);
+            return false;" class=" btn btn--primary">Get
                 A
                 Free
                 Quote</a></li>
@@ -402,7 +437,16 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-sm" id="intro-buttons">
-              <a href="#contact" class="btn btn--primary js-smooth-scroll" data-duration="300">Get A Quote</a>
+              <a href="/rfp.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
+              `toolbar=no,
+               location=no,
+               status=no,
+               menubar=no,
+               scrollbars=yes,
+               resizable=yes,
+               width=900,
+               height=800`);
+return false;"" class=" btn btn--primary" class="btn btn--primary js-smooth-scroll" data-duration="300">Get A Quote</a>
               <a href="#difference" class="color-inherit js-smooth-scroll" data-duration="300">Learn more</a>
             </div>
           </div>
@@ -521,7 +565,7 @@
 
           <div class="margin-top-lg">
             <ul class="flex flex-wrap gap-lg flex-center">
-              <li class="company-list">
+              <li class="company-list-item">
                 <span class="tooltip-trigger js-tooltip-trigger" title="The Go Tech Foundation">
                   <svg width="200px" height="100" px" viewBox="0 0 1000 669" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="customer-logo">
@@ -540,7 +584,7 @@
               </li>
 
 
-              <li class="company-list">
+              <li class="company-list-item">
                 <span class="tooltip-trigger js-tooltip-trigger" title="Eclipse Solar">
                   <svg width="200px" height="100px" viewBox="0 0 807 187" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -552,7 +596,7 @@
                 </span>
               </li>
 
-              <li class="company-list">
+              <li class="company-list-item">
                 <span class="tooltip-trigger js-tooltip-trigger" title="The Meta Space">
                   <svg width="200px" height="100px" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -563,7 +607,7 @@
                   </svg>
                 </span>
               </li>
-              <li class="company-list">
+              <li class="company-list-item" id="studio-phi-logo">
                 <span class="tooltip-trigger js-tooltip-trigger" title="Studio Phi Tattoos">
                   <svg width="100px" height="119px" viewBox="0 0 500 519" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -574,7 +618,7 @@
                   </svg>
                 </span>
               </li>
-              <li class="company-list">
+              <li class="company-list-item" id="guardian-logo">
                 <span class="tooltip-trigger js-tooltip-trigger" title="Guardian Condo Care">
                   <svg width="200px" height="110px" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -744,7 +788,7 @@
                resizable=yes,
                width=400,
                height=700`);
-return false;"">Find out more about my servies &rarr;</a></p>
+return false;"">Find out more about my services &rarr;</a></p>
           </li>
 
           <li class=" col-6@sm col-4@md">
@@ -797,7 +841,7 @@ return false;">Check out my FAQ page for more! &rarr;</a></p>
       style="background-image: url('https://images.unsplash.com/photo-1600935583305-444649cda349?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80');">
       <div class="container max-width-adaptive-lg">
         <div class="bg bg-opacity-90% backdrop-blur-10 max-width-xs padding-md">
-          <form>
+          <form name="contactme" method="POST" data-netlify="true" action="thankyou.html">
             <fieldset class="margin-bottom-md">
               <legend class="form-legend">Get In Touch</legend>
 
@@ -811,7 +855,9 @@ return false;">Check out my FAQ page for more! &rarr;</a></p>
                   <div class="col-6@md form-control-wrapper--icon-left">
                     <label class="form-label margin-bottom-xxs" for="userEmail">Email</label>
                     <input class="form-control width-100%" type="email" name="userEmail" id="userEmail">
-
+                    <p class="hidden">
+                      <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -819,10 +865,10 @@ return false;">Check out my FAQ page for more! &rarr;</a></p>
               <div class="form-control-wrapper--icon-left">
                 <label class="form-label margin-bottom-xxs" for="textarea">Textarea</label>
                 <textarea class="form-control width-100%" name="textarea" id="textarea"></textarea>
-                <p class="text-xs color-contrast-medium margin-top-xxs">Use helper text to provide additional
-                  information.</p>
+                <p class="text-xs color-contrast-medium margin-top-xxs">Please provide any information you may find
+                  helpful.</p>
               </div>
-
+              <!--
               <div>
 
                 <label class="form-label margin-bottom-xxxs" for="select-this">Select:</label>
@@ -849,10 +895,10 @@ return false;">Check out my FAQ page for more! &rarr;</a></p>
                 </div>
               </div>
             </fieldset>
-
-            <div class="text-right padding-top-sm border-top">
-              <button class="btn btn--primary">Submit</button>
-            </div>
+          -->
+              <div class="text-right padding-top-sm border-top">
+                <button class="btn btn--primary">Submit</button>
+              </div>
           </form>
         </div>
       </div>
@@ -970,7 +1016,7 @@ return false;">Check out my FAQ page for more! &rarr;</a></p>
   <script src="assets/js/scripts.js"></script>
   <script src="assets/js/scroll.js"></script>
   <script src="assets/js/wiggle.js"></script>
-  <script src="assets/js/_1_chameleonic-header.js"></script>
+
 
 </body>
 
