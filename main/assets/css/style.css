@@ -14383,6 +14383,28 @@ mark {
 
 /* -------------------------------- 
 
+File#: _1_3d-card
+Title: 3D Card
+Descr: Card element floating in a 3D space
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.td-card-link {
+  color: var(--color-contrast-higher);
+  text-decoration: none;
+  /* filling effect */
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to right, var(--color-contrast-higher) 50%, hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.2) 50%);
+  background-size: 200% 2px;
+  background-position: 100% calc(100% - 0.05em);
+  transition: background-position 0.3s var(--ease-in-out);
+}
+.td-card-link:hover {
+  background-position: 0% calc(100% - 0.05em);
+}
+
+/* -------------------------------- 
+
 File#: _1_3d-text-block
 Title: 3D Text Block
 Descr: A text block that rotates on hover

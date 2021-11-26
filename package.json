@@ -4,6 +4,7 @@
   "scripts": {
     "gulp": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp watch",
     "build": "ntl build",
     "build-deploy": "ntl build && ntl deploy --prod",
     "build-deploy-redev": "ntl build && ntl deploy --prod && gulp watch"

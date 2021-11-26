@@ -90,3 +90,17 @@ color: darkgray;
   font-size: x-small;
 }
 
+#nav-scroll{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: none;
+}
+
+.intro-buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
