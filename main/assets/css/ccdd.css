@@ -147,3 +147,15 @@ color: darkgray;
   margin-left: 10vw;
 }
 
+.animated-words{
+  background-color: black;
+  color: rgb(253, 253, 253);
+  padding: 10px;
+  box-shadow: 2px 4px 4px grey;
+}
+
+.mapsvg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
