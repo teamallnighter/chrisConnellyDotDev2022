@@ -15957,6 +15957,50 @@ Usage: codyhouse.co/license
 
 /* -------------------------------- 
 
+File#: _1_card-v2
+Title: Card v2
+Descr: Container of information used as teasers for further content, often displayed in a gallery of related items
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.card-v2 {
+  position: relative;
+  overflow: hidden;
+}
+.card-v2 img {
+  display: block;
+  width: 100%;
+}
+
+.card-v2__caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(hsla(var(--color-black-h), var(--color-black-s), var(--color-black-l), 0), hsla(var(--color-black-h), var(--color-black-s), var(--color-black-l), 1));
+  background-blend-mode: multiply;
+  color: var(--color-white);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-v2--blur-fx .card-v2__caption {
+  background: hsla(var(--color-black-h), var(--color-black-s), var(--color-black-l), 0.8);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+
+a.card-v2 {
+  display: block;
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+}
+a.card-v2:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* -------------------------------- 
+
 File#: _1_cross-table
 Title: Cross Table
 Descr: Two-way data tables used to display correlation between row and column variables
@@ -16160,6 +16204,7 @@ Usage: codyhouse.co/license
 
 .custom-checkbox__input {
   position: relative;
+  /* hide native input */
   margin: 0;
   padding: 0;
   opacity: 0;
@@ -16179,12 +16224,14 @@ Usage: codyhouse.co/license
   pointer-events: none;
   transition: transform 0.2s;
   color: hsla(var(--color-contrast-low-h), var(--color-contrast-low-s), var(--color-contrast-low-l), 0.65);
+  /* unchecked color */
 }
 .custom-checkbox__control::before, .custom-checkbox__control::after {
   content: "";
   position: absolute;
 }
 .custom-checkbox__control::before {
+  /* focus circle */
   width: 160%;
   height: 160%;
   background-color: currentColor;
@@ -16197,13 +16244,16 @@ Usage: codyhouse.co/license
   transition: transform 0.2s;
 }
 .custom-checkbox__control::after {
+  /* custom checkbox */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  /* custom checkbox style */
   background-color: var(--color-bg);
   border-radius: var(--custom-checkbox-radius);
   box-shadow: inset 0 0 0 var(--custom-checkbox-border-width) currentColor, var(--shadow-xs);
+  /* border */
 }
 
 .custom-checkbox__input:checked ~ .custom-checkbox__control::after,
@@ -16217,6 +16267,7 @@ Usage: codyhouse.co/license
 
 .custom-checkbox__input:checked ~ .custom-checkbox__control {
   color: var(--color-primary);
+  /* checked color */
 }
 .custom-checkbox__input:checked ~ .custom-checkbox__control::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpolyline points='2.5 8 6.5 12 13.5 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'/%3E%3C/svg%3E");
@@ -16240,6 +16291,7 @@ Usage: codyhouse.co/license
   transform: translate(-50%, -50%) scale(1);
 }
 
+/* --icon */
 .custom-checkbox--icon {
   --custom-checkbox-size: 32px;
 }
@@ -18905,6 +18957,88 @@ html:not(.js) .header__nav-inner {
 
 /* -------------------------------- 
 
+File#: _1_menu
+Title: Menu
+Descr: Application menu that provides access to a set of functionalities
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.menu {
+  --menu-vertical-gap: 4px;
+  --menu-item-padding: var(--space-xxxs) var(--space-xs);
+  list-style: none;
+  width: 220px;
+  position: fixed;
+  background-color: var(--color-bg-light);
+  box-shadow: var(--inner-glow), var(--shadow-md);
+  padding: var(--space-xxs) 0;
+  border-radius: var(--radius-md);
+  z-index: var(--z-index-popover, 5);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin-top: var(--menu-vertical-gap);
+  margin-bottom: var(--menu-vertical-gap);
+  overflow: auto;
+  --space-unit: 1rem;
+  --text-unit: 1rem;
+  font-size: var(--text-unit);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s;
+}
+
+.menu--is-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s;
+}
+
+.menu--overlay {
+  z-index: var(--z-index-overlay, 15);
+}
+
+.menu__content {
+  display: block;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: var(--menu-item-padding);
+  color: var(--color-contrast-high);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: 0.2s;
+}
+.menu__content:hover {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.075);
+}
+.menu__content:focus {
+  outline: none;
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.15);
+}
+
+.menu__label {
+  padding: var(--menu-item-padding);
+  font-size: var(--text-sm);
+  color: var(--color-contrast-medium);
+}
+
+.menu__separator {
+  height: 1px;
+  background-color: var(--color-contrast-lower);
+  margin: var(--menu-item-padding);
+}
+
+.menu__icon {
+  color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.5);
+  margin-right: var(--space-xxs);
+}
+
+/* -------------------------------- 
+
 File#: _1_modal-window
 Title: Modal Window
 Descr: A modal dialog used to display critical information
@@ -19310,6 +19444,83 @@ Usage: codyhouse.co/license
   clip: rect(1px, 1px, 1px, 1px);
   -webkit-clip-path: inset(50%);
           clip-path: inset(50%);
+}
+
+/* -------------------------------- 
+
+File#: _1_radio-switch
+Title: Radio Switch
+Descr: Custom radio toggle
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --radio-switch-width: 186px;
+  --radio-switch-height: 46px;
+  --radio-switch-padding: 3px;
+  --radio-switch-radius: 50em;
+  --radio-switch-animation-duration: 0.3s;
+}
+
+.radio-switch {
+  position: relative;
+  display: inline-block;
+  display: inline-flex;
+  padding: var(--radio-switch-padding);
+  border-radius: calc(var(--radio-switch-radius) * 1.4);
+  background-color: var(--color-bg-darker);
+}
+.radio-switch:focus-within, .radio-switch:active {
+  box-shadow: 0 0 0 2px hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.15);
+}
+
+.radio-switch__item {
+  position: relative;
+  display: inline-block;
+  height: calc(var(--radio-switch-height) - 2*var(--radio-switch-padding));
+  width: calc(var(--radio-switch-width)*0.5 - var(--radio-switch-padding));
+}
+
+.radio-switch__label {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radio-switch-radius);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  transition: all var(--radio-switch-animation-duration);
+}
+.radio-switch__input:checked ~ .radio-switch__label {
+  color: var(--color-white);
+}
+.radio-switch__input:focus ~ .radio-switch__label {
+  background-color: hsl(var(--color-primary-h), var(--color-primary-s), calc(var(--color-primary-l) * 0.6));
+}
+.radio-switch__label :not(*):focus-within, .radio-switch__input:focus ~ .radio-switch__label {
+  background-color: transparent;
+}
+
+.radio-switch__marker {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -100%;
+  border-radius: var(--radio-switch-radius);
+  background-color: var(--color-primary);
+  height: calc(var(--radio-switch-height) - 2*var(--radio-switch-padding));
+  width: calc(var(--radio-switch-width)*0.5 - var(--radio-switch-padding));
+  box-shadow: var(--shadow-md);
+  transition: transform var(--radio-switch-animation-duration);
+}
+.radio-switch__input:checked ~ .radio-switch__marker {
+  transform: translateX(100%);
 }
 
 /* -------------------------------- 
@@ -20783,6 +20994,171 @@ Usage: codyhouse.co/license
 }
 /* -------------------------------- 
 
+File#: _1_ticker
+Title: Ticker
+Descr: News-like Horizontal Scrolling List
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --ticker-animation-duration: 10s;
+  --ticker-gap-x: var(--space-md);
+  /* horizontal gap */
+  --ticker-img-width: 280px;
+}
+@media (min-width: 48rem) {
+  :root {
+    --ticker-img-width: 400px;
+  }
+}
+@media (min-width: 64rem) {
+  :root {
+    --ticker-img-width: 550px;
+  }
+}
+
+.ticker {
+  overflow: hidden;
+}
+
+.ticker__list {
+  display: flex;
+  overflow: auto;
+  will-change: transform;
+  transform: translateZ(0px);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+/* class added in JS to trigger the scrolling animation */
+.ticker--animate .ticker__list {
+  -webkit-animation: ticker-animation var(--ticker-animation-duration) infinite;
+          animation: ticker-animation var(--ticker-animation-duration) infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+
+/* pause animation on hover or using an external control button */
+.ticker[data-ticker-pause-hover=on] .ticker__list:hover,
+.ticker--paused .ticker__list {
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+
+.ticker__item {
+  flex-shrink: 0;
+  margin-right: calc(var(--ticker-gap-x)/2);
+  margin-left: calc(var(--ticker-gap-x)/2);
+}
+
+.ticker__img {
+  display: block;
+  width: var(--ticker-img-width);
+}
+
+.ticker-control {
+  /* pause/play button */
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.75);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+.ticker-control i {
+  /* icon */
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  color: var(--color-bg);
+  /* icon color */
+}
+.ticker-control i::before, .ticker-control i::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: currentColor;
+  transition: -webkit-clip-path 0.2s var(--ease-out);
+  transition: clip-path 0.2s var(--ease-out);
+  transition: clip-path 0.2s var(--ease-out), -webkit-clip-path 0.2s var(--ease-out);
+}
+.ticker-control i::before {
+  -webkit-clip-path: polygon(1px 1px, 5px 1px, 5px calc(100% - 1px), 1px calc(100% - 1px));
+          clip-path: polygon(1px 1px, 5px 1px, 5px calc(100% - 1px), 1px calc(100% - 1px));
+}
+.ticker-control i::after {
+  -webkit-clip-path: polygon(calc(100% - 5px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+          clip-path: polygon(calc(100% - 5px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+}
+.ticker-control:hover {
+  cursor: pointer;
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.95);
+}
+.ticker-control[aria-pressed=true] i::before {
+  -webkit-clip-path: polygon(2px 0%, 100% 50%, 100% 50%, 2px 100%);
+          clip-path: polygon(2px 0%, 100% 50%, 100% 50%, 2px 100%);
+}
+.ticker-control[aria-pressed=true] i::after {
+  -webkit-clip-path: polygon(calc(100% - 5px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+          clip-path: polygon(calc(100% - 5px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+}
+
+/* js enabled style */
+.js {
+  /* ticker--anim-off class turns off translate animation - added in JS if reduced-motion option is on */
+}
+.js .ticker:not(.ticker--anim-off) .ticker__list {
+  overflow: visible;
+}
+.js .ticker--reverse:not(.ticker--anim-off) .ticker__list {
+  flex-direction: row-reverse;
+}
+.js .ticker--reverse.ticker--animate:not(.ticker--anim-off) .ticker__list {
+  transform: translateX(calc(100vw - 100%));
+  -webkit-animation-name: ticker-animation-reverse;
+          animation-name: ticker-animation-reverse;
+}
+
+/* intermediate steps are added to fix a bug on Safari */
+@-webkit-keyframes ticker-animation {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes ticker-animation {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@-webkit-keyframes ticker-animation-reverse {
+  0% {
+    transform: translateX(calc(100vw - 100%));
+  }
+  100% {
+    transform: translateX(calc(100vw - 50%));
+  }
+}
+@keyframes ticker-animation-reverse {
+  0% {
+    transform: translateX(calc(100vw - 100%));
+  }
+  100% {
+    transform: translateX(calc(100vw - 50%));
+  }
+}
+/* -------------------------------- 
+
 File#: _1_toast
 Title: Toast
 Descr: Notification message
@@ -21088,6 +21464,113 @@ Usage: codyhouse.co/license
     transform: translateY(0px);
   }
 }
+/* -------------------------------- 
+
+File#: _2_anim-cards
+Title: Animated Cards
+Descr: A collection of cards that slides over time
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --anim-cards-width: 280px;
+  --anim-cards-gap: var(--space-md);
+}
+
+@supports (--css: variables) {
+  @media (min-width: 48rem) {
+    :root {
+      --anim-cards-width: 400px;
+    }
+  }
+  @media (min-width: 64rem) {
+    :root {
+      --anim-cards-width: 550px;
+    }
+  }
+}
+.anim-cards {
+  overflow: hidden;
+  margin-top: var(--anim-cards-gap);
+  margin-bottom: var(--anim-cards-gap);
+}
+
+.anim-cards__list {
+  display: flex;
+  overflow: auto;
+}
+
+.anim-cards__item {
+  float: left;
+  width: var(--anim-cards-width);
+  flex-shrink: 0;
+  margin-right: var(--anim-cards-gap);
+}
+
+.anim-cards-control {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.75);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+.anim-cards-control i {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  color: var(--color-bg);
+}
+.anim-cards-control i::before, .anim-cards-control i::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: currentColor;
+  transition: -webkit-clip-path 0.2s var(--ease-out);
+  transition: clip-path 0.2s var(--ease-out);
+  transition: clip-path 0.2s var(--ease-out), -webkit-clip-path 0.2s var(--ease-out);
+}
+.anim-cards-control i::before {
+  -webkit-clip-path: polygon(1px 1px, 5px 1px, 5px calc(100% - 1px), 1px calc(100% - 1px));
+          clip-path: polygon(1px 1px, 5px 1px, 5px calc(100% - 1px), 1px calc(100% - 1px));
+}
+.anim-cards-control i::after {
+  -webkit-clip-path: polygon(calc(100% - 5px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+          clip-path: polygon(calc(100% - 5px) 1px, calc(100% - 1px) 1px, calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+}
+.anim-cards-control:hover {
+  cursor: pointer;
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.95);
+}
+.anim-cards-control[aria-pressed=true] i::before {
+  -webkit-clip-path: polygon(2px 0%, 100% 50%, 100% 50%, 2px 100%);
+          clip-path: polygon(2px 0%, 100% 50%, 100% 50%, 2px 100%);
+}
+.anim-cards-control[aria-pressed=true] i::after {
+  -webkit-clip-path: polygon(calc(100% - 5px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+          clip-path: polygon(calc(100% - 5px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 5px) calc(100% - 1px));
+}
+
+.js .anim-cards:not(.anim-cards--anim-off) .anim-cards__list {
+  overflow: visible;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+.js .anim-cards--reverse:not(.anim-cards--anim-off) .anim-cards__list {
+  flex-direction: row-reverse;
+}
+
+html:not(.js) .anim-cards-control {
+  display: none;
+}
+
 /* -------------------------------- 
 
 File#: _2_card-v13
@@ -21630,6 +22113,149 @@ Usage: codyhouse.co/license
 }
 /* -------------------------------- 
 
+File#: _2_menu-bar
+Title: Menu Bar
+Descr: Application menu with a list of common actions that users can perform
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --menu-bar-button-size: 2.5em;
+  --menu-bar-icon-size: 1em;
+  --menu-bar-horizontal-gap: var(--space-xxs);
+  --menu-bar-vertical-gap: 4px;
+  --menu-bar-label-size: var(--text-xs);
+}
+
+.menu-bar {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.menu-bar__item {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--menu-bar-button-size);
+  width: var(--menu-bar-button-size);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.menu-bar__item:not(:last-child) {
+  margin-right: var(--menu-bar-horizontal-gap);
+}
+.menu-bar__item:hover, .menu-bar__item.menu-control--active {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.1);
+}
+.menu-bar__item:hover > .menu-bar__icon, .menu-bar__item.menu-control--active > .menu-bar__icon {
+  color: var(--color-contrast-higher);
+}
+.menu-bar__item:hover > .menu-bar__label, .menu-bar__item.menu-control--active > .menu-bar__label {
+  clip: auto;
+  -webkit-clip-path: none;
+          clip-path: none;
+  height: auto;
+  width: auto;
+}
+.menu-bar__item:focus {
+  outline: none;
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.1);
+}
+.menu-bar__item:active {
+  background-color: var(--color-contrast-low);
+}
+.menu-bar__item:focus:active {
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.2);
+}
+
+.menu-bar__item--trigger {
+  display: none;
+}
+
+.menu-bar__icon {
+  display: block;
+  color: var(--color-contrast-high);
+  font-size: var(--menu-bar-icon-size);
+  transition: color 0.2s;
+}
+
+.menu-bar__label {
+  position: absolute;
+  z-index: var(--z-index-popover, 5);
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(var(--menu-bar-vertical-gap));
+  padding: var(--space-xxs) var(--space-xs);
+  color: var(--color-bg);
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.95);
+  border-radius: var(--radius-md);
+  font-size: var(--menu-bar-label-size);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.menu-bar--collapsed .menu-bar__item--hide {
+  display: none;
+}
+.menu-bar--collapsed .menu-bar__item--trigger {
+  display: inline-block;
+  display: flex;
+}
+
+.js .menu-bar {
+  opacity: 0;
+}
+.js .menu-bar::before {
+  display: none;
+  content: "collapsed";
+}
+.js .menu-bar--loaded {
+  opacity: 1;
+}
+@media (min-width: 32rem) {
+  .js .menu-bar--expanded\@xs::before {
+    content: "expanded";
+  }
+}
+@media (min-width: 48rem) {
+  .js .menu-bar--expanded\@sm::before {
+    content: "expanded";
+  }
+}
+@media (min-width: 64rem) {
+  .js .menu-bar--expanded\@md::before {
+    content: "expanded";
+  }
+}
+@media (min-width: 80rem) {
+  .js .menu-bar--expanded\@lg::before {
+    content: "expanded";
+  }
+}
+@media (min-width: 90rem) {
+  .js .menu-bar--expanded\@xl::before {
+    content: "expanded";
+  }
+}
+
+/* -------------------------------- 
+
 File#: _2_modal-video
 Title: Modal Video
 Descr: A modal window used to display a responsive video
@@ -21644,6 +22270,92 @@ Descr: A full screen modal window
 Usage: codyhouse.co/license
 
 -------------------------------- */
+/* -------------------------------- 
+
+File#: _2_pricing-table
+Title: Pricing Table
+Descr: A table used to compare prices and features of different products
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.p-table__item {
+  background-color: var(--color-bg-dark);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--inner-glow);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.p-table__item--popular {
+  background-color: var(--color-bg-light);
+  box-shadow: 0 0 0 2px var(--color-primary), var(--shadow-md);
+}
+
+.p-table__badge {
+  font-size: var(--text-sm);
+  background-color: var(--color-contrast-high);
+  color: var(--color-bg);
+  padding: var(--space-xxxs) var(--space-xxs);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  border-radius: var(--radius-md);
+}
+
+.p-table__price span {
+  font-size: var(--text-xxxl);
+  font-weight: bold;
+}
+.p-table__price i {
+  color: var(--color-contrast-low);
+}
+
+.p-table__features li {
+  margin-bottom: var(--space-xs);
+}
+
+.p-table__switch {
+  display: none;
+}
+
+.js .p-table--has-switch .p-table__price-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.js .p-table--has-switch .p-table__price {
+  will-change: transform;
+  transition: transform 0.3s, opacity 0.3s;
+  transition-timing-function: var(--ease-out);
+}
+.js .p-table--has-switch .p-table__price[data-transition-delay="2nd"] {
+  transition-delay: 0.1s;
+}
+.js .p-table--has-switch .p-table__price[data-transition-delay="3rd"] {
+  transition-delay: 0.2s;
+}
+.js .p-table--has-switch .p-table__price--month {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.js .p-table--has-switch .p-table__price--year {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100%);
+}
+.js .p-table--yearly .p-table__price--month {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-100%);
+}
+.js .p-table--yearly .p-table__price--year {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* -------------------------------- 
 
 File#: _2_side-navigation-v3
@@ -22635,6 +23347,243 @@ Usage: codyhouse.co/license
 }
 .hero-video-bg__play-btn:hover .icon {
   transform: scale(1.2);
+}
+
+/* -------------------------------- 
+
+File#: _3_lightbox
+Title: Lightbox
+Descr: A modal media gallery
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --lightbox-thumbnail-size: 80px;
+  --lightbox-thumbnail-grid-gap: var(--space-xxs);
+}
+
+.lightbox .menu-bar {
+  --menu-bar-button-size: 2.2em;
+  --menu-bar-icon-size: 1.2em;
+  --menu-bar-horizontal-gap: var(--space-xxs);
+  --menu-bar-vertical-gap: 4px;
+  --menu-bar-label-size: var(--text-xs);
+}
+.lightbox .slideshow {
+  --slideshow-btn-width: 1.6em;
+  --slideshow-btn-height: 3.2em;
+  --slideshow-btn-icon-size: 1.6em;
+  --slideshow-btn-offset: var(--component-padding);
+}
+
+.lightbox {
+  background-color: var(--color-bg);
+}
+.lightbox .slideshow__content {
+  position: relative;
+}
+
+.lightbox__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.lightbox__header,
+.lightbox__footer {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.lightbox__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-xs) var(--component-padding) 0;
+}
+
+.lightbox__footer {
+  padding: var(--space-sm) var(--component-padding) var(--space-xs);
+}
+
+.lightbox__title {
+  font-size: var(--text-md);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: var(--space-sm);
+}
+
+.lightbox__body {
+  position: relative;
+  z-index: 1;
+  flex-grow: 1;
+  padding: var(--space-md);
+}
+@media (min-width: 64rem) {
+  .lightbox__body {
+    padding-top: var(--space-xs);
+    padding-bottom: var(--space-xs);
+    padding-right: calc(var(--space-xs) + var(--slideshow-btn-width) + var(--slideshow-btn-offset));
+    padding-left: calc(var(--space-xs) + var(--slideshow-btn-width) + var(--slideshow-btn-offset));
+  }
+}
+
+.js .lightbox {
+  --slideshow-height: 100%;
+}
+.js .lightbox .slideshow {
+  display: flex;
+  align-items: stretch;
+}
+.js .lightbox .slideshow__content {
+  flex-grow: 1;
+}
+
+.lightbox--no-transition .slideshow__content * {
+  transition: none !important;
+  -webkit-animation: none !important;
+          animation: none !important;
+}
+
+.lightbox__media {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.lightbox__media-outer {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.lightbox__media[data-media=video] .lightbox__media-outer,
+.lightbox__media[data-media=iframe] .lightbox__media-outer {
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.lightbox__media-inner {
+  position: absolute;
+  width: 100%;
+}
+
+.lightbox__media[data-media=img] .lightbox__media-inner {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.lightbox__media[data-media=img] .lightbox__media-inner img {
+  display: inline-block;
+  height: auto;
+  width: auto;
+  max-height: 100%;
+}
+
+.lightbox__media[data-media=video] .lightbox__media-inner,
+.lightbox__media[data-media=iframe] .lightbox__media-inner {
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.lightbox__caption {
+  flex-shrink: 0;
+  text-align: center;
+  max-width: 600px;
+  margin-top: var(--space-xs);
+  font-size: var(--text-sm);
+}
+
+.lightbox__text-outer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  overflow: hidden;
+}
+
+.lightbox__text {
+  overflow: auto;
+}
+
+.lightbox__media-outer {
+  min-height: 200px;
+}
+@supports (display: flex) {
+  .lightbox__media-outer {
+    min-height: 0;
+  }
+}
+
+.lightbox_thumb-nav {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.lightbox_thumb-list {
+  display: inline-flex;
+  overflow: auto;
+  flex-wrap: nowrap;
+}
+.lightbox_thumb-list:hover .lightbox__thumb {
+  opacity: 0.6;
+}
+
+.lightbox__thumb {
+  display: inline-block;
+  width: var(--lightbox-thumbnail-size);
+  height: var(--lightbox-thumbnail-size);
+  border-radius: var(--radius-sm);
+  margin-right: var(--lightbox-thumbnail-grid-gap);
+  flex-shrink: 0;
+  flex-grow: 0;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+.lightbox__thumb:hover {
+  opacity: 1 !important;
+}
+.lightbox__thumb img {
+  display: block;
+  border-radius: inherit;
+}
+@supports ((-o-object-fit: cover) or (object-fit: cover)) {
+  .lightbox__thumb img {
+    -o-object-fit: cover;
+       object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.lightbox__thumb--active {
+  position: relative;
+  opacity: 1 !important;
+}
+.lightbox__thumb--active::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: hsla(var(--color-black-h), var(--color-black-s), var(--color-black-l), 0.7) url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cg stroke-width='1.5' stroke='%23ffffff'%3E%3Cpolyline fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' points='1,9 5,13 15,3 ' %3E%3C/polyline%3E%3C/g%3E%3C/svg%3E") no-repeat center center;
+  background-size: 1.25em;
+  border-radius: inherit;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
 }
 
 /* -------------------------------- 

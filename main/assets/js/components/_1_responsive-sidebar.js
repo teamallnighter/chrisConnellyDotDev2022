@@ -13,9 +13,17 @@
     this.readyClass = "sidebar--loaded";
     this.contentReadyClass = "sidebar-loaded:show";
     this.layout = false; // this will be static or mobile
+    this.preventScrollEl = getPreventScrollEl(this);
     getCustomStaticClass(this); // custom classes for static version
     initSidebar(this);
   };
+
+  function getPreventScrollEl(element) {
+		var scrollEl = false;
+		var querySelector = element.element.getAttribute('data-sidebar-prevent-scroll');
+		if(querySelector) scrollEl = document.querySelector(querySelector);
+		return scrollEl;
+	};
 
   function getCustomStaticClass(element) {
     var customClasses = element.element.getAttribute('data-static-class');
@@ -46,6 +54,8 @@
 		Util.addClass(sidebar.element, sidebar.showClass);
 		getFocusableElements(sidebar);
 		Util.moveFocus(sidebar.element);
+    // change the overflow of the preventScrollEl
+		if(sidebar.preventScrollEl) sidebar.preventScrollEl.style.overflow = 'hidden';
   };
 
   function closeSidebar(sidebar) { // mobile layout only
@@ -56,6 +66,8 @@
     sidebar.element.removeAttribute('tabindex');
 		//remove listeners
 		cancelSidebarEvents(sidebar);
+    // change the overflow of the preventScrollEl
+		if(sidebar.preventScrollEl) sidebar.preventScrollEl.style.overflow = '';
 	};
 
   function initSidebarEvents(sidebar) { // mobile layout only

@@ -10,7 +10,15 @@
 		this.selectedTrigger = null;
 		this.isModal = Util.hasClass(this.element, 'js-drawer--modal');
 		this.showClass = "drawer--is-visible";
+		this.preventScrollEl = this.getPreventScrollEl();
 		this.initDrawer();
+	};
+
+	Drawer.prototype.getPreventScrollEl = function() {
+		var scrollEl = false;
+		var querySelector = this.element.getAttribute('data-drawer-prevent-scroll');
+		if(querySelector) scrollEl = document.querySelector(querySelector);
+		return scrollEl;
 	};
 
 	Drawer.prototype.initDrawer = function() {
@@ -47,6 +55,8 @@
 			self.element.removeEventListener("transitionend", cb);
 		});
 		this.emitDrawerEvents('drawerIsOpen', this.selectedTrigger);
+		// change the overflow of the preventScrollEl
+		if(this.preventScrollEl) this.preventScrollEl.style.overflow = 'hidden';
 	};
 
 	Drawer.prototype.closeDrawer = function(target) {
@@ -57,6 +67,8 @@
 		//remove listeners
 		this.cancelDrawerEvents();
 		this.emitDrawerEvents('drawerIsClose', target);
+		// change the overflow of the preventScrollEl
+		if(this.preventScrollEl) this.preventScrollEl.style.overflow = '';
 	};
 
 	Drawer.prototype.initDrawerEvents = function() {

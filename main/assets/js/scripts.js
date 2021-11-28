@@ -1521,7 +1521,15 @@ function resetFocusTabsStyle() {
 		this.selectedTrigger = null;
 		this.isModal = Util.hasClass(this.element, 'js-drawer--modal');
 		this.showClass = "drawer--is-visible";
+		this.preventScrollEl = this.getPreventScrollEl();
 		this.initDrawer();
+	};
+
+	Drawer.prototype.getPreventScrollEl = function() {
+		var scrollEl = false;
+		var querySelector = this.element.getAttribute('data-drawer-prevent-scroll');
+		if(querySelector) scrollEl = document.querySelector(querySelector);
+		return scrollEl;
 	};
 
 	Drawer.prototype.initDrawer = function() {
@@ -1558,6 +1566,8 @@ function resetFocusTabsStyle() {
 			self.element.removeEventListener("transitionend", cb);
 		});
 		this.emitDrawerEvents('drawerIsOpen', this.selectedTrigger);
+		// change the overflow of the preventScrollEl
+		if(this.preventScrollEl) this.preventScrollEl.style.overflow = 'hidden';
 	};
 
 	Drawer.prototype.closeDrawer = function(target) {
@@ -1568,6 +1578,8 @@ function resetFocusTabsStyle() {
 		//remove listeners
 		this.cancelDrawerEvents();
 		this.emitDrawerEvents('drawerIsClose', target);
+		// change the overflow of the preventScrollEl
+		if(this.preventScrollEl) this.preventScrollEl.style.overflow = '';
 	};
 
 	Drawer.prototype.initDrawerEvents = function() {
@@ -2906,6 +2918,177 @@ function resetFocusTabsStyle() {
 		}
 	};
 }());
+// File#: _1_menu
+// Usage: codyhouse.co/license
+(function() {
+	var Menu = function(element) {
+		this.element = element;
+		this.elementId = this.element.getAttribute('id');
+		this.menuItems = this.element.getElementsByClassName('js-menu__content');
+		this.trigger = document.querySelectorAll('[aria-controls="'+this.elementId+'"]');
+		this.selectedTrigger = false;
+		this.menuIsOpen = false;
+		this.initMenu();
+		this.initMenuEvents();
+	};	
+
+	Menu.prototype.initMenu = function() {
+		// init aria-labels
+		for(var i = 0; i < this.trigger.length; i++) {
+			Util.setAttributes(this.trigger[i], {'aria-expanded': 'false', 'aria-haspopup': 'true'});
+		}
+		// init tabindex
+		for(var i = 0; i < this.menuItems.length; i++) {
+			this.menuItems[i].setAttribute('tabindex', '0');
+		}
+	};
+
+	Menu.prototype.initMenuEvents = function() {
+		var self = this;
+		for(var i = 0; i < this.trigger.length; i++) {(function(i){
+			self.trigger[i].addEventListener('click', function(event){
+				event.preventDefault();
+				// if the menu had been previously opened by another trigger element -> close it first and reopen in the right position
+				if(Util.hasClass(self.element, 'menu--is-visible') && self.selectedTrigger !=  self.trigger[i]) {
+					self.toggleMenu(false, false); // close menu
+				}
+				// toggle menu
+				self.selectedTrigger = self.trigger[i];
+				self.toggleMenu(!Util.hasClass(self.element, 'menu--is-visible'), true);
+			});
+		})(i);}
+		
+		// keyboard events
+		this.element.addEventListener('keydown', function(event) {
+			// use up/down arrow to navigate list of menu items
+			if( !Util.hasClass(event.target, 'js-menu__content') ) return;
+			if( (event.keyCode && event.keyCode == 40) || (event.key && event.key.toLowerCase() == 'arrowdown') ) {
+				self.navigateItems(event, 'next');
+			} else if( (event.keyCode && event.keyCode == 38) || (event.key && event.key.toLowerCase() == 'arrowup') ) {
+				self.navigateItems(event, 'prev');
+			}
+		});
+	};
+
+	Menu.prototype.toggleMenu = function(bool, moveFocus) {
+		var self = this;
+		// toggle menu visibility
+		Util.toggleClass(this.element, 'menu--is-visible', bool);
+		this.menuIsOpen = bool;
+		if(bool) {
+			this.selectedTrigger.setAttribute('aria-expanded', 'true');
+			Util.moveFocus(this.menuItems[0]);
+			this.element.addEventListener("transitionend", function(event) {Util.moveFocus(self.menuItems[0]);}, {once: true});
+			// position the menu element
+			this.positionMenu();
+			// add class to menu trigger
+			Util.addClass(this.selectedTrigger, 'menu-control--active');
+		} else if(this.selectedTrigger) {
+			this.selectedTrigger.setAttribute('aria-expanded', 'false');
+			if(moveFocus) Util.moveFocus(this.selectedTrigger);
+			// remove class from menu trigger
+			Util.removeClass(this.selectedTrigger, 'menu-control--active');
+			this.selectedTrigger = false;
+		}
+	};
+
+	Menu.prototype.positionMenu = function(event, direction) {
+		var selectedTriggerPosition = this.selectedTrigger.getBoundingClientRect(),
+			menuOnTop = (window.innerHeight - selectedTriggerPosition.bottom) < selectedTriggerPosition.top;
+			// menuOnTop = window.innerHeight < selectedTriggerPosition.bottom + this.element.offsetHeight;
+			
+		var left = selectedTriggerPosition.left,
+			right = (window.innerWidth - selectedTriggerPosition.right),
+			isRight = (window.innerWidth < selectedTriggerPosition.left + this.element.offsetWidth);
+
+		var horizontal = isRight ? 'right: '+right+'px;' : 'left: '+left+'px;',
+			vertical = menuOnTop
+				? 'bottom: '+(window.innerHeight - selectedTriggerPosition.top)+'px;'
+				: 'top: '+selectedTriggerPosition.bottom+'px;';
+		// check right position is correct -> otherwise set left to 0
+		if( isRight && (right + this.element.offsetWidth) > window.innerWidth) horizontal = 'left: '+ parseInt((window.innerWidth - this.element.offsetWidth)/2)+'px;';
+		var maxHeight = menuOnTop ? selectedTriggerPosition.top - 20 : window.innerHeight - selectedTriggerPosition.bottom - 20;
+		this.element.setAttribute('style', horizontal + vertical +'max-height:'+Math.floor(maxHeight)+'px;');
+	};
+
+	Menu.prototype.navigateItems = function(event, direction) {
+		event.preventDefault();
+		var index = Util.getIndexInArray(this.menuItems, event.target),
+			nextIndex = direction == 'next' ? index + 1 : index - 1;
+		if(nextIndex < 0) nextIndex = this.menuItems.length - 1;
+		if(nextIndex > this.menuItems.length - 1) nextIndex = 0;
+		Util.moveFocus(this.menuItems[nextIndex]);
+	};
+
+	Menu.prototype.checkMenuFocus = function() {
+		var menuParent = document.activeElement.closest('.js-menu');
+		if (!menuParent || !this.element.contains(menuParent)) this.toggleMenu(false, false);
+	};
+
+	Menu.prototype.checkMenuClick = function(target) {
+		if( !this.element.contains(target) && !target.closest('[aria-controls="'+this.elementId+'"]')) this.toggleMenu(false);
+	};
+
+	window.Menu = Menu;
+
+	//initialize the Menu objects
+	var menus = document.getElementsByClassName('js-menu');
+	if( menus.length > 0 ) {
+		var menusArray = [];
+		var scrollingContainers = [];
+		for( var i = 0; i < menus.length; i++) {
+			(function(i){
+				menusArray.push(new Menu(menus[i]));
+				var scrollableElement = menus[i].getAttribute('data-scrollable-element');
+				if(scrollableElement && !scrollingContainers.includes(scrollableElement)) scrollingContainers.push(scrollableElement);
+			})(i);
+		}
+
+		// listen for key events
+		window.addEventListener('keyup', function(event){
+			if( event.keyCode && event.keyCode == 9 || event.key && event.key.toLowerCase() == 'tab' ) {
+				//close menu if focus is outside menu element
+				menusArray.forEach(function(element){
+					element.checkMenuFocus();
+				});
+			} else if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
+				// close menu on 'Esc'
+				menusArray.forEach(function(element){
+					element.toggleMenu(false, false);
+				});
+			} 
+		});
+		// close menu when clicking outside it
+		window.addEventListener('click', function(event){
+			menusArray.forEach(function(element){
+				element.checkMenuClick(event.target);
+			});
+		});
+		// on resize -> close all menu elements
+		window.addEventListener('resize', function(event){
+			menusArray.forEach(function(element){
+				element.toggleMenu(false, false);
+			});
+		});
+		// on scroll -> close all menu elements
+		window.addEventListener('scroll', function(event){
+			menusArray.forEach(function(element){
+				if(element.menuIsOpen) element.toggleMenu(false, false);
+			});
+		});
+		// take into account additinal scrollable containers
+		for(var j = 0; j < scrollingContainers.length; j++) {
+			var scrollingContainer = document.querySelector(scrollingContainers[j]);
+			if(scrollingContainer) {
+				scrollingContainer.addEventListener('scroll', function(event){
+					menusArray.forEach(function(element){
+						if(element.menuIsOpen) element.toggleMenu(false, false);
+					});
+				});
+			}
+		}
+	}
+}());
 // File#: _1_modal-window
 // Usage: codyhouse.co/license
 (function() {
@@ -3575,9 +3758,17 @@ function resetFocusTabsStyle() {
     this.readyClass = "sidebar--loaded";
     this.contentReadyClass = "sidebar-loaded:show";
     this.layout = false; // this will be static or mobile
+    this.preventScrollEl = getPreventScrollEl(this);
     getCustomStaticClass(this); // custom classes for static version
     initSidebar(this);
   };
+
+  function getPreventScrollEl(element) {
+		var scrollEl = false;
+		var querySelector = element.element.getAttribute('data-sidebar-prevent-scroll');
+		if(querySelector) scrollEl = document.querySelector(querySelector);
+		return scrollEl;
+	};
 
   function getCustomStaticClass(element) {
     var customClasses = element.element.getAttribute('data-static-class');
@@ -3608,6 +3799,8 @@ function resetFocusTabsStyle() {
 		Util.addClass(sidebar.element, sidebar.showClass);
 		getFocusableElements(sidebar);
 		Util.moveFocus(sidebar.element);
+    // change the overflow of the preventScrollEl
+		if(sidebar.preventScrollEl) sidebar.preventScrollEl.style.overflow = 'hidden';
   };
 
   function closeSidebar(sidebar) { // mobile layout only
@@ -3618,6 +3811,8 @@ function resetFocusTabsStyle() {
     sidebar.element.removeAttribute('tabindex');
 		//remove listeners
 		cancelSidebarEvents(sidebar);
+    // change the overflow of the preventScrollEl
+		if(sidebar.preventScrollEl) sidebar.preventScrollEl.style.overflow = '';
 	};
 
   function initSidebarEvents(sidebar) { // mobile layout only
@@ -4587,6 +4782,164 @@ function resetFocusTabsStyle() {
     }
   }
 }());
+// File#: _1_ticker
+// Usage: codyhouse.co/license
+(function() {
+  var Ticker = function(element) {
+    this.element = element;
+    this.list = this.element.getElementsByTagName('ul')[0];
+    this.items = this.list.children;
+    this.paused = false;
+    // clones info
+    this.clones = this.list.innerHTML;
+    this.clonesNumber = 1;
+    this.itemsLength = this.items.length;
+    // animation duration
+    this.animationDuration = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--ticker-animation-duration'));
+    initTicker(this);
+  };
+
+  function initTicker(ticker) {
+    // clone ticker children
+    setTickerWidth(ticker);
+    cloneItems(ticker);
+    initAnimation(ticker);
+
+    // resize/font loaded event
+    ticker.element.addEventListener('update-ticker', function(event){
+      setTickerWidth(ticker);
+      cloneItems(ticker);
+    });
+
+    // click on control button events
+    ticker.element.addEventListener('anim-ticker', function(event){
+      ticker.paused = false;
+      Util.removeClass(ticker.element, 'ticker--paused');
+    });
+
+    ticker.element.addEventListener('pause-ticker', function(event){
+      ticker.paused = true;
+      Util.addClass(ticker.element, 'ticker--paused');
+    });
+
+    // all set
+    Util.addClass(ticker.element, 'ticker--loaded');
+  };
+
+  function setTickerWidth(ticker) {
+    var width = 0;
+    for(var i = 0; i < ticker.itemsLength; i++) {
+      width = width + getItemWidth(ticker.items[i]);
+    }
+    // check if we need to update the number of clones
+    if(width < window.innerWidth) {
+      ticker.clonesNumber = Math.ceil(window.innerWidth/width) * 2 - 1;
+    } else {
+      ticker.clonesNumber = 1;
+    }
+
+    // update list width
+    ticker.list.style.width = ((ticker.clonesNumber + 1)*width)+'px';
+  };
+
+  function getItemWidth(item) {
+    var style = window.getComputedStyle(item);
+    return parseFloat(style.marginRight) + parseFloat(style.marginLeft) + item.offsetWidth;
+  };
+
+  function cloneItems(ticker) {
+    ticker.list.innerHTML = ticker.clones;
+    for(var i = 0; i < ticker.clonesNumber; i++) {
+      ticker.list.insertAdjacentHTML('beforeend', ticker.clones);
+    }
+    // update animation duration
+    ticker.element.style.setProperty('--ticker-animation-duration', ticker.animationDuration*(ticker.clonesNumber+1)+'s');
+  };
+
+  function initAnimation(ticker) {
+    // init observer - animate ticker only when in viewport
+    var observer = new IntersectionObserver(tickerObserve.bind(ticker));
+    observer.observe(ticker.element);
+    
+  };
+
+  function tickerObserve(entries) {
+    if(entries[0].isIntersecting) {
+      if(!this.paused) Util.addClass(this.element, 'ticker--animate');
+    } else {
+      Util.removeClass(this.element, 'ticker--animate');
+    }
+  };
+
+  function initTickerController(controller) {
+    // play/pause btn controller
+    var tickerContainer = document.getElementById(controller.getAttribute('aria-controls'));
+    if(!tickerContainer) return;
+    var tickerList = tickerContainer.getElementsByClassName('js-ticker');
+    if(tickerList.length < 1) tickerList = [tickerContainer];
+    // detect click
+    controller.addEventListener('click', function(event){
+      var playAnimation = controller.getAttribute('aria-pressed') == 'true';
+      var animEvent = playAnimation ? 'anim-ticker' : 'pause-ticker';
+      playAnimation ? controller.setAttribute('aria-pressed', 'false') : controller.setAttribute('aria-pressed', 'true');
+      for(var i = 0; i < tickerList.length; i++) {
+        tickerList[i].dispatchEvent(new CustomEvent(animEvent));
+      }
+    });
+  };
+
+  //initialize the Ticker objects
+  var tickers = document.getElementsByClassName('js-ticker'),
+    requestAnimationFrameSupported = window.requestAnimationFrame,
+    reducedMotion = Util.osHasReducedMotion(),
+    intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
+
+	if( tickers.length > 0 ) {
+    var tickersArray = [];
+		for( var i = 0; i < tickers.length; i++) {
+      if(!requestAnimationFrameSupported || reducedMotion || !intersectionObserverSupported) {
+        // animation is off if requestAnimationFrame/IntersectionObserver is not supported or reduced motion is on
+        Util.addClass(tickers[i], 'ticker--anim-off');
+      } else {(function(i){tickersArray.push(new Ticker(tickers[i]));})(i);}
+    }
+
+    if(tickersArray.length > 0) {
+      var resizingId = false,
+        customEvent = new CustomEvent('update-ticker');
+      
+      // on resize -> update ticker width 
+      window.addEventListener('resize', function() {
+        clearTimeout(resizingId);
+        resizingId = setTimeout(doneResizing, 500);
+      });
+
+      // wait for font to be loaded -> update ticker width
+      if(document.fonts) {
+        document.fonts.onloadingdone = function (fontFaceSetEvent) {
+          doneResizing();
+        };
+      }
+
+      function doneResizing() {
+        for( var i = 0; i < tickersArray.length; i++) {
+          (function(i){tickersArray[i].element.dispatchEvent(customEvent)})(i);
+        };
+      };
+
+      // ticker play/pause buttons
+      var tickerControl = document.getElementsByClassName('js-ticker-control');
+      if(tickerControl.length > 0) {
+        for( var i = 0; i < tickerControl.length; i++) {
+          if(!requestAnimationFrameSupported || reducedMotion || !intersectionObserverSupported) {
+            Util.addClass(tickerControl[i], 'is-hidden');
+          } else {
+            (function(i){initTickerController(tickerControl[i]);})(i);
+          } 
+        }
+      }
+    };
+  }
+}());
 // File#: _1_toast
 // Usage: codyhouse.co/license
 (function() {
@@ -4965,6 +5318,190 @@ function resetFocusTabsStyle() {
 		}
 	}
 }());
+// File#: _2_anim-card
+// Usage: codyhouse.co/license
+(function() {
+  var AnimCards = function(element) {
+    this.element = element;
+    this.list = this.element.getElementsByTagName('ul')[0];
+    this.cards = this.list.children;
+    this.reverseDirection = Util.hasClass(this.element, 'anim-cards--reverse');
+    this.translate = 0; // store container translate value
+    this.animationId = false;
+    this.animating = false;
+    this.paused = false;
+    // change speed of animation  
+    this.animationSpeed = 1; // > 1 to increse speed, < 1 to reduce; always > 0
+    initAnimCardsEvents(this);
+  };
+
+  function initAnimCardsEvents(cards) {
+    // init observer
+    var observer = new IntersectionObserver(animCardsObserve.bind(cards));
+    observer.observe(cards.element);
+
+    cards.element.addEventListener('update-card-width', function(event){ // reset animation on resize
+      if(cards.animating) {
+        cancelPrevAnimation(cards);
+        if(!cards.paused) initAnimCards(cards);
+      }
+    });
+
+    // play/pause button
+    cards.element.addEventListener('anim-cards', function(event) {
+      playCards(cards);
+    });
+    cards.element.addEventListener('pause-cards', function(event) {
+      pauseCards(cards);
+    });
+
+    // pause on hover
+    var pauseHover = cards.element.getAttribute('data-anim-cards-pause-hover');
+    if(pauseHover && pauseHover == 'on') {
+      cards.element.addEventListener('mouseenter', function(){
+        pauseCards(cards);
+      });
+
+      cards.element.addEventListener('mouseleave', function(){
+        playCards(cards);
+      });
+    }
+  };
+
+  function pauseCards(cards) { // pause cards - play/pause button or mouseenter
+    cards.paused = true;
+    if(cards.animating) {
+      cancelPrevAnimation(cards);
+      cards.timestamp = false;
+    }
+  };
+
+  function playCards(cards) { // play cards - play/pause button or mouseleave
+    cards.paused = false;
+    if(cards.animating) initAnimCards(cards);
+  };
+
+  function animCardsObserve(entries) {
+    if(entries[0].isIntersecting) {
+      this.animating = true;
+      if(!this.paused) initAnimCards(this); // init animation
+    } else {
+      this.animating = false;
+      cancelPrevAnimation(this);
+    }
+  };
+
+  function initAnimCards(cards) {
+    if(cards.paused) return;
+    cards.cardWidth = getAnimCardsWidth(cards);
+    cards.animationId = window.requestAnimationFrame(triggerAnimCards.bind(cards));
+  };
+
+  function triggerAnimCards(timestamp) {
+    cancelPrevAnimation(this);
+    if(!this.timestamp) this.timestamp = timestamp;
+    var translateIncrease = (this.timestamp - timestamp)*0.06*this.animationSpeed;
+    this.timestamp = timestamp;
+    updateAnimCardsTranslate(this, translateIncrease);
+    updateAnimCardsList(this);
+    setTranslate(this);
+    this.animationId = window.requestAnimationFrame(triggerAnimCards.bind(this));
+  };
+
+  function updateAnimCardsTranslate(cards, translate) {
+    cards.translate = cards.reverseDirection ? cards.translate - translate : cards.translate + translate;
+    cards.translate = Math.round(Math.abs(cards.translate));
+    if(!cards.reverseDirection) cards.translate = cards.translate*-1;
+  };
+
+  function updateAnimCardsList(cards) {
+    if(Math.abs(cards.translate) <= cards.cardWidth) return;
+    // need to remove first item from the list and append it to the end of list
+    cards.translate = Math.abs(cards.translate) - cards.cardWidth;
+    if(!cards.reverseDirection) cards.translate = cards.translate*-1;
+    var clone = cards.cards[0].cloneNode(true);
+    cards.list.removeChild(cards.cards[0]);
+    cards.list.appendChild(clone);
+  };
+
+  function setTranslate(cards) {
+    cards.list.style.transform = 'translateX('+cards.translate+'px)';
+    cards.list.style.msTransform = 'translateX('+cards.translate+'px)';
+  };
+
+  function getAnimCardsWidth(cards) {
+    return parseFloat(window.getComputedStyle(cards.cards[0]).marginRight) + cards.cards[0].offsetWidth;
+  };
+
+  function cancelPrevAnimation(cards) {
+    if(cards.animationId) {
+      window.cancelAnimationFrame(cards.animationId);
+      cards.animationId = false;
+    }
+  };
+
+  function initAnimCardsController(controller) {
+    // play/pause btn controller
+    var cardsContainer = document.getElementById(controller.getAttribute('aria-controls'));
+    if(!cardsContainer) return;
+    var cardsList = cardsContainer.getElementsByClassName('js-anim-cards');
+    if(cardsList.length < 1) return;
+
+    // detect click
+    controller.addEventListener('click', function(event){
+      var playAnimation = controller.getAttribute('aria-pressed') == 'true';
+      var animEvent = playAnimation ? 'anim-cards' : 'pause-cards';
+      playAnimation ? controller.setAttribute('aria-pressed', 'false') : controller.setAttribute('aria-pressed', 'true');
+      for(var i = 0; i < cardsList.length; i++) {
+        cardsList[i].dispatchEvent(new CustomEvent(animEvent));
+      }
+    });
+  };
+
+  //initialize the AnimCards objects
+  var animCards = document.getElementsByClassName('js-anim-cards'),
+    requestAnimationFrameSupported = window.requestAnimationFrame,
+    reducedMotion = Util.osHasReducedMotion(),
+    intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
+
+	if( animCards.length > 0 ) {
+    var animCardsArray = [];
+		for( var i = 0; i < animCards.length; i++) {
+      if(!requestAnimationFrameSupported || reducedMotion || !intersectionObserverSupported) {
+        // animation is off if requestAnimationFrame/IntersectionObserver is not supported or reduced motion is on
+        Util.addClass(animCards[i], 'anim-cards--anim-off');
+      } else {(function(i){animCardsArray.push(new AnimCards(animCards[i]));})(i);}
+    }
+
+    if(animCardsArray.length > 0) {
+      var resizingId = false,
+        customEvent = new CustomEvent('update-card-width');
+      
+      window.addEventListener('resize', function() {
+        clearTimeout(resizingId);
+        resizingId = setTimeout(doneResizing, 500);
+      });
+
+      function doneResizing() {
+        for( var i = 0; i < animCardsArray.length; i++) {
+          (function(i){animCardsArray[i].element.dispatchEvent(customEvent)})(i);
+        };
+      };
+    };
+
+    // check play/pause buttons
+    var animCardsControl = document.getElementsByClassName('js-anim-cards-control');
+    if(animCardsControl.length > 0) {
+      for( var i = 0; i < animCardsControl.length; i++) {
+        if(!requestAnimationFrameSupported || reducedMotion || !intersectionObserverSupported) {
+          Util.addClass(animCardsControl[i], 'is-hidden');
+        } else {
+          (function(i){initAnimCardsController(animCardsControl[i]);})(i);
+        } 
+      }
+    }
+  }
+}());
 // File#: _2_main-header-v3
 // Usage: codyhouse.co/license
 (function() {
@@ -5104,6 +5641,158 @@ function resetFocusTabsStyle() {
 		};
 	}
 }());
+// File#: _2_menu-bar
+// Usage: codyhouse.co/license
+(function() {
+  var MenuBar = function(element) {
+    this.element = element;
+    this.items = Util.getChildrenByClassName(this.element, 'menu-bar__item');
+    this.mobHideItems = this.element.getElementsByClassName('menu-bar__item--hide');
+    this.moreItemsTrigger = this.element.getElementsByClassName('js-menu-bar__trigger');
+    initMenuBar(this);
+  };
+
+  function initMenuBar(menu) {
+    setMenuTabIndex(menu); // set correct tabindexes for menu item
+    initMenuBarMarkup(menu); // create additional markup
+    checkMenuLayout(menu); // set menu layout
+    Util.addClass(menu.element, 'menu-bar--loaded'); // reveal menu
+
+    // custom event emitted when window is resized
+    menu.element.addEventListener('update-menu-bar', function(event){
+      checkMenuLayout(menu);
+      if(menu.menuInstance) menu.menuInstance.toggleMenu(false, false); // close dropdown
+    });
+
+    // keyboard events 
+    // open dropdown when pressing Enter on trigger element
+    if(menu.moreItemsTrigger.length > 0) {
+      menu.moreItemsTrigger[0].addEventListener('keydown', function(event) {
+        if( (event.keyCode && event.keyCode == 13) || (event.key && event.key.toLowerCase() == 'enter') ) {
+          if(!menu.menuInstance) return;
+          menu.menuInstance.selectedTrigger = menu.moreItemsTrigger[0];
+          menu.menuInstance.toggleMenu(!Util.hasClass(menu.subMenu, 'menu--is-visible'), true);
+        }
+      });
+
+      // close dropdown on esc
+      menu.subMenu.addEventListener('keydown', function(event) {
+        if((event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape')) { // close submenu on esc
+          if(menu.menuInstance) menu.menuInstance.toggleMenu(false, true);
+        }
+      });
+    }
+    
+    // navigate menu items using left/right arrows
+    menu.element.addEventListener('keydown', function(event) {
+      if( (event.keyCode && event.keyCode == 39) || (event.key && event.key.toLowerCase() == 'arrowright') ) {
+        navigateItems(menu.items, event, 'next');
+      } else if( (event.keyCode && event.keyCode == 37) || (event.key && event.key.toLowerCase() == 'arrowleft') ) {
+        navigateItems(menu.items, event, 'prev');
+      }
+    });
+  };
+
+  function setMenuTabIndex(menu) { // set tabindexes for the menu items to allow keyboard navigation
+    var nextItem = false;
+    for(var i = 0; i < menu.items.length; i++ ) {
+      if(i == 0 || nextItem) menu.items[i].setAttribute('tabindex', '0');
+      else menu.items[i].setAttribute('tabindex', '-1');
+      if(i == 0 && menu.moreItemsTrigger.length > 0) nextItem = true;
+      else nextItem = false;
+    }
+  };
+
+  function initMenuBarMarkup(menu) {
+    if(menu.mobHideItems.length == 0 ) { // no items to hide on mobile - remove trigger
+      if(menu.moreItemsTrigger.length > 0) menu.element.removeChild(menu.moreItemsTrigger[0]);
+      return;
+    }
+
+    if(menu.moreItemsTrigger.length == 0) return;
+
+    // create the markup for the Menu element
+    var content = '';
+    menu.menuControlId = 'submenu-bar-'+Date.now();
+    for(var i = 0; i < menu.mobHideItems.length; i++) {
+      var item = menu.mobHideItems[i].cloneNode(true),
+        svg = item.getElementsByTagName('svg')[0],
+        label = item.getElementsByClassName('menu-bar__label')[0];
+
+      svg.setAttribute('class', 'icon menu__icon');
+      content = content + '<li role="menuitem"><span class="menu__content js-menu__content">'+svg.outerHTML+'<span>'+label.innerHTML+'</span></span></li>';
+    }
+
+    Util.setAttributes(menu.moreItemsTrigger[0], {'role': 'button', 'aria-expanded': 'false', 'aria-controls': menu.menuControlId, 'aria-haspopup': 'true'});
+
+    var subMenu = document.createElement('menu'),
+      customClass = menu.element.getAttribute('data-menu-class');
+    Util.setAttributes(subMenu, {'id': menu.menuControlId, 'class': 'menu js-menu '+customClass});
+    subMenu.innerHTML = content;
+    document.body.appendChild(subMenu);
+
+    menu.subMenu = subMenu;
+    menu.subItems = subMenu.getElementsByTagName('li');
+
+    menu.menuInstance = new Menu(menu.subMenu); // this will handle the dropdown behaviour
+  };
+
+  function checkMenuLayout(menu) { // switch from compressed to expanded layout and viceversa
+    var layout = getComputedStyle(menu.element, ':before').getPropertyValue('content').replace(/\'|"/g, '');
+    Util.toggleClass(menu.element, 'menu-bar--collapsed', layout == 'collapsed');
+  };
+
+  function navigateItems(list, event, direction, prevIndex) { // keyboard navigation among menu items
+    event.preventDefault();
+    var index = (typeof prevIndex !== 'undefined') ? prevIndex : Util.getIndexInArray(list, event.target),
+      nextIndex = direction == 'next' ? index + 1 : index - 1;
+    if(nextIndex < 0) nextIndex = list.length - 1;
+    if(nextIndex > list.length - 1) nextIndex = 0;
+    // check if element is visible before moving focus
+    (list[nextIndex].offsetParent === null) ? navigateItems(list, event, direction, nextIndex) : Util.moveFocus(list[nextIndex]);
+  };
+
+  function checkMenuClick(menu, target) { // close dropdown when clicking outside the menu element
+    if(menu.menuInstance && !menu.moreItemsTrigger[0].contains(target) && !menu.subMenu.contains(target)) menu.menuInstance.toggleMenu(false, false);
+  };
+
+  // init MenuBars objects
+  var menuBars = document.getElementsByClassName('js-menu-bar');
+  if( menuBars.length > 0 ) {
+    var j = 0,
+      menuBarArray = [];
+    for( var i = 0; i < menuBars.length; i++) {
+      var beforeContent = getComputedStyle(menuBars[i], ':before').getPropertyValue('content');
+      if(beforeContent && beforeContent !='' && beforeContent !='none') {
+        (function(i){menuBarArray.push(new MenuBar(menuBars[i]));})(i);
+        j = j + 1;
+      }
+    }
+    
+    if(j > 0) {
+      var resizingId = false,
+        customEvent = new CustomEvent('update-menu-bar');
+      // update Menu Bar layout on resize  
+      window.addEventListener('resize', function(event){
+        clearTimeout(resizingId);
+        resizingId = setTimeout(doneResizing, 150);
+      });
+
+      // close menu when clicking outside it
+      window.addEventListener('click', function(event){
+        menuBarArray.forEach(function(element){
+          checkMenuClick(element, event.target);
+        });
+      });
+
+      function doneResizing() {
+        for( var i = 0; i < menuBars.length; i++) {
+          (function(i){menuBars[i].dispatchEvent(customEvent)})(i);
+        };
+      };
+    }
+  }
+}());
 // File#: _2_modal-video
 // Usage: codyhouse.co/license
 (function() {
@@ -5158,6 +5847,27 @@ function resetFocusTabsStyle() {
 	if( modalVideos.length > 0 ) {
 		for( var i = 0; i < modalVideos.length; i++) {
 			(function(i){new ModalVideo(modalVideos[i].closest('.js-modal'));})(i);
+		}
+	}
+}());
+// File#: _2_pricing-table
+// Usage: codyhouse.co/license
+(function() {
+	// NOTE: you need the js code only when using the --has-switch variation of the pricing table
+	// default version does not require js
+	var pTable = document.getElementsByClassName('js-p-table--has-switch');
+	if(pTable.length > 0) {
+		for(var i = 0; i < pTable.length; i++) {
+			(function(i){ addPTableEvent(pTable[i]);})(i);
+		}
+
+		function addPTableEvent(element) {
+			var pSwitch = element.getElementsByClassName('js-p-table__switch')[0];
+			if(pSwitch) {
+				pSwitch.addEventListener('change', function(event) {
+          Util.toggleClass(element, 'p-table--yearly', (event.target.value == 'yearly'));
+				});
+			}
 		}
 	}
 }());
@@ -5753,6 +6463,245 @@ function resetFocusTabsStyle() {
         (function(i){tocsArray[i].element.dispatchEvent(resizeEvent)})(i);
       };
     };
+  }
+}());
+// File#: _3_lightbox
+// Usage: codyhouse.co/license
+
+(function() {
+  var Lightbox = function(element) {
+    this.element = element;
+    this.id = this.element.getAttribute('id');
+    this.slideshow = this.element.getElementsByClassName('js-lightbox__body')[0];
+    this.slides = this.slideshow.getElementsByClassName('js-slideshow__item');
+    this.thumbWrapper = this.element.getElementsByClassName('js-lightbox_thumb-list');
+    lazyLoadLightbox(this);
+    initSlideshow(this);
+    initThumbPreview(this);
+    initThumbEvents(this);
+  }
+
+  function lazyLoadLightbox(modal) {
+    // add no-transition class to lightbox - used to select the first visible slide
+    Util.addClass(modal.element, 'lightbox--no-transition');
+    //load first slide media when modal is open
+    modal.element.addEventListener('modalIsOpen', function(event){
+      setSelectedItem(modal, event);
+      var selectedSlide = modal.slideshow.getElementsByClassName('slideshow__item--selected');
+      modal.selectedSlide = Util.getIndexInArray(modal.slides, selectedSlide[0]);
+      if(selectedSlide.length > 0) {
+        if(modal.slideshowObj) modal.slideshowObj.selectedSlide = modal.selectedSlide;
+        lazyLoadSlide(modal);
+        resetVideos(modal, false);
+        resetIframes(modal, false);
+        updateThumb(modal);
+      }
+      Util.removeClass(modal.element, 'lightbox--no-transition');
+    });
+    modal.element.addEventListener('modalIsClose', function(event){ // add no-transition class
+      Util.addClass(modal.element, 'lightbox--no-transition');
+    });
+    // lazyload media of selected slide/prev slide/next slide
+    modal.slideshow.addEventListener('newItemSelected', function(event){
+      // 'newItemSelected' is emitted by the Slideshow object when a new slide is selected
+      var prevSelected = modal.selectedSlide;
+      modal.selectedSlide = event.detail;
+      lazyLoadSlide(modal);
+      resetVideos(modal, prevSelected); // pause video of previous visible slide and start new video (if present)
+      resetIframes(modal, prevSelected);
+      updateThumb(modal);
+    });
+  };
+
+  function lazyLoadSlide(modal) {
+    setSlideMedia(modal, modal.selectedSlide);
+    setSlideMedia(modal, modal.selectedSlide + 1);
+    setSlideMedia(modal, modal.selectedSlide - 1);
+  };
+
+  function setSlideMedia(modal, index) {
+    if(index < 0) index = modal.slides.length - 1;
+    if(index > modal.slides.length - 1) index = 0;
+    setSlideImgs(modal, index);
+    setSlidesVideos(modal, index, 'video');
+    setSlidesVideos(modal, index, 'iframe');
+  };
+
+  function setSlideImgs(modal, index) {
+    var imgs = modal.slides[index].querySelectorAll('img[data-src]');
+    for(var i = 0; i < imgs.length; i++) {
+      imgs[i].src = imgs[i].getAttribute('data-src');
+    }
+  };
+
+  function setSlidesVideos(modal, index, type) {
+    var videos = modal.slides[index].querySelectorAll(type+'[data-src]');
+    for(var i = 0; i < videos.length; i++) {
+      videos[0].src = videos[0].getAttribute('data-src');
+      videos[0].removeAttribute('data-src');
+    }
+  };
+
+  function initSlideshow(modal) { 
+    if(modal.slides.length <= 1) {
+      hideSlideshowElements(modal);
+      return;
+    } 
+    var swipe = (modal.slideshow.getAttribute('data-swipe') && modal.slideshow.getAttribute('data-swipe') == 'on') ? true : false;
+    modal.slideshowObj = new Slideshow({element: modal.slideshow, navigation: false, autoplay : false, swipe : swipe});
+  };
+
+  function hideSlideshowElements(modal) { // hide slideshow controls if gallery is composed by one item only
+    var slideshowNav = modal.element.getElementsByClassName('js-slideshow__control');
+    if(slideshowNav.length > 0) {
+      for(var i = 0; i < slideshowNav.length; i++) Util.addClass(slideshowNav[i], 'is-hidden');
+    }
+    var slideshowThumbs = modal.element.getElementsByClassName('js-lightbox_footer');
+    if(slideshowThumbs.length > 0) Util.addClass(slideshowThumbs[0], 'is-hidden');
+  };
+
+  function resetVideos(modal, index) {
+    if(index) {
+      var actualVideo = modal.slides[index].getElementsByTagName('video');
+      if(actualVideo.length > 0 ) actualVideo[0].pause();
+    }
+    var newVideo = modal.slides[modal.selectedSlide].getElementsByTagName('video');
+    if(newVideo.length > 0 ) {
+      setVideoWidth(modal, modal.selectedSlide, newVideo[0]);
+      newVideo[0].play();
+    }
+  };
+
+  function resetIframes(modal, index) {
+    if(index) {
+      var actualIframe = modal.slides[index].getElementsByTagName('iframe');
+      if(actualIframe.length > 0 ) {
+        actualIframe[0].setAttribute('data-src', actualIframe[0].src);
+        actualIframe[0].removeAttribute('src');
+      }
+    }
+    var newIframe = modal.slides[modal.selectedSlide].getElementsByTagName('iframe');
+    if(newIframe.length > 0 ) {
+      setVideoWidth(modal, modal.selectedSlide, newIframe[0]);
+    }
+  };
+
+  function resizeLightbox(modal) { // executed when window has been resized
+    if(!modal.selectedSlide) return; // modal not active
+    var video = modal.slides[modal.selectedSlide].getElementsByTagName('video');
+    if(video.length > 0 ) setVideoWidth(modal, modal.selectedSlide, video[0]);
+    var iframe = modal.slides[modal.selectedSlide].getElementsByTagName('iframe');
+    if(iframe.length > 0 ) setVideoWidth(modal, modal.selectedSlide, iframe[0]);
+  };
+
+  function setVideoWidth(modal, index, video) {
+    var videoContainer = modal.slides[index].getElementsByClassName('js-lightbox__media-outer');
+    if(videoContainer.length == 0 ) return;
+    var videoWrapper = videoContainer[0].getElementsByClassName('js-lightbox__media-inner');
+    var maxWidth = (video.offsetWidth/video.offsetHeight)*videoContainer[0].offsetHeight;
+    if(maxWidth < modal.slides[index].offsetWidth) {
+      videoWrapper[0].style.width = maxWidth+'px';
+      videoWrapper[0].style.paddingBottom = videoContainer[0].offsetHeight+'px';
+    } else {
+      videoWrapper[0].removeAttribute('style')
+    }
+  };
+
+  function initThumbPreview(modal) {
+    if(modal.thumbWrapper.length < 1) return;
+    var content = '';
+    for(var i = 0; i < modal.slides.length; i++) {
+      var activeClass = Util.hasClass(modal.slides[i], 'slideshow__item--selected') ? ' lightbox__thumb--active': '';
+      content = content + '<li class="lightbox__thumb js-lightbox__thumb'+activeClass+'"><img src="'+modal.slides[i].querySelector('[data-thumb]').getAttribute('data-thumb')+'">'+'</li>';
+    }
+    modal.thumbWrapper[0].innerHTML = content;
+  };
+
+  function initThumbEvents(modal) {
+    if(modal.thumbWrapper.length < 1) return;
+    modal.thumbSlides = modal.thumbWrapper[0].getElementsByClassName('js-lightbox__thumb');
+    modal.thumbWrapper[0].addEventListener('click', function(event){
+      var selectedThumb = event.target.closest('.js-lightbox__thumb');
+      if(!selectedThumb || Util.hasClass(selectedThumb, 'lightbox__thumb--active')) return;
+      modal.slideshowObj.showItem(Util.getIndexInArray(modal.thumbSlides, selectedThumb));
+    });
+  };
+
+  function updateThumb(modal) {
+    if(modal.thumbWrapper.length < 1) return;
+    // update selected thumb classes
+    var selectedThumb = modal.thumbWrapper[0].getElementsByClassName('lightbox__thumb--active');
+    if(selectedThumb.length > 0) Util.removeClass(selectedThumb[0], 'lightbox__thumb--active');
+    Util.addClass(modal.thumbSlides[modal.selectedSlide], 'lightbox__thumb--active');
+    // update thumb list position (if selected thumb is outside viewport)
+    var offsetThumb = modal.thumbSlides[modal.selectedSlide].getBoundingClientRect(),
+      offsetThumbList = modal.thumbWrapper[0].getBoundingClientRect();
+    if(offsetThumb.left < offsetThumbList.left) {
+      modal.thumbWrapper[0].scrollTo(modal.thumbSlides[modal.selectedSlide].offsetLeft - offsetThumbList.left, 0);
+    } else if(offsetThumb.right > offsetThumbList.right) {
+      modal.thumbWrapper[0].scrollTo( (offsetThumb.right - offsetThumbList.right) + modal.thumbWrapper[0].scrollLeft, 0);
+    }
+  };
+
+  function keyboardNavigateLightbox(modal, direction) {
+    if(!Util.hasClass(modal.element, 'modal--is-visible')) return;
+    if(!document.activeElement.closest('.js-lightbox__body') && document.activeElement.closest('.js-modal')) return
+    (direction == 'next') ? modal.slideshowObj.showNext() : modal.slideshowObj.showPrev();
+  };
+
+  function setSelectedItem(modal, event) {
+    // if a specific slide was selected -> make sure to show that item first
+    var selectedItemId = false;
+    if(event.detail) {
+      var elTarget = event.detail.closest('[aria-controls="'+modal.id+'"]');
+      if(elTarget) selectedItemId = elTarget.getAttribute('data-lightbox-item');
+    } 
+   
+    if(!selectedItemId || !modal.slideshowObj) return;
+    var selectedItem = document.getElementById(selectedItemId);
+    if(!selectedItem) return;
+    var lastSelected = modal.slideshow.getElementsByClassName('slideshow__item--selected');
+    if(lastSelected.length > 0 ) Util.removeClass(lastSelected[0], 'slideshow__item--selected');
+    Util.addClass(selectedItem, 'slideshow__item--selected');
+  };
+
+  window.Lightbox = Lightbox;
+
+  // init Lightbox objects
+  var lightBoxes = document.getElementsByClassName('js-lightbox');
+  if( lightBoxes.length > 0 ) {
+    var lightBoxArray = [];
+    for( var i = 0; i < lightBoxes.length; i++) {
+      (function(i){ lightBoxArray.push(new Lightbox(lightBoxes[i]));})(i);
+      
+      // resize video/iframe
+      var resizingId = false;
+      window.addEventListener('resize', function(event){
+        clearTimeout(resizingId);
+        resizingId = setTimeout(doneResizing, 300);
+      });
+
+      function doneResizing() {
+        for( var i = 0; i < lightBoxArray.length; i++) {
+          (function(i){resizeLightbox(lightBoxArray[i]);})(i);
+        };
+      };
+
+      // Lightbox gallery navigation with keyboard
+      window.addEventListener('keydown', function(event){
+        if(event.keyCode && event.keyCode == 39 || event.key && event.key.toLowerCase() == 'arrowright') {
+          updateLightbox('next');
+        } else if(event.keyCode && event.keyCode == 37 || event.key && event.key.toLowerCase() == 'arrowleft') {
+          updateLightbox('prev');
+        }
+      });
+
+      function updateLightbox(direction) {
+        for( var i = 0; i < lightBoxArray.length; i++) {
+          (function(i){keyboardNavigateLightbox(lightBoxArray[i], direction);})(i);
+        };
+      };
+    }
   }
 }());
 // File#: _3_main-header-v2
