@@ -1,0 +1,161 @@
+::-moz-selection { /* Code for Firefox */
+  color: rgb(241, 9, 203);
+  background: rgb(17, 17, 17);
+}
+
+::selection {
+  color: rgb(255, 1, 192);
+  background: rgb(0, 0, 0);
+}
+
+section, #testimonials{
+  min-height: 100vh;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+
+.rounded{
+  border-radius: 20px;
+}
+
+.js-slideshow, .slideshow__content, .slideshow__item{
+height: 100vh;
+}
+
+.customer-logos__logo {
+display: block;
+fill: currentColor;
+}
+
+#portfolio, #difference, #services-wrapper{
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-evenly;
+}
+
+.company-list{
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+max-width: 10vw;
+max-height: 15vh;
+}
+
+.logo-exp{
+font-size: small;
+}
+
+.company-info{
+margin-top: 10px;
+font-size: x-large;
+}
+
+#socialproof{
+margin-top:5vh;
+
+
+}
+
+
+.noise{
+margin-top: 10vh;
+}
+
+.difference-text{
+margin-top: none;
+color: darkgray;
+}
+
+.faq-logo-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.faq-logo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.faq-logo-p{
+  font-size: x-small;
+}
+
+#nav-scroll{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: none;
+}
+
+.intro-buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.hidden{
+  display: none;
+}
+
+.thankyou{
+  padding: 20vh 10vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.rfp-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#testimonials{
+  margin-bottom: 20vh;
+}
+  @media (max-width: 480px) {
+    #moreabout {
+      display:none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #guardian-logo, #studio-phi-logo {
+     display: none;
+    }
+  }
+
+.pricing{
+  padding: 0vh 15vw;
+  margin-bottom: 10vh;
+}
+
+.fake-nav{
+  margin-top: 2vh;
+  margin-left: 10vw;
+}
+
+.animated-words{
+  background-color: black;
+  color: rgb(253, 253, 253);
+  padding: 10px;
+  box-shadow: 2px 4px 4px grey;
+}
+
+.mapsvg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

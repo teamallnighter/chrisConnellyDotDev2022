@@ -1,0 +1,6 @@
+[build]
+command = "gulp sass && gulp scripts && gulp dist"
+ publish = "public/"
+
+ [[plugins]]
+  package = "netlify-plugin-minify-html"

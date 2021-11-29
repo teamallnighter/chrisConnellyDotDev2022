@@ -6,6 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "gulp watch",
     "build": "ntl build",
+    "local-build": "gulp sass && gulp scripts && gulp dist",
     "build-deploy": "ntl build && ntl deploy --prod",
     "build-deploy-redev": "ntl build && ntl deploy --prod && gulp watch"
   },
@@ -15,6 +16,7 @@
     "codyhouse-framework": "^3.0.0",
     "gulp": "^4.0.0",
     "gulp-clean-css": "^4.3.0",
+    "gulp-clean-dest": "^0.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-postcss": "^8.0.0",
     "gulp-purgecss": "^3.0.0",
@@ -22,6 +24,7 @@
     "gulp-sass": "^4.0.2",
     "gulp-sass-glob": "git+https://github.com/CodyHouse/gulp-sass-glob",
     "gulp-uglify": "^3.0.2",
+    "netlify-plugin-minify-html": "^0.3.1",
     "postcss-calc": "^7.0.1",
     "postcss-css-variables": "git+https://github.com/CodyHouse/postcss-css-variables",
     "sass-embedded": "^1.0.0-beta.4"

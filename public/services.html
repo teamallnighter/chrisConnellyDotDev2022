@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>document.getElementsByTagName("html")[0].className += " js";</script>
+    <!--STYLE-->
+    <link rel="stylesheet" href="assets/css/style.min.css">
+    <link rel="stylesheet" href="assets/css/ccdd.css">
+    <!--FONTS-->
+    <script src="https://kit.fontawesome.com/05a8f14e1c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!--FAVICON-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/img/logo/favicon/apple-touch-icon.png?v=22">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/media/img/logo/favicon/favicon-32x32.png?v=22">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/media/img/logo/favicon/favicon-16x16.png?v=22">
+    <link rel="manifest" href="/assets/media/img/logo/favicon/site.webmanifest?v=22">
+    <link rel="mask-icon" href="/assets/media/img/logo/favicon/safari-pinned-tab.svg?v=22" color="#000000">
+    <link rel="shortcut icon" href="/assets/media/img/logo/favicon/favicon.ico?v=22">
+    <!--META-->
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/media/img/logo/favicon/browserconfig.xml?v=22">
+    <meta name="theme-color" content="#ffffff">
+    <title>Web Design Calgary</title>
+</head>
+
+<body>
+    <section class="padding-y-xl" id="services">
+        <div class="container max-width-adaptive-lg">
+            <div class="margin-bottom-md">
+                <h1 class="text-center">My Services</h1>
+
+            </div>
+
+            <div class="filter-nav filter-nav--expanded js-filter-nav">
+                <button class="reset btn btn--subtle is-hidden js-filter-nav__control"
+                    aria-label="Select a filter option" aria-controls="filter-nav">
+                    <span class="js-filter-nav__placeholder" aria-hidden="true">All Products</span>
+
+                    <svg class="icon icon--xxs margin-left-xxs" aria-hidden="true" viewBox="0 0 12 12">
+                        <polyline points="0.5 3.5 6 9.5 11.5 3.5" fill="none" stroke-width="1" stroke="currentColor"
+                            stroke-linecap="round" stroke-linejoin="round"></polyline>
+                    </svg>
+                </button>
+
+                <div class="filter-nav__wrapper js-filter-nav__wrapper" id="filter-nav">
+                    <nav class="filter-nav__nav justify-center js-filter-nav__nav">
+                        <ul class="filter-nav__list js-filter-nav__list" aria-controls="product-gallery">
+                            <li class="filter-nav__item">
+                                <button class="reset filter-nav__btn js-filter-nav__btn js-tab-focus"
+                                    aria-current="true" data-filter="*">All Products</button>
+                            </li>
+
+                            <li class="filter-nav__item">
+                                <button class="reset filter-nav__btn js-filter-nav__btn js-tab-focus"
+                                    data-filter="development">Development</button>
+                            </li>
+
+                            <li class="filter-nav__item">
+                                <button class="reset filter-nav__btn js-filter-nav__btn js-tab-focus"
+                                    data-filter="hosting">Hosting</button>
+                            </li>
+
+                            <li class="filter-nav__item">
+                                <button class="reset filter-nav__btn js-filter-nav__btn js-tab-focus"
+                                    data-filter="seo">SEO/Marketing</button>
+                            </li>
+                            <li class="filter-nav__item">
+                                <button class="reset filter-nav__btn js-filter-nav__btn js-tab-focus"
+                                    data-filter="packages">Packages</button>
+                            </li>
+                            <li class="filter-nav__marker js-filter-nav__marker" aria-hidden="true"></li>
+                        </ul>
+
+                        <button class="reset filter-nav__close-btn is-hidden js-filter-nav__close-btn js-tab-focus"
+                            aria-label="Close navigation">
+                            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+                                <g stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-miterlimit="10">
+                                    <line x1="13.5" y1="2.5" x2="2.5" y2="13.5"></line>
+                                    <line x1="2.5" y1="2.5" x2="13.5" y2="13.5"></line>
+                                </g>
+                            </svg>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="margin-top-md">
+                <ul class="grid gap-sm js-filter" id="product-gallery">
+                    <li class="col-6@sm col-4@md js-filter__item" data-filter="development">
+                        <div class="prod-card ">
+                            <a class="prod-card__img-link" href="#0" aria-label="Description of the link">
+                                <figure class="prod-card__img aspect-ratio-1:1">
+                                    <img src="https://images.unsplash.com/photo-1607706189992-eae578626c86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                        alt="PHP Code Image">
+                                </figure>
+                            </a>
+
+                            <div class="padding-sm text-center">
+                                <h3><a class="color-inherit" href="#0">Basic Website</a></h3>
+
+                                <div class="margin-top-xs">
+                                    <span class="prod-card__price">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="col-6@sm col-4@md js-filter__item" data-filter="development">
+                        <div class="prod-card ">
+                            <a class="prod-card__img-link" href="#0" aria-label="Description of the link">
+                                <figure class="prod-card__img aspect-ratio-1:1">
+                                    <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                                        alt="HTML Code Image">
+                                </figure>
+                            </a>
+
+                            <div class="padding-sm text-center">
+                                <h3><a class="color-inherit" href="#0">Web Site/ Application</a></h3>
+
+                                <div class="margin-top-xs">
+                                    <span class="prod-card__price">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="col-6@sm col-4@md js-filter__item" data-filter="development">
+                        <div class="prod-card ">
+                            <a class="prod-card__img-link" href="#0" aria-label="Description of the link">
+                                <figure class="prod-card__img aspect-ratio-1:1">
+                                    <img src="https://images.unsplash.com/photo-1523437113738-bbd3cc89fb19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
+                                        alt="CSS Code Image">
+                                </figure>
+                            </a>
+
+                            <div class="padding-sm text-center">
+                                <h3><a class="color-inherit" href="#0">Advanced Web Site</a></h3>
+
+                                <div class="margin-top-xs">
+                                    <span class="prod-card__price">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="col-6@sm col-4@md js-filter__item" data-filter="hosting">
+                        <div class="prod-card ">
+                            <a class="prod-card__img-link" href="#0" aria-label="Description of the link">
+                                <figure class="prod-card__img aspect-ratio-1:1">
+                                    <img src="https://images.unsplash.com/photo-1564457461758-8ff96e439e83?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80"
+                                        alt="Server Image">
+                                </figure>
+                            </a>
+
+                            <div class="padding-sm text-center">
+                                <h3><a class="color-inherit" href="#0">Basic Website Hosting</a></h3>
+
+                                <div class="margin-top-xs">
+                                    <span class="prod-card__price">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="col-6@sm col-4@md js-filter__item" data-filter="hosting">
+                        <div class="prod-card ">
+                            <a class="prod-card__img-link" href="#0" aria-label="Description of the link">
+                                <figure class="prod-card__img aspect-ratio-1:1">
+                                    <img src="https://images.unsplash.com/photo-1484557052118-f32bd25b45b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
+                                        alt="Server image 2">
+                                </figure>
+                            </a>
+
+                            <div class="padding-sm text-center">
+                                <h3><a class="color-inherit" href="#0">Advanced Website/App Hosting</a></h3>
+
+                                <div class="margin-top-xs">
+                                    <span class="prod-card__price">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="col-6@sm col-4@md js-filter__item" data-filter="hosting">
+                        <div class="prod-card ">
+                            <a class="prod-card__img-link" href="#0" aria-label="Description of the link">
+                                <figure class="prod-card__img aspect-ratio-1:1">
+                                    <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
+                                        alt="Email Hosting image">
+                                </figure>
+                            </a>
+
+                            <div class="padding-sm text-center">
+                                <h3><a class="color-inherit" href="#0">Email Hosting</a></h3>
+
+                                <div class="margin-top-xs">
+                                    <span class="prod-card__price">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+    <script src="assets/js/scripts.min.js"></script>
+</body>
+
+</html>

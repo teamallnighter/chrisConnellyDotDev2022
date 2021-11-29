@@ -3,60 +3,61 @@ var sass = require('gulp-sass');
 sass.compiler = require('sass-embedded');
 var sassGlob = require('gulp-sass-glob');
 var browserSync = require('browser-sync').create();
-var postcss      = require('gulp-postcss');
+var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
 var purgecss = require('gulp-purgecss');
-
+var cleanDest = require('gulp-clean-dest');
 // js file paths
 var utilJsPath = 'node_modules/codyhouse-framework/main/assets/js'; // util.js path - you may need to update this if including the framework as external node module
 var componentsJsPath = 'main/assets/js/components/*.js'; // component js files
-var scriptsJsPath = 'main/assets/js'; //folder for final scripts.js/scripts.min.js files
+var scriptsJsPath = 'public/assets/js'; //folder for final scripts.js/scripts.min.js files
 
 // css file paths
-var cssFolder = 'main/assets/css'; // folder for final style.css/style-custom-prop-fallbac.css files
+var cssFolder = 'public/assets/css'; // folder for final style.css/style-custom-prop-fallbac.css files
 var scssFilesPath = 'main/assets/css/**/*.scss'; // scss files to watch
+
 
 function reload(done) {
   browserSync.reload();
   done();
-} 
+}
 
 /* Gulp watch tasks */
 // This task is used to convert the scss to css and compress it.
-gulp.task('sass', function() {
+gulp.task('sass', function () {
   return gulp.src(scssFilesPath)
-  .pipe(sassGlob({sassModules: true}))
-  .pipe(sass().on('error', sass.logError))
-  .pipe(postcss([autoprefixer()]))
-  .pipe(gulp.dest(cssFolder))
-  .pipe(browserSync.reload({
-    stream: true
-  }))
-  .pipe(rename('style.min.css'))
-  .pipe(cleanCSS())
-  .pipe(gulp.dest(cssFolder))
-  .pipe(browserSync.reload({
-    stream: true
-  }));
+    .pipe(sassGlob({ sassModules: true }))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(postcss([autoprefixer()]))
+    .pipe(gulp.dest(cssFolder))
+    .pipe(browserSync.reload({
+      stream: true
+    }))
+    .pipe(rename('style.min.css'))
+    .pipe(cleanCSS())
+    .pipe(gulp.dest(cssFolder))
+    .pipe(browserSync.reload({
+      stream: true
+    }));
 });
 // This task is used to combine all js files in a single scripts.min.js.
-gulp.task('scripts', function() {
-  return gulp.src([utilJsPath+'/util.js', componentsJsPath])
-  .pipe(concat('scripts.js'))
-  .pipe(gulp.dest(scriptsJsPath))
-  .pipe(browserSync.reload({
-    stream: true
-  }))
-  .pipe(rename('scripts.min.js'))
-  .pipe(uglify())
-  .pipe(gulp.dest(scriptsJsPath))
-  .pipe(browserSync.reload({
-    stream: true
-  }));
+gulp.task('scripts', function () {
+  return gulp.src([utilJsPath + '/util.js', componentsJsPath])
+    .pipe(concat('scripts.js'))
+    .pipe(gulp.dest(scriptsJsPath))
+    .pipe(browserSync.reload({
+      stream: true
+    }))
+    .pipe(rename('scripts.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(scriptsJsPath))
+    .pipe(browserSync.reload({
+      stream: true
+    }));
 });
 // This task is used to reload the project whan changes are made to a html/scss/js file.
 gulp.task('browserSync', gulp.series(function (done) {
@@ -78,10 +79,10 @@ gulp.task('watch', gulp.series(['browserSync', 'sass', 'scripts'], function () {
 
 /* Gulp dist task */
 // create a distribution folder for production
-var distFolder = 'dist/';
-var assetsFolder = 'dist/assets/';
+var distFolder = 'public/';
+var assetsFolder = 'public/assets/';
 
-gulp.task('dist', async function(){
+gulp.task('dist', async function () {
   // remove unused classes from the style.css file with PurgeCSS and copy it to the dist folder
   await purgeCSS();
   // minify the scripts.js file and copy it to the dist folder
@@ -96,65 +97,65 @@ gulp.task('dist', async function(){
 });
 
 function purgeCSS() {
-  return new Promise(function(resolve, reject) {
-    var stream = gulp.src(cssFolder+'/style.css')
-    .pipe(purgecss({
-      content: ['main/*.html', scriptsJsPath+'/scripts.js'],
-      safelist: {
-        standard: ['.is-hidden', '.is-visible'],
-        deep: [/class$/],
-        greedy: []
-      },
-      defaultExtractor: content => content.match(/[\w-/:%@]+(?<!:)/g) || []
-    }))
-    .pipe(gulp.dest(distFolder+'/assets/css'));
-    
-    stream.on('finish', function() {
+  return new Promise(function (resolve, reject) {
+    var stream = gulp.src(cssFolder + '/style.css')
+      .pipe(purgecss({
+        content: ['main/*.html', scriptsJsPath + '/scripts.js'],
+        safelist: {
+          standard: ['.is-hidden', '.is-visible'],
+          deep: [/class$/],
+          greedy: []
+        },
+        defaultExtractor: content => content.match(/[\w-/:%@]+(?<!:)/g) || []
+      }))
+      .pipe(gulp.dest(distFolder + '/assets/css'));
+
+    stream.on('finish', function () {
       resolve();
     });
   });
 };
 
 function minifyJs() {
-  return new Promise(function(resolve, reject) {
-    var stream = gulp.src(scriptsJsPath+'/scripts.js')
-    .pipe(uglify())
-    .pipe(gulp.dest(distFolder+'/assets/js'));
-    
-    stream.on('finish', function() {
+  return new Promise(function (resolve, reject) {
+    var stream = gulp.src(scriptsJsPath + '/scripts.js')
+      .pipe(uglify())
+      .pipe(gulp.dest(distFolder + '/assets/js'));
+
+    stream.on('finish', function () {
       resolve();
     });
   });
 };
 
 function moveJS() {
-  return new Promise(function(resolve, reject) {
-    var stream = gulp.src([scriptsJsPath+'/*.js', '!'+scriptsJsPath+'/scripts.js', '!'+scriptsJsPath+'/scripts.min.js'], { allowEmpty: true })
-    .pipe(gulp.dest(assetsFolder+'js'));
-    
-    stream.on('finish', function() {
+  return new Promise(function (resolve, reject) {
+    var stream = gulp.src([scriptsJsPath + '/*.js', '!' + scriptsJsPath + '/scripts.js', '!' + scriptsJsPath + '/scripts.min.js'], { allowEmpty: true })
+      .pipe(gulp.dest(assetsFolder + 'js'));
+
+    stream.on('finish', function () {
       resolve();
     });
   });
 };
 
 function moveAssets() {
-  return new Promise(function(resolve, reject) {
-    var stream = gulp.src(['main/assets/img/**'], { allowEmpty: true })
-    .pipe(gulp.dest(assetsFolder+'img'));
-    
-    stream.on('finish', function() {
+  return new Promise(function (resolve, reject) {
+    var stream = gulp.src(['main/assets/media/**'], { allowEmpty: true })
+      .pipe(gulp.dest(assetsFolder + 'media'));
+
+    stream.on('finish', function () {
       resolve();
     });
   });
 };
 
 function moveContent() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var stream = gulp.src('main/*.html')
-    .pipe(gulp.dest(distFolder));
-    
-    stream.on('finish', function() {
+      .pipe(gulp.dest(distFolder));
+
+    stream.on('finish', function () {
       resolve();
     });
   });
