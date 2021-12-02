@@ -1,4 +1,6 @@
 
+[![wakatime](https://wakatime.com/badge/github/teamallnighter/chrisConnellyDotDev2022.svg)](https://wakatime.com/badge/github/teamallnighter/chrisConnellyDotDev2022)
+
 # chrisConnellyDotDev
 
 My homepage for my website as freelance web developer.

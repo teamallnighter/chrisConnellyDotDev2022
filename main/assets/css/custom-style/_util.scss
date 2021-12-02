@@ -30,7 +30,7 @@
     background: rgb(0, 0, 0);
   }
   
-  section, #testimonials{
+  section, {
     min-height: 100vh;
     display:flex;
     align-items: center;
@@ -42,11 +42,7 @@
   .rounded{
     border-radius: 20px;
   }
-  
-  .js-slideshow, .slideshow__content, .slideshow__item{
-  height: 100vh;
-  }
-  
+    
   .customer-logos__logo {
   display: block;
   fill: currentColor;
@@ -144,9 +140,7 @@
     justify-content: center;
   }
   
-  #testimonials{
-    margin-bottom: 20vh;
-  }
+
     @media (max-width: 480px) {
       #moreabout {
         display:none;
@@ -180,4 +174,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  footer{
+    max-height: 5vh;
+
+  }
+
+  .btn-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .socials{
+    margin-left:50vw;
   }

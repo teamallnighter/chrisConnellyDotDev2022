@@ -14392,7 +14392,7 @@ mark {
   background: black;
 }
 
-section, #testimonials {
+section {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -14402,10 +14402,6 @@ section, #testimonials {
 
 .rounded {
   border-radius: 20px;
-}
-
-.js-slideshow, .slideshow__content, .slideshow__item {
-  height: 100vh;
 }
 
 .customer-logos__logo {
@@ -14501,10 +14497,6 @@ section, #testimonials {
   justify-content: center;
 }
 
-#testimonials {
-  margin-bottom: 20vh;
-}
-
 @media (max-width: 480px) {
   #moreabout {
     display: none;
@@ -14536,6 +14528,21 @@ section, #testimonials {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+footer {
+  max-height: 5vh;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.socials {
+  margin-left: 50vw;
 }
 
 /* -------------------------------- 
@@ -20558,6 +20565,54 @@ Usage: codyhouse.co/license
 
 /* -------------------------------- 
 
+File#: _1_socials-v5
+Title: Socials v5
+Descr: Section with newsletter form and links to social media accounts
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.socials-v5 {
+  position: relative;
+  z-index: 1;
+}
+
+.socials-v5__btn {
+  display: inline-flex;
+  --btn-size: 40px;
+  width: var(--btn-size);
+  height: var(--btn-size);
+  background: var(--color-bg-light);
+  box-shadow: var(--inner-glow), var(--shadow-xs);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+.socials-v5__btn .icon {
+  display: block;
+  margin: auto;
+  color: var(--color-contrast-high);
+  /* icon color */
+  transition: color 0.2s;
+}
+.socials-v5__btn:hover {
+  background-color: var(--color-bg-lighter);
+  box-shadow: var(--inner-glow), var(--shadow-sm);
+}
+.socials-v5__btn:hover .icon {
+  color: var(--color-primary);
+}
+
+@media (min-width: 64rem) {
+  .socials-v5 {
+    background: linear-gradient(90deg, var(--color-bg) 50%, var(--color-bg-dark) 50%);
+  }
+
+  .socials-v5__btn {
+    --btn-size: 48px;
+    background-color: var(--color-bg);
+  }
+}
+/* -------------------------------- 
+
 File#: _1_socials
 Title: Socials
 Descr: Section with links to social media accounts
@@ -22427,6 +22482,120 @@ Descr: A full screen modal window
 Usage: codyhouse.co/license
 
 -------------------------------- */
+/* -------------------------------- 
+
+File#: _2_multiple-custom-select
+Title: Multiple Custom Select
+Descr: Custom Select Input where multiple options can be selected
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --multi-select-dropdown-gap: 4px;
+}
+
+.multi-select {
+  position: relative;
+}
+
+.multi-select__button {
+  width: 100%;
+}
+
+.multi-select__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.multi-select__dropdown {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  min-width: 200px;
+  max-height: 1px;
+  background-color: var(--color-bg-light);
+  box-shadow: var(--inner-glow), var(--shadow-sm);
+  padding: var(--space-xxxs) 0;
+  border-radius: var(--radius-md);
+  z-index: var(--z-index-popover, 5);
+  margin-top: var(--multi-select-dropdown-gap);
+  margin-bottom: var(--multi-select-dropdown-gap);
+  overflow: auto;
+  --space-unit: 1rem;
+  --text-unit: 1rem;
+  font-size: var(--text-unit);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s;
+}
+
+.multi-select__dropdown--right {
+  right: 0;
+  left: auto;
+}
+
+.multi-select__dropdown--up {
+  bottom: 100%;
+  top: auto;
+}
+
+.multi-select__button[aria-expanded=true] + .multi-select__dropdown {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s;
+}
+
+.multi-select__list:not(:first-of-type) {
+  padding-top: var(--space-xxxs);
+}
+
+.multi-select__list:not(:last-of-type) {
+  border-bottom: 1px solid var(--color-contrast-lower);
+  padding-bottom: var(--space-xxxs);
+}
+
+.multi-select__item {
+  position: relative;
+  display: block;
+  padding: var(--space-xxxs) var(--space-sm);
+  color: var(--color-contrast-high);
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.multi-select__item--optgroup {
+  font-size: var(--text-sm);
+  color: var(--color-contrast-medium);
+}
+
+.checkbox + .multi-select__item--option {
+  --checkbox-radio-gap: var(--space-xxs);
+  display: block;
+  cursor: pointer;
+  transition: 0.2s;
+  padding-left: calc(var(--checkbox-radio-size) + var(--checkbox-radio-gap) + var(--space-sm));
+}
+.checkbox + .multi-select__item--option:hover {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.075);
+}
+.checkbox + .multi-select__item--option span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+html:not(.js) .multi-select__icon {
+  display: none;
+}
+
+.multi-select__term + .multi-select__details::before {
+  content: ": ";
+}
+
 /* -------------------------------- 
 
 File#: _2_pricing-table
