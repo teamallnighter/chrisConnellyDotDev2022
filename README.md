@@ -27,3 +27,4 @@ My homepage for my website as freelance web developer.
     - Minifying the markup
     - creating and submitting the sitemap
     - optimizing images
+-

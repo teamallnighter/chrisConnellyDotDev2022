@@ -8,6 +8,11 @@
   background: rgb(0, 0, 0);
 }
 
+body{
+  padding: 0;
+  margin: 0;
+}
+
 section, #testimonials{
   min-height: 100vh;
   display:flex;
@@ -19,10 +24,6 @@ section, #testimonials{
 
 .rounded{
   border-radius: 20px;
-}
-
-.js-slideshow, .slideshow__content, .slideshow__item{
-height: 100vh;
 }
 
 .customer-logos__logo {
@@ -159,4 +160,3 @@ color: darkgray;
   align-items: center;
   justify-content: center;
 }
-

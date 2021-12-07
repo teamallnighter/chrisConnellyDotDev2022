@@ -19504,6 +19504,40 @@ Usage: codyhouse.co/license
 
 /* -------------------------------- 
 
+File#: _1_popover
+Title: Popover
+Descr: A pop-up box controlled by a trigger element
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --popover-width: 250px;
+  --popover-control-gap: 4px;
+  --popover-viewport-gap: 20px;
+  --popover-transition-duration: 0.2s;
+}
+
+.popover {
+  position: fixed;
+  width: var(--popover-width);
+  z-index: var(--z-index-popover, 5);
+  margin-top: var(--popover-control-gap);
+  margin-bottom: var(--popover-control-gap);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s var(--popover-transition-duration), opacity var(--popover-transition-duration);
+}
+
+.popover--is-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity var(--popover-transition-duration);
+}
+
+/* -------------------------------- 
+
 File#: _1_pre-header
 Title: Pre-header 
 Descr: Pre-header (top) banner
