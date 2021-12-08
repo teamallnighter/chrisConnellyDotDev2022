@@ -160,3 +160,44 @@ color: darkgray;
   align-items: center;
   justify-content: center;
 }
+
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.form-header{
+  margin-bottom: 1vh;
+}
+
+.form-wrapper{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tybtn{
+  box-shadow: vary(var(--shadow-md))
+}
+
+.tybtn:hover{
+  box-shadow: var(--shadow-lg)
+
+}
+
+.sider{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.rfp-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

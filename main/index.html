@@ -21,6 +21,11 @@
   <link rel="manifest" href="/assets/media/img/logo/favicon/site.webmanifest?v=22">
   <link rel="mask-icon" href="/assets/media/img/logo/favicon/safari-pinned-tab.svg?v=22" color="#000000">
   <link rel="shortcut icon" href="/assets/media/img/logo/favicon/favicon.ico?v=22">
+  <!--PREFETCH/PRELOAD-->
+  <link rel="preload" href="https://ik.imagekit.io/ccdd/cloud_CKVv6RNRy.png?updatedAt=1638939798789" as="image">
+  <link rel="preload" href="https://ik.imagekit.io/ccdd/Untitled_7_pu-JINV6QE.png?updatedAt=1638939784124" as="image">
+  <link rel="preload" href="https://ik.imagekit.io/ccdd/ccdd_FEiGyaXDDB.svg?updatedAt=1638941446435" as="image">
+
   <!--META-->
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="/assets/media/img/logo/favicon/browserconfig.xml?v=22">
@@ -37,13 +42,14 @@
   <meta property="og:url" content="https://chrisconnelly.dev">
   <meta property="og:site_name" content="chrisConnellyDotDev">
   <meta property="og:updated_time" content="2021-10-11T08:12:26+00:00">
-  <meta property="og:image" content="https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg">
-  <meta property="og:image:secure_url" content="https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg">
+  <meta property="og:image" content="https://ik.imagekit.io/ccdd/ccdd_FEiGyaXDDB.svg?updatedAt=1638941446435">
+  <meta property="og:image:secure_url"
+    content="https://ik.imagekit.io/ccdd/ccdd_FEiGyaXDDB.svg?updatedAt=1638941446435">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Calgary Website Designer - Local YYC Web Design Freelancer">
   <meta name="twitter:description"
     content="Freelance web design from Calgary! Stand out from the rest of the competition with a beautiful new website at a fraction of the cost">
-  <meta name="twitter:image" content="https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg">
+  <meta name="twitter:image" content="https://ik.imagekit.io/ccdd/ccdd_FEiGyaXDDB.svg?updatedAt=1638941446435">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168676797-1"></script>
   <script>
@@ -67,7 +73,7 @@
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "chrisConnellyDotDev",
-        "image": "https://chrisconnelly.dev/assets/media/img/logo/ccdd.svg",
+        "image": "https://ik.imagekit.io/ccdd/ccdd_FEiGyaXDDB.svg?updatedAt=1638941446435",
         "@id": "",
         "url": "https://chrisconnelly.dev",
         "telephone": "4038310028",
@@ -107,6 +113,7 @@
         ] 
       }
       </script>
+  <meta name="facebook-domain-verification" content="qiug94d5r3cmnz0v0wumv5gy5rfchq" />
 </head>
 
 <body>
@@ -276,16 +283,7 @@
               <div class="header-v2__nav-dropdown">
                 <ul class="header-v2__nav-list">
                   <li class="header-v2__nav-item">
-                    <a href="/rfp.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
-                                            `toolbar=no,
-                                             location=no,
-                                             status=no,
-                                             menubar=no,
-                                             scrollbars=yes,
-                                             resizable=yes,
-                                             width=900,
-                                             height=800`);
-          return false;" target="_blank" rel="noreferrer" class="header-v2__nav-link justify-between">
+                    <a href="/rfp.html" target="_blank" class="header-v2__nav-link justify-between">
                       <span>Get A Proposal<i class="sr-only">(opens in new window)</i></span>
                       <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
                         <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -300,16 +298,7 @@
                   </li>
                   <li class="header-v2__nav-item">
                     <a href="https://portal.chrisconnelly.ca/appointly/appointments_public/form?col=col-md-8+col-md-offset-2"
-                      onclick="window.open(this.href,'targetWindow',
-                                              `toolbar=no,
-                                               location=no,
-                                               status=no,
-                                               menubar=no,
-                                               scrollbars=yes,
-                                               resizable=yes,
-                                               width=900,
-                                               height=800`);
-            return false;" target="_blank" rel="noreferrer" class="header-v2__nav-link justify-between">
+                      target="_blank" rel="noreferrer" class="header-v2__nav-link justify-between">
                       <span>Schedule A Meeting<i class="sr-only">(opens in new window)</i></span>
                       <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
                         <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -428,20 +417,11 @@
             <li class="header-v2__nav-item header-v2__nav-item--main"><a href="https://portal.chrisconnelly.ca"
                 target="_blank" rel="noreferrer" class="header-v2__nav-link">Customer Log
                 in</a></li>
-            <li class="header-v2__nav-item header-v2__nav-item--main"><a
-                href="/rfp.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
-                                              `toolbar=no,
-                                               location=no,
-                                               status=no,
-                                               menubar=no,
-                                               scrollbars=yes,
-                                               resizable=yes,
-                                               width=900,
-                                               height=800`);
-            return false;" class=" btn btn--primary">Get
+            <li class="header-v2__nav-item header-v2__nav-item--main"><button onclick="openWin()"
+                class=" btn btn--primary">Get
                 A
                 Free
-                Quote</a></li>
+                Quote </button></li>
             <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--search-btn">
               <button class="reset js-tab-focus" aria-label="Toggle search" aria-controls="modal-search">
                 <svg class="icon" aria-hidden="true" viewBox="0 0 16 16">
@@ -479,16 +459,8 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-sm" id="intro-buttons">
-              <a href="/rfp.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
-              `toolbar=no,
-               location=no,
-               status=no,
-               menubar=no,
-               scrollbars=yes,
-               resizable=yes,
-               width=900,
-               height=800`);
-return false;"" class=" btn btn--primary" class="btn btn--primary js-smooth-scroll" data-duration="300">Get A Quote</a>
+              <a href="/rfp.html" target="_blank" class="btn btn--primary js-smooth-scroll" data-duration="300">Get A
+                Quote</a>
               <a href="#difference" class="color-inherit js-smooth-scroll" data-duration="300">Learn more</a>
             </div>
           </div>
@@ -569,16 +541,7 @@ return false;"" class=" btn btn--primary" class="btn btn--primary js-smooth-scro
           </div>
         </div>
         <div class="margin-top-lg margin-bottom-0 padding-bottom-0" id="morePopUp1">
-          <a href="/faq.html?option=com_jumi&amp;fileid=3&amp;Itemid=11" onclick="window.open(this.href,'targetWindow',
-      `toolbar=no,
-       location=no,
-       status=no,
-       menubar=no,
-       scrollbars=yes,
-       resizable=yes,
-       width=900,
-       height=600`);
-      return false;" class="btn-fx-4 padding-y-xs padding-x-md radius-md">
+          <a href="/faq.html" target="_blank" class="btn-fx-4 padding-y-xs padding-x-md radius-md">
             <span>READ MY FAQ</span>
           </a>
         </div>
@@ -899,7 +862,17 @@ return false;"" class=" btn btn--primary" class="btn btn--primary js-smooth-scro
   <!-- Your Chat Plugin code -->
   <div id="fb-customer-chat" class="fb-customerchat">
   </div>
+  <script>
+    var myWindow;
 
+    function openWin() {
+      myWindow = window.open("/rfp.html");
+    }
+
+    function closeWin() {
+      myWindow.close();
+    }
+  </script>
   <script>
     var chatbox = document.getElementById('fb-customer-chat');
     chatbox.setAttribute("page_id", "110850913902045");
